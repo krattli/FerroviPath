@@ -1,6 +1,6 @@
 # Path to the docker-compose file
 DOCKER_COMPOSE_FILEPATH=.docker/docker-compose.yaml
-DOCKER_PHP_CONTAINER=menucraft_php
+DOCKER_PHP_CONTAINER=ferrovipath_php
 
 # Start the containers in the background
 up:
