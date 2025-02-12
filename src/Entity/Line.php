@@ -20,7 +20,7 @@ class Line
     #[ORM\Column(length: 255)]
     private ?string $IdLine = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $stations = [];
 
     public function getId(): ?int
