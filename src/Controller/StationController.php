@@ -11,7 +11,7 @@ final class StationController extends AbstractController
     #[Route('/station', name: 'ferrovipath_station')]
     public function index(): Response
     {
-        return $this->render('station/index.html.twig', [
+        return $this->render('homepage.html.twig', [
             'controller_name' => 'StationController',
         ]);
     }
