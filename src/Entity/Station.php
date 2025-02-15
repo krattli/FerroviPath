@@ -18,16 +18,10 @@ class Station
     private ?string $nameStation = null;
 
     #[ORM\Column]
-    private ?bool $isTerminus = null;
-
-    #[ORM\Column(type: Types::OBJECT, nullable: true)]
-    private ?object $nextStation = null;
+    private ?int $axisX = null;
 
     #[ORM\Column]
-    private ?int $X = null;
-
-    #[ORM\Column]
-    private ?int $Y = null;
+    private ?int $axisY = null;
 
     public function getId(): ?int
     {
@@ -46,50 +40,26 @@ class Station
         return $this;
     }
 
-    public function isTerminus(): ?bool
-    {
-        return $this->isTerminus;
-    }
-
-    public function setIsTerminus(bool $isTerminus): static
-    {
-        $this->isTerminus = $isTerminus;
-
-        return $this;
-    }
-
-    public function getNextStation(): ?object
-    {
-        return $this->nextStation;
-    }
-
-    public function setNextStation(?object $nextStation): static
-    {
-        $this->nextStation = $nextStation;
-
-        return $this;
-    }
-
     public function getX(): ?int
     {
-        return $this->X;
+        return $this->axisX;
     }
 
-    public function setX(int $X): static
+    public function setX(int $axisX): static
     {
-        $this->X = $X;
+        $this->axisX = $axisX;
 
         return $this;
     }
 
     public function getY(): ?int
     {
-        return $this->Y;
+        return $this->axisY;
     }
 
-    public function setY(int $Y): static
+    public function setY(int $axisY): static
     {
-        $this->Y = $Y;
+        $this->axisY = $axisY;
 
         return $this;
     }
