@@ -17,6 +17,12 @@ class Station
     #[ORM\Column(length: 255)]
     private ?string $nameStation = null;
 
+    #[ORM\Column]
+    private ?float $axisX = null;
+
+    #[ORM\Column]
+    private ?float $axisY = null;
+
     public function getId(): ?int
     {
         return $this->idStation;
@@ -30,6 +36,30 @@ class Station
     public function setNameStation(string $nameStation): static
     {
         $this->nameStation = $nameStation;
+
+        return $this;
+    }
+
+    public function getAxisX(): ?float
+    {
+        return $this->axisX;
+    }
+
+    public function setAxisX(float $axisX): static
+    {
+        $this->axisX = $axisX;
+
+        return $this;
+    }
+
+    public function getAxisY(): ?float
+    {
+        return $this->axisY;
+    }
+
+    public function setAxisY(float $axisY): static
+    {
+        $this->axisY = $axisY;
 
         return $this;
     }
