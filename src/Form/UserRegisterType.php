@@ -19,18 +19,18 @@ class UserRegisterType extends AbstractType
         $builder
             ->add('pseudo', TextType::class,[
                 'label'=>'Pseudonyme',
-                'attr'=>['class'=>'form-control']
+                'attr'=>['class'=>'form-control', 'placeholder'=>'Pseudonyme']
             ])
             ->add('email', TextType::class, [
                 'label' => 'Email',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control', 'placeholder'=>'Email']
             ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Mot de passe',
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password', 'class'=>'form-control'],
+                'attr' => ['autocomplete' => 'new-password', 'class'=>'form-control', 'placeholder'=>'Password'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez entrer le mot de passe',
@@ -45,7 +45,7 @@ class UserRegisterType extends AbstractType
             ])
             ->add('birth', DateType::class,[
                 'label' => 'Date de naissance',
-                'attr'=>['class'=>'form-control']
+                'attr'=>['class'=>'form-control','placeholder'=>'DD/MM/YYYY']
             ])
         ;
     }

@@ -14,13 +14,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class UserController extends AbstractController{
-    #[Route('/user', name: 'ferrovipath_user', methods: ['GET'])]
-    public function index(): Response
-    {
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
-        ]);
-    }
 
     #[Route('/user/profil/{id}', name: 'ferrovipath_user_profil', methods: ['GET'])]
     public function profil(User $user): Response
