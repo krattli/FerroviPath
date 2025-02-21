@@ -12,20 +12,14 @@ class Station
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $idStation = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nameStation = null;
 
-    #[ORM\Column]
-    private ?int $axisX = null;
-
-    #[ORM\Column]
-    private ?int $axisY = null;
-
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->idStation;
     }
 
     public function getNameStation(): ?string
@@ -38,33 +32,5 @@ class Station
         $this->nameStation = $nameStation;
 
         return $this;
-    }
-
-    public function getX(): ?int
-    {
-        return $this->axisX;
-    }
-
-    public function setX(int $axisX): static
-    {
-        $this->axisX = $axisX;
-
-        return $this;
-    }
-
-    public function getY(): ?int
-    {
-        return $this->axisY;
-    }
-
-    public function setY(int $axisY): static
-    {
-        $this->axisY = $axisY;
-
-        return $this;
-    }
-    
-    public function getStationPossible(Station $station): array{
-        return [];
     }
 }

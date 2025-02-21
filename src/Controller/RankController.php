@@ -14,5 +14,6 @@ final class RankController extends AbstractController
         return $this->render('rank/index.html.twig', [
             'controller_name' => 'RankController',
         ]);
+
     }
 }
