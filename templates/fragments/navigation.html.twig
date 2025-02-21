@@ -1,0 +1,49 @@
+<style>
+#navigateur{
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    justify-content: flex-end;
+    align-items: center;
+    scroll-behavior: smooth;
+}
+
+
+.navigation{
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+
+} 
+
+.lien{
+    display:block;
+    font-size: 140%;
+    padding: 20px 16px;
+    text-align: right;
+    text-decoration: none;
+    color: rgb(2, 12, 62);
+
+}
+.logo{
+    width: 175px !important; /* Ajuste la largeur */
+    height: auto !important; /* Garde les proportions */
+}
+}
+</style>
+<div class="navigation">
+    <div class = "image">
+        <img src="{{ asset('/img/Logo.png') }}" alt="Mon image" class = "logo">
+    </div>
+    <ul id="navigateur">
+        <li><a class="lien" href="#">Ajouter une ligne</a></li>
+        <li><a class="lien" href="#">Lignes</a></li>
+        <li><a class="lien" href="#">Classement</a></li>
+        <li><a class="lien" href="#">Mode de jeux</a></li>
+        <li><a class="lien" href="#">Profil</a></li>
+    </ul>
+</div>
