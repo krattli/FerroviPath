@@ -16,18 +16,19 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 final class UserController extends AbstractController{
 
     #[Route('/user/profil/{id}', name: 'ferrovipath_user_profil', methods: ['GET'])]
-    public function profil(int $id): Response
+    public function profil(User $user): Response
     {
+        /*
         $profils = $this->getProfils();
         $profil = array_filter($profils, fn($profil) => $profil['id'] === $id);
-
-        if (empty($profil)) {
+        */
+        if (empty($user)) {
             return $this->json(['message' => 'Profil not found'], 404);
         }
-        return $this->render('user/profil.html.twig',  ['profil' => array_values($profil)[0]]); //, ['user' => array_values($profil)[0]])
+        return $this->render('user/profil.html.twig',  ['profil' => $user]);
     }
 
-    public function getProfils(): array
+    /*public function getProfils(): array
     {
         return [
             [
@@ -54,25 +55,25 @@ final class UserController extends AbstractController{
             'password' => 'TUTO',
             'createdAt' => '16/02/2025']
         ];
-    }
+    }*/
 
-    #[Route('/user/modify/{id}', name: 'ferrovipath_user_modify', methods: ['GET'])]
-    public function modify(Request $request, int $id): Response
+    #[Route('/user/modify/{id}', name: 'ferrovipath_user_modify', methods: ['GET', 'POST'])]
+    public function modify(Request $request, User $id, EntityManagerInterface $entityManager): Response //update
     {
-        $profils = $this->getProfils();
-        $profil = array_filter($profils, fn($profil) => $profil['id'] === $id);
+        /*$profils = $this->getProfils();
+        $profil = array_filter($profils, fn($profil) => $profil['id'] === $id);*/
         
-        $form = $this->createForm(UserType::class);
+        $form = $this->createForm(UserType::class,$id);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+            $entityManager->flush();
 
             return $this->redirectToRoute('ferrovipath_user_profil');
         }
 
         return $this->render('user/modify.html.twig', [
-            'form' => $form->createView(), 'profil' => array_values($profil)[0]
+            'form' => $form->createView(), 'profil' => $id
         ]);
     }
     
