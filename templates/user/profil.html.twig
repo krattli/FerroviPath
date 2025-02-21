@@ -15,13 +15,13 @@
                         <li class="list-group-item"><strong>Email :</strong> {{ profil.email }}</li>
                         <li class="list-group-item"><strong>Mot de passe :</strong> {{ profil.password }}</li>
                         <li class="list-group-item"><strong>Pseudonyme :</strong> {{ profil.pseudo }}</li>
-                        <li class="list-group-item"><strong>Né(e) le :</strong> {{ profil.birth }}</li>
-                        <li class="list-group-item"><strong>Crée le :</strong> {{ profil.createdAt }}</li>
+                        <li class="list-group-item"><strong>Né(e) le :</strong> {{ profil.birth|date('Y-m-d') }}</li>
+                        <li class="list-group-item"><strong>Crée le :</strong> {{ profil.createdAt|date('Y-m-d') }}</li>
                     </ul>
                 </div>
             </div>
             <div class="d-grid gap-2 col-2 mx-auto">
-                <button type="button" class="btn btn-secondary">Modifier</button>
+                <a href= "{{ path('ferrovipath_user_modify', {'id': profil.idUser}) }}" class="btn btn-secondary">Modifier</a>
                 <button type="button" class="btn btn-danger">Supprimer le compte</button>
             </div>
         </div>
