@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Form;
 
@@ -18,15 +17,35 @@ class UserRegisterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('idUser')
-            ->add('pseudo')
-            ->add('birth', null, [
-                'widget' => 'single_text',
+            ->add('pseudo', TextType::class,[
+                'label'=>'Pseudonyme',
+                'attr'=>['class'=>'form-control']
             ])
-            ->add('email')
-            ->add('password')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
+            ->add('email', TextType::class, [
+                'label' => 'Email',
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('plainPassword', PasswordType::class, [
+                'label' => 'Mot de passe',
+                // instead of being set onto the object directly,
+                // this is read and encoded in the controller
+                'mapped' => false,
+                'attr' => ['autocomplete' => 'new-password', 'class'=>'form-control'],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer le mot de passe',
+                    ]),
+                    new Length([
+                        'min' => 4,
+                        'minMessage' => 'Votre mot de passe doit être au moins {{ limit }} caractères',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
+                ],
+            ])
+            ->add('birth', DateType::class,[
+                'label' => 'Date de naissance',
+                'attr'=>['class'=>'form-control']
             ])
         ;
     }
