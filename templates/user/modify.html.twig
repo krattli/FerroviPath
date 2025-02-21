@@ -6,7 +6,7 @@
 <div class="container mt-4">
     <div class="card">
         <div class="card-header bg-primary text-white text-center">
-            <h1 class="mb-0">Profil</h1>
+            <h1 class="mb-0">Profil-Modification</h1>
         </div>
         <div class="card-body">
             <div class="row text-center d-flex justify-content-center ">
@@ -15,8 +15,8 @@
                         <li class="list-group-item"><strong>Email :</strong> {{ profil.email }}</li>
                         <li class="list-group-item"><strong>Mot de passe :</strong> {{ profil.password }}</li>
                         <li class="list-group-item"><strong>Pseudonyme :</strong> {{ profil.pseudo }}</li>
-                        <li class="list-group-item"><strong>Né(e) le :</strong> {{ profil.birth }}</li>
-                        <li class="list-group-item"><strong>Crée le :</strong> {{ profil.createdAt }}</li>
+                        <li class="list-group-item"><strong>Né(e) le :</strong> {{ profil.birth|date('Y-m-d') }}</li>
+                        <li class="list-group-item"><strong>Crée le :</strong> {{ profil.createdAt|date('Y-m-d') }}</li>
                     </ul>
                 </div>
             </div>
