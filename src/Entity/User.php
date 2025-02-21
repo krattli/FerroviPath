@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -17,7 +16,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $idUser = null;
 
     #[ORM\Column(length: 180)]
     private ?string $email = null;
@@ -34,19 +33,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $pseudo = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $birth = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
     public function getEmail(): ?string
     {
@@ -123,9 +117,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->pseudo;
     }
 
-    public function setPseudo(string $pseudo): static
+    public function setPseudo(?string $pseudo): static
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    public function getBirth(): ?\DateTimeImmutable
+    {
+        return $this->birth;
+    }
+
+    public function setBirth(\DateTimeImmutable $birth): static
+    {
+        $this->birth = $birth;
 
         return $this;
     }
@@ -142,14 +148,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBirth(): ?\DateTimeImmutable
+    public function getIdUser(): ?int
     {
-        return $this->birth;
+        return $this->idUser;
     }
 
-    public function setBirth(\DateTimeImmutable $birth): static
+    public function setIdUser(int $idUser): static
     {
-        $this->birth = $birth;
+        $this->idUser = $idUser;
 
         return $this;
     }
