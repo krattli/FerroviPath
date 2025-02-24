@@ -59,7 +59,7 @@ final class UserController extends AbstractController{
     #[Route('/user/{id}/modify', name: 'ferrovipath_user_modify', methods: ['GET', 'POST'])]
     public function modify(Request $request, User $id, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response //update
     {        
-        $form = $this->createForm(UserRegisterType::class, $id, ['is_edit' => true]);
+        $form = $this->createForm(UserType::class, $id, ['is_edit' => true]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
