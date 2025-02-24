@@ -22,7 +22,7 @@ final class UserController extends AbstractController{
         ]);
     }
 
-    #[Route('/user/profil/{id}', name: 'ferrovipath_user_profil', methods: ['GET'])]
+    #[Route('/user/{id}/profil', name: 'ferrovipath_user_profil', methods: ['GET'])]
     public function profil(User $user): Response
     {
         /*
@@ -64,27 +64,40 @@ final class UserController extends AbstractController{
         ];
     }*/
 
-    #[Route('/user/modify/{id}', name: 'ferrovipath_user_modify', methods: ['GET', 'POST'])]
-    public function modify(Request $request, User $id, EntityManagerInterface $entityManager): Response //update
-    {
-        /*$profils = $this->getProfils();
-        $profil = array_filter($profils, fn($profil) => $profil['id'] === $id);*/
-        
-        $form = $this->createForm(UserType::class,$id);
+    #[Route('/user/{id}/modify', name: 'ferrovipath_user_modify', methods: ['GET', 'POST'])]
+    public function modify(Request $request, User $id, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response //update
+    {        
+        $form = $this->createForm(UserRegisterType::class, $id, ['is_edit' => true]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var string $plainPassword */
+            $plainPassword = $form->get('plainPassword')->getData();
+
+            // encode the plain password
+            $id->setPassword($userPasswordHasher->hashPassword($id, $plainPassword));
             $entityManager->flush();
 
-            return $this->redirectToRoute('ferrovipath_user_profil');
+            return $this->redirectToRoute('ferrovipath_user_profil', ['id' => $id->getIdUser()]);
         }
 
         return $this->render('user/modify.html.twig', [
-            'form' => $form->createView(), 'profil' => $id
+            'modifyForm' => $form->createView(), 'profil' => $id
         ]);
     }
-    
-    #[Route('/register', name: 'app_register')] // Create
+    #[Route('/user/{id}/delete', name: 'ferrovipath_user_delete', methods: ['GET'])]
+    public function delete(User $user, EntityManagerInterface $entityManager): Response //delete
+    {
+        // Hard delete
+        //$profil->setDeletedAt(new \DateTimeImmutable());
+
+        //$user->setDeletedAt(new \DateTimeImmutable());
+        $entityManager->flush();
+
+        return $this->redirectToRoute('ferrovipath_register'); 
+    }
+
+    #[Route('/register', name: 'ferrovipath_register')] // Create
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();

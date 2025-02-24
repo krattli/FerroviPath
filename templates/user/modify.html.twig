@@ -12,17 +12,17 @@
             <div class="row text-center d-flex justify-content-center ">
                 <div class="col-md-6">
                     <ul class="list-group mb-4">
-                        <li class="list-group-item"><strong>Email :</strong> {{ profil.email }}</li>
-                        <li class="list-group-item"><strong>Mot de passe :</strong> {{ profil.password }}</li>
-                        <li class="list-group-item"><strong>Pseudonyme :</strong> {{ profil.pseudo }}</li>
-                        <li class="list-group-item"><strong>Né(e) le :</strong> {{ profil.birth|date('Y-m-d') }}</li>
-                        <li class="list-group-item"><strong>Crée le :</strong> {{ profil.createdAt|date('Y-m-d') }}</li>
+                        {{ form_start(modifyForm) }}
+                            {{ form_row(modifyForm.pseudo) }}
+                            {{ form_row(modifyForm.email) }}
+                            {{ form_row(modifyForm.plainPassword, {
+                                label: 'Password'
+                            }) }}
+                            {{ form_row (modifyForm.birth) }}
+                            {{ form_row(modifyForm.save, { 'label': 'Mettre à jour le profil' }) }}
+                        {{ form_end(modifyForm) }}
                     </ul>
                 </div>
-            </div>
-            <div class="d-grid gap-2 col-2 mx-auto">
-                <button type="button" class="btn btn-secondary">Modifier</button>
-                <button type="button" class="btn btn-danger">Supprimer le compte</button>
             </div>
         </div>
     </div>

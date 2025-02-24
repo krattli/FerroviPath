@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -47,6 +48,10 @@ class UserRegisterType extends AbstractType
                 'label' => 'Date de naissance',
                 'attr'=>['class'=>'form-control']
             ])
+            ->add('save', SubmitType::class, [
+                'label' => $options['is_edit'] ?? false ? 'Mettre à jour le profil' : 'Créer le compte',
+                'attr' => ['class' => 'btn btn-primary mt-3']
+            ]);
         ;
     }
 
@@ -54,6 +59,7 @@ class UserRegisterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'is_edit' => false
         ]);
     }
 }
