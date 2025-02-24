@@ -22,7 +22,7 @@
             </div>
             <div class="d-grid gap-2 col-2 mx-auto">
                 <a href= "{{ path('ferrovipath_user_modify', {'id': profil.idUser}) }}" class="btn btn-secondary">Modifier</a>
-                <button type="button" class="btn btn-danger">Supprimer le compte</button>
+                <a href= "{{ path('ferrovipath_user_delete', {'id': profil.idUser}) }}" class="btn btn-secondary" onclick="return confirm('Etes-vous sûr de supprimer?')">Supprimer le compte</a>
             </div>
         </div>
     </div>

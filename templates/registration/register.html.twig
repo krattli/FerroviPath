@@ -13,7 +13,7 @@
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
-        {{ form_row (registrationForm.birth) }}
-        <button type="submit" class="btn btn-success">Register</button>
+        {{ form_row(registrationForm.birth) }}
+        {{ form_row(registrationForm.save, {'label': 'Créer le compte'}) }}
     {{ form_end(registrationForm) }}
 {% endblock %}

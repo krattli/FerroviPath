@@ -19,9 +19,9 @@ security:
             provider: app_user_provider
             custom_authenticator: App\Security\Authenticator
             logout:
-                path: app_logout
+                path: ferrovipath_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: ferrovipath_homepage
 
             remember_me:
                 secret: '%kernel.secret%'

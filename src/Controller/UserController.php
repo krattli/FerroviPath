@@ -81,12 +81,12 @@ final class UserController extends AbstractController{
     public function delete(User $user, EntityManagerInterface $entityManager): Response //delete
     {
         // Hard delete
-        //$profil->setDeletedAt(new \DateTimeImmutable());
+        //$profil->remove();
 
-        //$user->setDeletedAt(new \DateTimeImmutable());
+        $user->setDeletedAt(new \DateTimeImmutable());
         $entityManager->flush();
 
-        return $this->redirectToRoute('ferrovipath_register'); 
+        return $this->redirectToRoute('ferrovipath_logout'); 
     }
 
     #[Route('/register', name: 'ferrovipath_register')] // Create
@@ -114,7 +114,7 @@ final class UserController extends AbstractController{
         ]);
     }
     
-    #[Route(path: '/login', name: 'app_login')] 
+    #[Route(path: '/login', name: 'ferrovipath_login')] 
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
@@ -129,10 +129,9 @@ final class UserController extends AbstractController{
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    #[Route(path: '/logout', name: 'app_logout')]
+    #[Route(path: '/logout', name: 'ferrovipath_logout')]
     public function logout(): void
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
     
 }

@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -47,13 +48,17 @@ class UserType extends AbstractType
                 'label' => 'Date de naissance',
                 'attr'=>['class'=>'form-control','placeholder'=>'DD/MM/YYYY']
             ])
-        ;
+            ->add('save', SubmitType::class, [
+                'label' => $options['is_edit'] ?? false ? 'Mettre à jour le profil' : 'Créer le compte',
+                'attr' => ['class' => 'btn btn-primary mt-3']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'is_edit' => false
         ]);
     }
 }
