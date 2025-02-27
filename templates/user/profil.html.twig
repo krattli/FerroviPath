@@ -11,18 +11,31 @@
         <div class="card-body">
             <div class="row text-center d-flex justify-content-center ">
                 <div class="col-md-6">
-                    <ul class="list-group mb-4">
-                        <li class="list-group-item"><strong>Email :</strong> {{ profil.email }}</li>
-                        <li class="list-group-item"><strong>Mot de passe :</strong> {{ profil.password }}</li>
-                        <li class="list-group-item"><strong>Pseudonyme :</strong> {{ profil.pseudo }}</li>
-                        <li class="list-group-item"><strong>Né(e) le :</strong> {{ profil.birth|date('Y-m-d') }}</li>
-                        <li class="list-group-item"><strong>Crée le :</strong> {{ profil.createdAt|date('Y-m-d') }}</li>
-                    </ul>
+                    <table class="table shadow-sm" border=1>
+                        <tr> 
+                            <th scope="col">Email : </th>
+                            <td>{{ profil.email }}</td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">Mot de passe : </th>
+                            <td>********</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"> Pseudonyme : </th>
+                            <td>{{ profil.pseudo }}</td>
+                        <tr>
+                            <th scope="row"> Né(e) le :</th> 
+                            <td>{{ profil.birth|date('Y-m-d') }}</td>
+                        <tr>
+                            <th scope="row"> Crée le : </th>
+                            <td> {{ profil.createdAt|date('Y-m-d') }}</td>
+                    </table>
                 </div>
             </div>
             <div class="d-grid gap-2 col-2 mx-auto">
                 <a href= "{{ path('ferrovipath_user_modify', {'id': profil.idUser}) }}" class="btn btn-secondary">Modifier</a>
-                <a href= "{{ path('ferrovipath_user_delete', {'id': profil.idUser}) }}" class="btn btn-secondary" onclick="return confirm('Etes-vous sûr de supprimer?')">Supprimer le compte</a>
+                <a href= "{{ path('ferrovipath_user_delete', {'id': profil.idUser}) }}" class="btn btn-danger" onclick="return confirm('Etes-vous sûr de supprimer?')">Supprimer le compte</a>
             </div>
         </div>
     </div>
