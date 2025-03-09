@@ -3,32 +3,34 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <div class="container mt-4">
-        <div class="card-header text-center">
-                <h1 class="mb-3">Inscription</h1>
+    <div class="container mt-4 d-flex flex-column w-50">
+        <div class="card-header text-center ">
+                <h1 class="mb-3"> Inscription</h1>
         </div>
-        <div class="card shadow-sm">
-            <div class="card-body text-center">
-                <div class="col-md-6 ">
+        <div class="card shadow-sm ">
+            <div class="card-body row d-flex justify-content-center text-center">
+                <div class="col-md-4 ">
                     {{ form_start(registrationForm) }}
-                    <div class="mb-3 ">
-                        {{ form_row(registrationForm.pseudo) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_row(registrationForm.email) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_row(registrationForm.plainPassword, {
-                            label: 'Password'
-                        }) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_row(registrationForm.birth) }}
-                    </div>
-                        {{ form_row(registrationForm.save) }}
+                        <div class="mb-3 ">
+                            {{ form_row(registrationForm.pseudo) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.email) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.plainPassword, {
+                                label: 'Mot de passe'
+                            }) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.birth) }}
+                        </div>
                 </div>
-                        {{ form_end(registrationForm) }}
             </div>
+        </div>
+        <div class="text-center">
+        {{ form_row(registrationForm.save) }}
+        {{ form_end(registrationForm) }}
         </div>
                         
     </div>
