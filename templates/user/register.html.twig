@@ -4,29 +4,31 @@
 
 {% block body %}
     <div class="container mt-4">
-        <div class="card-header text-center ">
-                <h1 class="mb-0">Bienvenue sur FerroviPath !</h1>
+        <div class="card-header text-center">
+                <h1 class="mb-3">Inscription</h1>
         </div>
-        <div class="card-body row d-flex text-center">
-            <div class="col-md-6 ">
-                {{ form_start(registrationForm) }}
-                <div class="mb-3 ">
-                    {{ form_row(registrationForm.pseudo) }}
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <div class="col-md-6 ">
+                    {{ form_start(registrationForm) }}
+                    <div class="mb-3 ">
+                        {{ form_row(registrationForm.pseudo) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.email) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.plainPassword, {
+                            label: 'Password'
+                        }) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_row(registrationForm.birth) }}
+                    </div>
+                        {{ form_row(registrationForm.save) }}
                 </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.email) }}
-                </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.plainPassword, {
-                        label: 'Password'
-                    }) }}
-                </div>
-                <div class="mb-3">
-                    {{ form_row(registrationForm.birth) }}
-                </div>
-                    {{ form_row(registrationForm.save) }}
+                        {{ form_end(registrationForm) }}
             </div>
-                    {{ form_end(registrationForm) }}
         </div>
                         
     </div>
