@@ -89,7 +89,7 @@ final class UserController extends AbstractController{
         return $this->redirectToRoute('ferrovipath_logout'); 
     }
 
-    #[Route('/register', name: 'ferrovipath_register')] // Create
+    #[Route('/user/register', name: 'ferrovipath_register')] // Create
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -109,12 +109,12 @@ final class UserController extends AbstractController{
             return $this->redirectToRoute('ferrovipath_homepage');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('user/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
     
-    #[Route(path: '/login', name: 'ferrovipath_login')] 
+    #[Route(path: '/user/login', name: 'ferrovipath_login')] 
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
@@ -126,10 +126,10 @@ final class UserController extends AbstractController{
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('user/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    #[Route(path: '/logout', name: 'ferrovipath_logout')]
+    #[Route(path: '/user/logout', name: 'ferrovipath_logout')]
     public function logout(): void
     {
     }
