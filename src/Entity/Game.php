@@ -18,12 +18,6 @@ class Game
     private ?string $gameMode = null;
 
     #[ORM\Column]
-    private ?int $idUser = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $date = null;
-
-    #[ORM\Column]
     private ?float $time = null;
 
     #[ORM\Column]
@@ -33,18 +27,29 @@ class Game
     private ?array $completedStations = null;
 
     #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column]
     private ?\DateTime $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Line::class)]
+    #[ORM\JoinColumn(name: 'id_line', referencedColumnName: 'idLine', nullable: false)]
     private ?Line $line = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'idUser', nullable: false)]
     private ?User $user = null;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        if (!$this->createdAt) {
+            $this->createdAt = new \DateTimeImmutable();
+        }
+    }
 
     public function getId(): ?int
     {
@@ -71,30 +76,6 @@ class Game
     public function setGameMode(string $gameMode): static
     {
         $this->gameMode = $gameMode;
-
-        return $this;
-    }
-
-    public function getIdUser(): ?int
-    {
-        return $this->idUser;
-    }
-
-    public function setIdUser(int $idUser): static
-    {
-        $this->idUser = $idUser;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeImmutable
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeImmutable $date): static
-    {
-        $this->date = $date;
 
         return $this;
     }
@@ -179,6 +160,18 @@ class Game
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

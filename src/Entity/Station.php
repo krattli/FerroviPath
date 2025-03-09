@@ -22,6 +22,9 @@ class Station
 
     #[ORM\Column]
     private ?float $axisY = null;
+    
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
     private ?\DateTimeInterface $updatedAt = null;
@@ -30,9 +33,18 @@ class Station
     private ?\DateTimeInterface $deletedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'stations')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'id_line', referencedColumnName: 'idLine', nullable: false)]
     private ?Line $line = null;
 
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        if (!$this->createdAt) {
+            $this->createdAt = new \DateTimeImmutable();
+        }
+    }
+    
     public function getId(): ?int
     {
         return $this->idStation;
@@ -106,6 +118,18 @@ class Station
     public function setLine(?Line $line): static
     {
         $this->line = $line;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

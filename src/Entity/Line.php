@@ -13,11 +13,14 @@ class Line
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'idLine')]
     private ?int $idLine = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nameLine = null;
+    
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
     private ?\DateTime $updatedAt = null;
@@ -30,6 +33,14 @@ class Line
      */
     #[ORM\OneToMany(targetEntity: Station::class, mappedBy: 'line')]
     private Collection $stations;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        if (!$this->createdAt) {
+            $this->createdAt = new \DateTimeImmutable();
+        }
+    }
 
     public function __construct()
     {
@@ -108,6 +119,18 @@ class Line
                 $station->setLine(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
