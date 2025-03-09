@@ -1,3 +1,14 @@
+.table{
+    border-collapse:collapse;
+    background-color: #FCF9ED !important;
+    
+}
+
+td,th,tr {
+    border-collapse:separate;
+    background-color: #FCF9ED !important;
+}
+
 body{
     background-color: #FCF9ED;
 }

@@ -81,9 +81,9 @@ final class UserController extends AbstractController{
     public function delete(User $user, EntityManagerInterface $entityManager): Response //delete
     {
         // Hard delete
-        //$profil->remove();
+        $entityManager->remove($user);
 
-        $user->setDeletedAt(new \DateTimeImmutable());
+        //$user->setDeletedAt(new \DateTimeImmutable());
         $entityManager->flush();
 
         return $this->redirectToRoute('ferrovipath_logout'); 
@@ -95,7 +95,7 @@ final class UserController extends AbstractController{
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
