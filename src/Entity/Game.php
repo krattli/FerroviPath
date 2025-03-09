@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Game
 {
     #[ORM\Id]
@@ -18,12 +19,6 @@ class Game
     private ?string $gameMode = null;
 
     #[ORM\Column]
-    private ?int $idUser = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $date = null;
-
-    #[ORM\Column]
     private ?float $time = null;
 
     #[ORM\Column]
@@ -33,10 +28,29 @@ class Game
     private ?array $completedStations = null;
 
     #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(nullable:true)]
     private ?\DateTime $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
+
+    #[ORM\ManyToOne(targetEntity: Line::class)]
+    #[ORM\JoinColumn(name: 'id_line', referencedColumnName: 'idLine', nullable: false)]
+    private ?Line $line = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'idUser', nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        if (!$this->createdAt) {
+            $this->createdAt = new \DateTimeImmutable();
+        }
+    }
 
     public function getId(): ?int
     {
@@ -63,30 +77,6 @@ class Game
     public function setGameMode(string $gameMode): static
     {
         $this->gameMode = $gameMode;
-
-        return $this;
-    }
-
-    public function getIdUser(): ?int
-    {
-        return $this->idUser;
-    }
-
-    public function setIdUser(int $idUser): static
-    {
-        $this->idUser = $idUser;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeImmutable
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeImmutable $date): static
-    {
-        $this->date = $date;
 
         return $this;
     }
@@ -147,6 +137,42 @@ class Game
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    public function getLine(): ?Line
+    {
+        return $this->line;
+    }
+
+    public function setLine(?Line $line): static
+    {
+        $this->line = $line;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
