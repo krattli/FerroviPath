@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LineRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Line
 {
     #[ORM\Id]
@@ -22,7 +23,7 @@ class Line
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private ?\DateTime $updatedAt = null;
 
     #[ORM\Column(nullable: true)]

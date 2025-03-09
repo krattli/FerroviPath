@@ -45,8 +45,8 @@ final class LineController extends AbstractController
             }
 
         }
-        return $this->render('line/index.html.twig', [
-            'controller_name' => 'LineController',
+        return $this->render('line/add.html.twig', [
+            'addLineForm' => $form->createView()
         ]);
     }
 }

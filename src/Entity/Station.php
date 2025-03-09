@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StationRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Station
 {
     #[ORM\Id]
@@ -26,11 +27,11 @@ class Station
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
-    private ?\DateTimeInterface $updatedAt = null;
+    #[ORM\Column(nullable:true)]
+    private ?\DateTime $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeInterface $deletedAt = null;
+    private ?\DateTimeImmutable $deletedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'stations')]
     #[ORM\JoinColumn(name: 'id_line', referencedColumnName: 'idLine', nullable: false)]
@@ -86,24 +87,24 @@ class Station
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): static
+    public function setUpdatedAt(\DateTime $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?\DateTimeInterface
+    public function getDeletedAt(): ?\DateTimeImmutable
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?\DateTimeInterface $deletedAt): static
+    public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
 

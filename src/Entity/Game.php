@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Game
 {
     #[ORM\Id]
@@ -29,7 +30,7 @@ class Game
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private ?\DateTime $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
