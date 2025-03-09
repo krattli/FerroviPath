@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Maps{% endblock %} <!-- ne s'affiche pas ?-->
+
+{% block body %} 
+<div class="container my-5">
+    <section class="text-center mb-5">    
+        <h1>Lignes</h1>
+    </section>
+
+    <section class="row text-center mb-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="card-title">
+                        <a href="/maps" class="btn btn-outline-primary"> <!--A corriger-->
+                            Donnez la ligne à visualiser 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class = "image">
+            <img src="{{ asset('/img/Logo.png') }}" alt="Mon image" class = "logo">
+        </div>
+
+
+
+    </section>
+    
+    
+</div>
+
+{% endblock %}
