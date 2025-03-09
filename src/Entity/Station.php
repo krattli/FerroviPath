@@ -29,6 +29,10 @@ class Station
     #[ORM\Column(nullable: true)]
     private ?\DateTimeInterface $deletedAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'stations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Line $line = null;
+
     public function getId(): ?int
     {
         return $this->idStation;
@@ -90,6 +94,18 @@ class Station
     public function setDeletedAt(?\DateTimeInterface $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    public function getLine(): ?Line
+    {
+        return $this->line;
+    }
+
+    public function setLine(?Line $line): static
+    {
+        $this->line = $line;
 
         return $this;
     }
