@@ -89,7 +89,7 @@ final class UserController extends AbstractController{
         return $this->redirectToRoute('ferrovipath_logout'); 
     }
 
-    #[Route('/user/register', name: 'ferrovipath_user_register')] // Create
+    #[Route('/user/register', name: 'ferrovipath_register')] // Create
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -119,7 +119,7 @@ final class UserController extends AbstractController{
         ]);
     }
     
-    #[Route(path: '/user/login', name: 'ferrovipath_user_login')] 
+    #[Route(path: '/user/login', name: 'ferrovipath_login')] 
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
