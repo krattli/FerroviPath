@@ -2,7 +2,6 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
       <img src="/img/Logo.png" alt="Logo" width="75" height="75" class="d-inline-block align-text-top">
-      FerroviPath
     </a>
      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
@@ -10,7 +9,7 @@
           <a class="nav-link active " href="{{ path('ferrovipath_homepage') }}">Accueil</a>
         </li>
       <li class="nav-item">
-          <a class="nav-link active  text-nowrap px-3" href="#">Ajouter une ligne</a>
+          <a class="nav-link active  text-nowrap px-3" href="{{path('ferrovipath_line_add')}}">Ajouter une ligne</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_answer') }}">Lignes</a>
@@ -21,13 +20,18 @@
         <li class="nav-item">
           <a class="nav-link active text-nowrap px-3" href="{{ path('ferrovipath_game') }}">Mode de jeux</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active text-nowrap px-3" href="#">Profil</a>
-        </li>
+        {% if app.user %}
+          <li class="nav-item">
+            <a class="nav-link active text-nowrap px-3" href="#">Profil</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link active text-nowrap px-3"> href="{{ path('ferrovipath_user_register') }}">Se connecter</a>
+          </li>
+        {% enblock %}
       </ul>
     </div>
  </div>
-  </div>
 </nav>
 <style>
   .navbar-nav .nav-link:hover {

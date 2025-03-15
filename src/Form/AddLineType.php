@@ -14,11 +14,11 @@ class AddLineType extends AbstractType
     {
         $builder
             ->add('lineFile', FileType::class,[
-                'label' => 'Fichier JSON de la ligne de métro','required'=>true,
+                'label' => 'Fichier JSON de la ligne de métro','required'=>true,'attr'=>['class '=>'form-control mb-3']
             ])
             ->add('saveButton',SubmitType::class, [
                 'label' => "Ajouter le fichier",
-                'attr' => ['class' => 'btn btn-primary mt-3']])
+                'attr' => ['class' => 'form-control btn btn-primary mt-3 w-50', 'onclick'=>'confirm("Etes-vous sur d\'ajouter une ligne de métro ? Un administrateur vérifiera votre ajout.")']])
         ;
     }
 
