@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary"  data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="/img/Logo.png" alt="Logo" width="75" height="75" class="d-inline-block align-text-top">
+      FerroviPath
+    </a>
+     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+       <li class="nav-item">
+          <a class="nav-link active " href="{{ path('ferrovipath_homepage') }}">Accueil</a>
+        </li>
+      <li class="nav-item">
+          <a class="nav-link active  text-nowrap px-3" href="#">Ajouter une ligne</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_answer') }}">Lignes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_rank') }}">Classement</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active text-nowrap px-3" href="{{ path('ferrovipath_game') }}">Mode de jeux</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active text-nowrap px-3" href="#">Profil</a>
+        </li>
+      </ul>
+    </div>
+ </div>
+  </div>
+</nav>
+<style>
+  .navbar-nav .nav-link:hover {
+    background-color: #0056b3; /* Change la couleur de fond lors du hover */
+    color: white; /* Change la couleur du texte lors du hover */
+    border-radius: 5px; /* Ajoute un rayon de bordure pour les coins arrondis */
+  }
+</style>
