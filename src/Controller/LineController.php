@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class LineController extends AbstractController
 {
-    #[Route('/line/add', name: 'ferrovipath_add_line', methods:['GET','POST'])]
+    #[Route('/line/add', name: 'ferrovipath_line_add', methods:['GET','POST'])]
     public function addLine(Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(AddLineType::class);
@@ -27,6 +27,7 @@ final class LineController extends AbstractController
 
                 if(isset($data['idLine']) && isset($data['nameLine'])  && isset($data['stations'])){
                     $line = new Line();
+                    $line->setId($data['idLine']);
                     $line->setNameLine($data['nameLine']);
                     $entityManager->persist($line);
 

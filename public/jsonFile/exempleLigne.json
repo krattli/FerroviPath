@@ -1,0 +1,66 @@
+{
+  "idLine": 0,
+  "nameLine": "Ligne X",
+  "stations": [
+    {
+      "idStation": 1,
+      "nameStation": "Station A",
+      "axisX": 48.1000,
+      "axisY": 2.1000
+    },
+    {
+      "idStation": 2,
+      "nameStation": "Station B",
+      "axisX": 48.1100,
+      "axisY": 2.1100
+    },
+    {
+      "idStation": 3,
+      "nameStation": "Station C",
+      "axisX": 48.1200,
+      "axisY": 2.1200
+    },
+    {
+      "idStation": 4,
+      "nameStation": "Station D",
+      "axisX": 48.1300,
+      "axisY": 2.1300
+    },
+    {
+      "idStation": 5,
+      "nameStation": "Station E",
+      "axisX": 48.1400,
+      "axisY": 2.1400
+    },
+    {
+      "idStation": 6,
+      "nameStation": "Station F",
+      "axisX": 48.1500,
+      "axisY": 2.1500
+    },
+    {
+      "idStation": 7,
+      "nameStation": "Station G",
+      "axisX": 48.1600,
+      "axisY": 2.1600
+    },
+    {
+      "idStation": 8,
+      "nameStation": "Station H",
+      "axisX": 48.1700,
+      "axisY": 2.1700
+    },
+    {
+      "idStation": 9,
+      "nameStation": "Station I",
+      "axisX": 48.1800,
+      "axisY": 2.1800
+    },
+    {
+      "idStation": 10,
+      "nameStation": "Station J",
+      "axisX": 48.1900,
+      "axisY": 2.1900
+    }
+  ]
+}

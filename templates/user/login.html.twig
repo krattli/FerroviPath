@@ -5,7 +5,7 @@
 {% block body %}
     {% if app.user %}
         <div class="mb-3">
-            Vous êtes déjà connecté {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Deconnexion</a>
+            Vous êtes déjà connecté {{ app.user.userIdentifier }}, <a href="{{ path('ferrovipath_logout') }}">Deconnexion</a>
         </div>
     {% else %}
     <div class="container mt-4 d-flex flex-column align-items-center w-50">
@@ -25,7 +25,6 @@
                             <label for="inputPassword">Password</label>
                             <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
                         </div>
-
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                     </div>
                 </div>
@@ -43,5 +42,5 @@
     {% endif %}
     
     {% endif %}
-
 {% endblock %}
+
