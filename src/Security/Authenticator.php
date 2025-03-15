@@ -20,7 +20,7 @@ class Authenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'ferrovipath_login';
+    public const LOGIN_ROUTE = 'ferrovipath_user_login';
 
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {

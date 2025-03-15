@@ -103,7 +103,7 @@ final class UserController extends AbstractController{
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
-            if(strtolower($form->get('email')->getData()) == 'huangsteven2004@gmail.com'){
+            if(strtolower($form->get('email')->getData()) == 'admin@admin.com'){
                 $user->addRole('ROLE_ADMIN');
             }
 
@@ -119,7 +119,7 @@ final class UserController extends AbstractController{
         ]);
     }
     
-    #[Route(path: '/user/login', name: 'ferrovipath_login')] 
+    #[Route(path: '/user/login', name: 'ferrovipath_user_login')] 
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
