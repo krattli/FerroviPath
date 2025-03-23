@@ -1,21 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ferrovipath - {{ profil.pseudo }}{% endblock %}
+{% block title %} {{ profil.pseudo }}{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header bg-primary text-white text-center">
-            <h1 class="mb-0">Profil-Modification</h1>
-        </div>
-        <div class="card-body">
-            <div class="row text-center d-flex justify-content-center ">
-                <div class="col-md-6">
-                    <ul class="list-group mb-4">
-                        {{ form_start(modifyForm) }}
-                            {{ form_row(modifyForm.pseudo) }}
-                            {{ form_row(modifyForm.email) }}
-                            {{  form_row(modifyForm.oldPassword )}}
+<div class="container mt-4  d-flex flex-column align-items-center w-50">
+    <div class="card-header text-center">
+        <h1 class="mb-3">Profil-Modification</h1>
+    </div>
+    <div class="card shadow-sm mb-4 w-100">
+        <div class="card-body row d-flex justify-content-center text-center">
+            <div class="col-md-6">
+                <ul class="list-group mb-4">
+                    {{ form_start(modifyForm) }}
+                        {{ form_row(modifyForm.pseudo) }}
+                        {{ form_row(modifyForm.email) }}
+                        {{  form_row(modifyForm.oldPassword )}}
                             {% if wrongPasswordMessage is defined %}
                                 <div class="alert alert-danger mt-4 p-1">
                                     {{ wrongPasswordMessage }}
@@ -23,12 +22,11 @@
                             {% endif %}
                             {{ form_row(modifyForm.plainPassword, {
                                 label: 'Nouveau Mot De Passe', placeholder:'Nouveau mot de passe'
-                            }) }}
-                            {{ form_row(modifyForm.birth) }}
-                            {{ form_row(modifyForm.save, { 'label': 'Mettre à jour le profil' }) }}
-                        {{ form_end(modifyForm) }}
-                    </ul>
-                </div>
+                            }) }}                        
+                        {{ form_row(modifyForm.birth) }}
+                        {{ form_row(modifyForm.save, { 'label': 'Mettre à jour le profil' }) }}
+                    {{ form_end(modifyForm) }}
+                </ul>
             </div>
         </div>
     </div>
