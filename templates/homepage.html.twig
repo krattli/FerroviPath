@@ -3,6 +3,12 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %} 
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success text-center">
+        {{ message }}
+    </div>
+{% endfor %}
+
     <div class="container my-5 d-flex flex-column align-items-center">
         <h1>Bienvenue sur Ferrovipath</h1>
         <section class="text-center border p-3 custom-box">    
@@ -57,8 +63,12 @@
     </section>
     
 <section class="row justify-content-md-center text-center mb-5">
-<p> Première fois sur notre site ? <a href="{{ path('ferrovipath_register') }}" class="link-primary">Inscrivez-vous</a></p>
-<p>Reprendre une partie ? Commencer une nouvelle ? <a href="{{ path('ferrovipath_login') }}" class="link-primary">Identifiez-vous</a></p>
+
+{% if not app.user %}
+    <p> Première fois sur notre site ? <a href="{{ path('ferrovipath_register') }}" class="link-primary">Inscrivez-vous</a></p>
+    <p>Reprendre une partie ? Commencer une nouvelle ? <a href="{{ path('ferrovipath_login') }}" class="link-primary">Identifiez-vous</a></p>
+{% endif %}
+
 <div class="col-md-4">
     <div class="card shadow-sm">
         <div class="card-body">
