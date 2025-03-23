@@ -17,9 +17,25 @@ class AnswerController extends AbstractController
 
         // Associe chaque ligne à une image
         $images = [
-            'metro1' => '/img/m1.webp',
-            'metro2' => '/img/m2.webp',
-            'metro3' => '/img/m3.webp',
+            'metro1' => '/img/Ligne1Answer.png',
+            'metro2' => '/img/Ligne2Answer.png',
+            'metro3' => '/img/Ligne3Answer.png',
+            'metro4' => '/img/Ligne4Answer.png',
+            'metro5' => '/img/Ligne5Answer.png',
+            'metro6' => '/img/Ligne6Answer.png',
+            'metro7' => '/img/Ligne7Answer.png',
+            'metro8' => '/img/Ligne8Answer.png',
+            'metro9' => '/img/Ligne9Answer.png',
+            'metro10' => '/img/Ligne10Answer.png',
+            'metro11' => '/img/Ligne11Answer.png',
+            'metro12' => '/img/Ligne12Answer.png',
+            'metro13' => '/img/Ligne13Answer.png',
+            'metro14' => '/img/Ligne14Answer.png',
+            'metro15' => '/img/Ligne15Answer.png',
+            'metro16' => '/img/Ligne16answer.png',
+            'metro17' => '/img/Ligne17answer.png',
+            'metro18' => '/img/Ligne18Answer.png',
+            'metro19' => '/img/Ligne19Answer.png',
         ];
 
         // Image par défaut

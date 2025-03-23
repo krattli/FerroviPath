@@ -29,17 +29,15 @@
                     </div>
                 </div>
             </div>
-        
+    {% if error %}
+        <div class="alert alert-danger">Email ou Mot de passe Invalide</div>
+    {% endif %}
             <div class="text-center">
                 <button class="btn btn-primary mb-2" type="submit">Se connecter</button>
                 <p>Vous n'avez pas de compte ? <a href="{{ path('ferrovipath_register') }}" class="link-primary">Inscrivez-vous</a></p>
             </div>
         </form>               
     </div>
-
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
     
     {% endif %}
 {% endblock %}
