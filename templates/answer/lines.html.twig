@@ -43,47 +43,25 @@
             </div>
         </div>
         <div class = "image">
-            <img src="{{ asset(imagePath) }}" alt="Image de la ligne" class="logo
-            {% if imagePath == '/img/Ligne1Answer.png' %}m1{% endif %}
-            {% if imagePath == '/img/Ligne2Answer.png' %}m2{% endif %}
-            {% if imagePath == '/img/Ligne3Answer.png' %}m1{% endif %}
-            {% if imagePath == '/img/Ligne4Answer.png' %}m2{% endif %}
-            {% if imagePath == '/img/Ligne5Answer.png' %}m1{% endif %}
-            {% if imagePath == '/img/Ligne6Answer.png' %}m2{% endif %}
-            {% if imagePath == '/img/Ligne7Answer.png' %}m1{% endif %}
-            {% if imagePath == '/img/Ligne8Answer.png' %}m2{% endif %}
-            {% if imagePath == '/img/Ligne9Answer.png' %}m1{% endif %}
-            {% if imagePath == '/img/Ligne10Answer.png' %}m2{% endif %}
-            {% if imagePath == '/img/Ligne11Answer.png' %}m1{% endif %}
-            {% if imagePath == '/img/Ligne12Answer.png' %}m2{% endif %}
-            {% if imagePath == '/img/Ligne13Answer.png' %}m1{% endif %}
-            {% if imagePath == '/img/Ligne14Answer.png' %}m2{% endif %}
-            {% if imagePath == '/img/Ligne15Answer.png' %}m1{% endif %}
-            {% if imagePath == '/img/Ligne16Answer.png' %}m2{% endif %}
-            {% if imagePath == '/img/Ligne17Answer.png' %}m1{% endif %}
-            {% if imagePath == '/img/Ligne18Answer.png' %}m2{% endif %}
-            {% if imagePath == '/img/Ligne19Answer.png' %}m1{% endif %}">
+            <img src="{{ asset(imagePath) }}" alt="Image de la ligne" class="logo">
         </div>
     </section>  
 </div>
 
 <style>
-  .card-body {
-    background-color:#FCF9ED; 
-  }
+  .card {
+  border: none;
+  box-shadow: none !important;
+  background-color : transparent; 
+}
+
   .form-select {
     background-color: rgb(255, 255, 255);
     border-color:rgb(8, 13, 17);  
 
   }
-  .image img.m1{
-    width: 100%; /* Pour que l'image prenne toute la largeur du conteneur */
-    max-width: 1000px; /* Par exemple, pour limiter la largeur de l'image à 500px */
-    height: auto; /* Garde la proportion de l'image */
-    margin-top: 20px; /* Optionnel, pour ajouter un peu d'espace au-dessus de l'image */
-  }
-  .image img.m2{
-    width: 1100px; /* Pour que l'image prenne toute la largeur du conteneur */
+  .image img{
+    width: 105%; /* Pour que l'image prenne toute la largeur du conteneur */
     height: auto; /* Garde la proportion de l'image */
     margin-top: 20px; /* Optionnel, pour ajouter un peu d'espace au-dessus de l'image */
   }

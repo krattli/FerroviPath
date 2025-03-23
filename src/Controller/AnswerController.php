@@ -39,7 +39,7 @@ class AnswerController extends AbstractController
         ];
 
         // Image par défaut
-        $imagePath = $images[$selectedLine] ?? '/img/Logo.png'; 
+        $imagePath = $images[$selectedLine] ?? '/img/carteMetro.png'; 
 
         // Retourne la page avec l'image sélectionnée
         return $this->render('answer/lines.html.twig', [
