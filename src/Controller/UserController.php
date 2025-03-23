@@ -110,13 +110,14 @@ final class UserController extends AbstractController{
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success','Inscription réussie ! Bienvenue à Ferrovipath'); // Ajout d'un message flash qui s'affichera à la page d'accueil après l'inscription
+            $this->addFlash('success', 'Vous êtes inscrit avec succès !');
             return $this->redirectToRoute('ferrovipath_homepage');
         }
 
         return $this->render('user/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+
     }
     
     #[Route(path: '/user/login', name: 'ferrovipath_login')] 
