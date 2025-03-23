@@ -20,6 +20,20 @@
                                 <option value="metro1" {% if imagePath == '/img/m1.webp' %}selected{% endif %}>Métro 1</option>
                                 <option value="metro2" {% if imagePath == '/img/m2.webp' %}selected{% endif %}>Métro 2</option>
                                 <option value="metro3" {% if imagePath == '/img/m3.webp' %}selected{% endif %}>Métro 3</option>
+                                <option value="metro3bis" {% if imagePath == '/img/m3bis.webp' %}selected{% endif %}>Métro 3 bis</option>
+                                <option value="metro4" {% if imagePath == '/img/m4.webp' %}selected{% endif %}>Métro 4</option>
+                                <option value="metro5" {% if imagePath == '/img/m5.webp' %}selected{% endif %}>Métro 5</option>
+                                <option value="metro6" {% if imagePath == '/img/m6.webp' %}selected{% endif %}>Métro 6</option>
+                                <option value="metro7" {% if imagePath == '/img/m7.webp' %}selected{% endif %}>Métro 7</option>
+                                <option value="metro7bis" {% if imagePath == '/img/m7bis.webp' %}selected{% endif %}>Métro 7 bis</option>
+                                <option value="metro8" {% if imagePath == '/img/m8.webp' %}selected{% endif %}>Métro 8</option>
+                                <option value="metro9" {% if imagePath == '/img/m9.webp' %}selected{% endif %}>Métro 9</option>
+                                <option value="metro10" {% if imagePath == '/img/m10.webp' %}selected{% endif %}>Métro 10</option>
+                                <option value="metro11" {% if imagePath == '/img/m11.webp' %}selected{% endif %}>Métro 11</option>
+                                <option value="metro12" {% if imagePath == '/img/m12.webp' %}selected{% endif %}>Métro 12</option>
+                                <option value="metro13" {% if imagePath == '/img/m13.webp' %}selected{% endif %}>Métro 13</option>
+                                <option value="metro14" {% if imagePath == '/img/m14.webp' %}selected{% endif %}>Métro 14</option>
+                                <option value="metro11" {% if imagePath == '/img/m11.png' %}selected{% endif %}>Métro 11</option>
                             </select>
                         </form>
                     </div>
@@ -27,31 +41,25 @@
             </div>
         </div>
         <div class = "image">
-            <img src="{{ asset(imagePath) }}" alt="Image de la ligne" class="logo
-            {% if imagePath == '/img/m1.webp' %}m1{% endif %}
-                {% if imagePath == '/img/m2.webp' %}m2{% endif %}
-                {% if imagePath == '/img/m3.webp' %}m3{% endif %}">
+            <img src="{{ asset(imagePath) }}" alt="Image de la ligne" class="logo">
         </div>
     </section>  
 </div>
 
 <style>
-  .card-body {
-    background-color:#FCF9ED; 
-  }
+  .card {
+  border: none;
+  box-shadow: none !important;
+  background-color : transparent; 
+}
+
   .form-select {
     background-color: rgb(255, 255, 255);
     border-color:rgb(8, 13, 17);  
 
   }
-  .image img.m1{
-    width: 100%; /* Pour que l'image prenne toute la largeur du conteneur */
-    max-width: 1000px; /* Par exemple, pour limiter la largeur de l'image à 500px */
-    height: auto; /* Garde la proportion de l'image */
-    margin-top: 20px; /* Optionnel, pour ajouter un peu d'espace au-dessus de l'image */
-  }
-  .image img.m2{
-    width: 1100px; /* Pour que l'image prenne toute la largeur du conteneur */
+  .image img{
+    width: 105%; /* Pour que l'image prenne toute la largeur du conteneur */
     height: auto; /* Garde la proportion de l'image */
     margin-top: 20px; /* Optionnel, pour ajouter un peu d'espace au-dessus de l'image */
   }
