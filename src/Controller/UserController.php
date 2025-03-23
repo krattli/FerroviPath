@@ -117,7 +117,7 @@ final class UserController extends AbstractController{
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Vous êtes inscrit avec succès !');
+            $this->addFlash('successRegistration', 'Vous êtes inscrit avec succès !');
             return $this->redirectToRoute('ferrovipath_homepage');
         }
 

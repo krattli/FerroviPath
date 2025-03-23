@@ -3,7 +3,7 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %} 
-{% for message in app.flashes('success') %}
+{% for message in app.flashes('successRegistration') %}
     <div class="alert alert-success text-center">
         {{ message }}
     </div>
