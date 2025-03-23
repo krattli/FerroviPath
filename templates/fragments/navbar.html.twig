@@ -27,7 +27,7 @@
               <button class="nav-link active btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Profil</button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="{{ path('ferrovipath_user_profil',  {'id': app.user.idUser} )}}">Voir le profil</a></li>
-                <li><a class="dropdown-item" href="https://127.0.0.1:8000/user/logout">Déconnexion</a></li>
+                <li><a class="dropdown-item" href="{{ path('ferrovipath_logout') }}">Déconnexion</a></li>
               </ul>
             </div>
           </li>
