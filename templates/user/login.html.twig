@@ -3,31 +3,42 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-<form method="post">
     {% if app.user %}
         <div class="mb-3">
-            Vous êtes déjà connecté {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Deconnexion</a>
+            Vous êtes déjà connecté {{ app.user.userIdentifier }}, <a href="{{ path('ferrovipath_logout') }}">Deconnexion</a>
         </div>
     {% else %}
-        <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
-        <label for="inputEmail">Email</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-        <label for="inputPassword">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-        <input type="hidden" name="_csrf_token"
-            value="{{ csrf_token('authenticate') }}"
-        >
-
-        <button class="btn btn-lg btn-primary" type="submit">
-            Se connecter
-        </button>
-
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-
+    <div class="container mt-4 d-flex flex-column align-items-center w-50">
+        <div class="card-header text-center ">
+            <h1 class="mb-3"> Connexion </h1>
+        </div>
+            
+        <form method="post" class="w-100">
+            <div class="card shadow-sm mb-4 w-100">
+                <div class="card-body row d-flex justify-content-center text-center">
+                    <div class="col-md-8">
+                        <div class="mb-3 ">
+                            <label for="inputEmail">Email</label>
+                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required >                        
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputPassword">Password</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    </div>
+                </div>
+            </div>
+    {% if error %}
+        <div class="alert alert-danger">Email ou Mot de passe Invalide</div>
     {% endif %}
-
-</form>
+            <div class="text-center">
+                <button class="btn btn-primary mb-2" type="submit">Se connecter</button>
+                <p>Vous n'avez pas de compte ? <a href="{{ path('ferrovipath_register') }}" class="link-primary">Inscrivez-vous</a></p>
+            </div>
+        </form>               
+    </div>
+    
+    {% endif %}
 {% endblock %}
+
