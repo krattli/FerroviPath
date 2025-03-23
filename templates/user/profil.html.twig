@@ -35,6 +35,11 @@
             </div>
             <div class="d-grid gap-2 col-2 mx-auto">
                 <a href= "{{ path('ferrovipath_user_modify', {'id': profil.idUser}) }}" class="btn btn-secondary">Modifier</a>
+                {% for message in app.flashes('successModify') %}
+                    <div class="flash-notice">
+                        {{ message }}
+                    </div>
+                {% endfor %}
                 <a href= "{{ path('ferrovipath_user_delete', {'id': profil.idUser}) }}" class="btn btn-danger" onclick="return confirm('Etes-vous sûr de supprimer?')">Supprimer le compte</a>
             </div>
         </div>

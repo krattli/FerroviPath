@@ -25,16 +25,32 @@ class UserType extends AbstractType
             ->add('email', TextType::class, [
                 'label' => 'Email',
                 'attr' => ['class' => 'form-control', 'placeholder'=>'Email']
-            ])
+            ]);
+            if($options['is_edit']){
+                $builder->add('oldPassword',PasswordType::class,[
+                    'label' => 'Ancien mot de passe',
+                    'mapped' => false,
+                    'attr' => [
+                        'class' => 'form-control', 
+                        'placeholder' => 'Votre ancien mot de passe'
+                    ],
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Veuillez entrer votre ancien mot de passe',
+                        ]),
+                    ],
+                ]);
+            }
+            $builder
             ->add('plainPassword', PasswordType::class, [
-                'label' => 'Mot de passe',
+                'label' => 'Nouveau Mot de passe',
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password', 'class'=>'form-control', 'placeholder'=>'Password','type'=>'password'],
+                'attr' => ['autocomplete' => 'new-password', 'class'=>'form-control', 'placeholder'=>'Nouveau mot de passe'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer le mot de passe',
+                        'message' => 'Veuillez entrer le nouveau mot de passe',
                     ]),
                     new Length([
                         'min' => 4,
@@ -52,6 +68,8 @@ class UserType extends AbstractType
                 'label' => $options['is_edit'] ?? false ? 'Mettre à jour le profil' : 'Créer le compte',
                 'attr' => ['class' => 'btn btn-primary mt-3']
             ]);
+
+        
     }
 
     public function configureOptions(OptionsResolver $resolver): void

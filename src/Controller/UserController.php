@@ -64,12 +64,19 @@ final class UserController extends AbstractController{
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $plainPassword */
-            $plainPassword = $form->get('plainPassword')->getData();
-
+            $oldPassword = $form->get('oldPassword')->getData();
             // encode the plain password
+            if(!$userPasswordHasher->isPasswordValid($id, $oldPassword)){
+                return $this->render('user/modify.html.twig', [
+                    'modifyForm' => $form->createView(), 'profil' => $id , 'wrongPasswordMessage'=>'Ancien mot de passe incorrecte, veuillez réessayer'
+                ]);
+            }
+
+            $plainPassword = $form->get('plainPassword')->getData();
             $id->setPassword($userPasswordHasher->hashPassword($id, $plainPassword));
             $entityManager->flush();
-
+            
+            $this->addFlash('modifySuccess','Modification du profil réussi !');
             return $this->redirectToRoute('ferrovipath_user_profil', ['id' => $id->getIdUser()]);
         }
 
@@ -110,7 +117,6 @@ final class UserController extends AbstractController{
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success','Inscription réussie ! Bienvenue à Ferrovipath'); // Ajout d'un message flash qui s'affichera à la page d'accueil après l'inscription
             return $this->redirectToRoute('ferrovipath_homepage');
         }
 

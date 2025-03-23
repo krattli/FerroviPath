@@ -15,8 +15,14 @@
                         {{ form_start(modifyForm) }}
                             {{ form_row(modifyForm.pseudo) }}
                             {{ form_row(modifyForm.email) }}
+                            {{  form_row(modifyForm.oldPassword )}}
+                            {% if wrongPasswordMessage is defined %}
+                                <div class="alert alert-danger mt-4 p-1">
+                                    {{ wrongPasswordMessage }}
+                                </div>
+                            {% endif %}
                             {{ form_row(modifyForm.plainPassword, {
-                                label: 'Password'
+                                label: 'Nouveau Mot De Passe', placeholder:'Nouveau mot de passe'
                             }) }}
                             {{ form_row(modifyForm.birth) }}
                             {{ form_row(modifyForm.save, { 'label': 'Mettre à jour le profil' }) }}
