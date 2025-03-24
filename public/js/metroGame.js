@@ -12,10 +12,12 @@ class MetroGame {
             discoveredStations: [],
             score: 0,
             startTime: Date.now(),
+            finalTime: null,
             totalStations: 0,
             stations: [],
             lineColor: null,
-            lineSymbol: null
+            lineSymbol: null,
+            victoryAchieved: false
         };
 
         this.initialize();
@@ -63,20 +65,92 @@ class MetroGame {
         this.updateProgress();
         this.renderMetroMap();
         this.showFeedback('Station trouvée ! +100 points', 'success');
+        this.checkVictory();
     }
 
     updateProgress() {
         this.dom.linesCount.textContent =
-            `${this.state.discoveredStations.size}/${this.state.totalStations}`;
+            `${this.state.discoveredStations.length}/${this.state.totalStations}`;
         this.dom.scoreField.textContent = this.state.score;
     }
 
     updateTime() {
-        const elapsed = Math.floor((Date.now() - this.state.startTime) / 1000);
-        const minutes = String(Math.floor(elapsed / 60)).padStart(2, '0');
-        const seconds = String(elapsed % 60).padStart(2, '0');
-        this.dom.timeField.textContent = `${minutes}:${seconds}`;
+        if (this.state.victoryAchieved) return; //on update po le temps si la partie est gagnée
+        const elapsed = Date.now() - this.state.startTime;
+        const minutes = String(Math.floor(elapsed / 60000)).padStart(2, '0');
+        const seconds = String(Math.floor((elapsed % 60000) / 1000)).padStart(2, '0');
+        const milliseconds = String(elapsed % 1000).padStart(3, '0');
+        this.dom.timeField.textContent = `${minutes}:${seconds}:${milliseconds}`;
     }
+
+
+
+    checkVictory() {
+        if (this.state.discoveredStations.length === this.state.totalStations) {
+            this.state.victoryAchieved = true;
+            this.state.finalTime = (Date.now() - this.state.startTime) / 1000;
+            this.showVictoryPopup();
+        }
+    }
+
+    showVictoryPopup() {
+        const popupContainer = document.createElement('div');
+        popupContainer.className = 'popup-container';
+
+        const popupContent = document.createElement('div');
+        popupContent.className = 'popup-content';
+
+        const message = document.createElement('p');
+        message.textContent = 'Félicitations ! Vous avez complété la ligne !';
+
+        const homeButton = document.createElement('button');
+        homeButton.textContent = 'Retour à l\'accueil';
+        homeButton.className = 'popup-button';
+
+        // Utiliser une fonction fléchée pour conserver le contexte de `this`
+        homeButton.addEventListener('click', () => {
+            console.log('Button clicked, saving game data...'); // Vérifiez si ce message s'affiche
+            this.saveGameData(() => {
+                console.log('Game data saved, redirecting...'); // Vérifiez si ce message s'affiche
+                this.showFeedback('Données de la partie sauvegardées.', 'success');
+                window.location.href = '/'; // Redirige vers la page d'accueil après sauvegarde
+            });
+        });
+
+        popupContent.appendChild(message);
+        popupContent.appendChild(homeButton);
+        popupContainer.appendChild(popupContent);
+        document.body.appendChild(popupContainer);
+    }
+
+
+
+
+    saveGameData(callback) {
+        const gameData = {
+            time: this.state.finalTime,
+            scorePoints: this.state.score,
+            completedStations: this.state.discoveredStations,
+            gameMode: 'default', // On n'a qu'un seul gamemode pour l'instant donc on s'en contentera
+            idLine: this.dom.gameArea.dataset.lineId,
+            idUser: this.dom.gameArea.dataset.userId
+        };
+
+        fetch('/save-game', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(gameData)
+        }).then(response => response.text())
+            .then(data => {
+                console.log('Game saved:', data);
+                if (callback) callback(); // Appeler le callback après la sauvegarde
+            })
+            .catch(error => console.error('Error saving game:', error));
+    }
+
+
 
     // cette méthode nous aide à calculer l'espacement entre chaque station en fonction du nombre de stations déjà découvertes
     computeSpacing(availableWidth, discoveredCount) {
