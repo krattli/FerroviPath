@@ -8,40 +8,54 @@ class MetroGame {
             gameArea: document.querySelector('[data-game-area]'),
         };
 
+        // État du jeu
         this.state = {
             discoveredStations: new Set(),
             score: 0,
             startTime: Date.now(),
             totalStations: 0,
-            stations: []
+            stations: [],
+            lineColor: null,
+            lineSymbol: null
         };
 
         this.initialize();
     }
 
     initialize() {
+        // Récupère les stations depuis le dataset (toujours sous forme de liste)
         this.state.stations = Array.from(this.dom.gameArea.dataset.stations.split(','))
             .map(s => s.toLowerCase().trim());
-
         this.state.totalStations = this.state.stations.length;
 
+        // Récupérer la couleur et le symbole de la ligne depuis le data-attribute
+        this.state.lineColor = this.dom.gameArea.dataset.color;
+        this.state.lineSymbol = this.dom.gameArea.dataset.symbol;
+
+        // Initialiser l'affichage de la ligne de métro
+        this.renderMetroLine();
+
+        // Événements
         this.dom.stationInput.addEventListener('keypress', this.handleInput.bind(this));
 
+        // Mise à jour du temps en temps réel
         this.updateTime();
         setInterval(this.updateTime.bind(this), 1000);
-
-        this.renderStations();
     }
 
     handleInput(e) {
         if (e.key === 'Enter') {
             const input = e.target.value.trim().toLowerCase();
             e.target.value = '';
-
             if (!input) return;
 
             if (this.state.stations.includes(input)) {
-                this.handleCorrectGuess(input);
+                // Vérifier si la station n'est pas déjà découverte
+                if (!this.state.discoveredStations.has(input)) {
+                    this.handleCorrectGuess(input);
+                } else {
+                    this.showFeedback('Station déjà découverte !', 'info');
+                }
             } else {
                 this.showFeedback('Station non trouvée !', 'error');
             }
@@ -51,16 +65,14 @@ class MetroGame {
     handleCorrectGuess(station) {
         this.state.discoveredStations.add(station);
         this.state.score += 100;
-
         this.updateProgress();
-        this.renderStations();
+        this.renderMetroMap();
         this.showFeedback('Station trouvée ! +100 points', 'success');
     }
 
     updateProgress() {
         this.dom.linesCount.textContent =
             `${this.state.discoveredStations.size}/${this.state.totalStations}`;
-
         this.dom.scoreField.textContent = this.state.score;
     }
 
@@ -71,26 +83,48 @@ class MetroGame {
         this.dom.timeField.textContent = `${minutes}:${seconds}`;
     }
 
-    renderStations() {
-        this.dom.gameArea.innerHTML = this.state.stations
-            .map(station => `
-        <div class="station-item" data-status="${
-                this.state.discoveredStations.has(station) ? 'discovered' : 'hidden'
-            }">
-          ${this.state.discoveredStations.has(station)
-                ? station.charAt(0).toUpperCase() + station.slice(1)
-                : '?'}
-        </div>
-      `).join('');
+    renderMetroLine() {
+        // On crée un élément pour la ligne de métro
+        this.dom.gameArea.innerHTML = `<div class="metro-line" style="background-color: ${this.state.lineColor};"></div>`;
+    }
+
+    renderMetroMap() {
+        // On commence par recréer la ligne
+        this.renderMetroLine();
+
+        // Dimensions et calcul de positions
+        const areaWidth = this.dom.gameArea.offsetWidth;
+        const total = this.state.totalStations;
+
+        // Pour chaque station découverte, on ajoute un marqueur sur la ligne
+        this.state.stations.forEach((station, index) => {
+            if (this.state.discoveredStations.has(station)) {
+                // Calcul de la position en % (supposant un espacement uniforme)
+                const leftPercent = (index / (total - 1)) * 100;
+
+                // Création du marqueur
+                const marker = document.createElement('div');
+                marker.className = 'station-marker';
+                marker.style.left = `${leftPercent}%`;
+                marker.style.backgroundColor = this.state.lineColor;
+
+                // Création de l'étiquette (nom de la station)
+                const label = document.createElement('div');
+                label.className = 'station-label';
+                label.textContent = station.charAt(0).toUpperCase() + station.slice(1);
+
+                // Ajout du label au marqueur
+                marker.appendChild(label);
+                this.dom.gameArea.appendChild(marker);
+            }
+        });
     }
 
     showFeedback(text, type) {
         const feedback = document.createElement('div');
         feedback.className = `feedback ${type}`;
         feedback.textContent = text;
-
         document.body.appendChild(feedback);
-
         setTimeout(() => feedback.remove(), 2000);
     }
 }

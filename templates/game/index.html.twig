@@ -57,8 +57,10 @@
                 <p><strong>Consigne :</strong> Compléter toutes les stations de la ligne {{ line.getNameLine() }} du métro de Paris</p>
             </div>
 
-            <div class="game-area" data-game-area data-stations="{{ line.getStations()|map(station => station.getNameStation()|lower)|join(',') }}">
-                <!-- Les stations s'afficheront ici -->
+            <div class="game-area" data-game-area
+                 data-stations="{{ line.getStations()|map(station => station.getNameStation()|lower)|join(',') }}"
+                 data-color="{{ line.getColor() }}"
+                 data-symbol="{{ line.getSymbol() }}">
             </div>
 
             <div class="button-container">
