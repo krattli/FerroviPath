@@ -148,3 +148,47 @@ body {
         opacity: 1;
     }
 }
+
+/* --- Pour l'affichage de la ligne dans la game-area --- */
+
+.game-area {
+    position: relative;
+    margin: 20px 0;
+}
+
+/* La ligne de métro en elle même (barre) */
+.metro-line {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    right: 5%;
+    height: 4px;
+    background-color: inherit; /* inherit = la background color sera donnée par le js */
+    border-radius: 2px;
+    z-index: 1;
+    transform: translateY(-50%);
+}
+
+/* L'objet Point qui représente chaque station */
+.station-marker {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: inherit; /* inherit = la background color sera donnée par le js */
+    z-index: 2;
+}
+
+/* L'étiquette affichant le nom de la station (au dessus du point) */
+.station-label {
+    position: absolute;
+    top: calc(50% - 30px);
+    left: 50%;
+    transform-origin: bottom left; /* Point d'origine de la rotation = en bas à gauche */
+    transform: translateX(+0%) rotate(-45deg); /* Centrer puis rotationner */
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 3;
+}
