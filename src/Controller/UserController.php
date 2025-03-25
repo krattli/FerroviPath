@@ -17,44 +17,11 @@ final class UserController extends AbstractController{
     #[Route('/user/{id}/profil', name: 'ferrovipath_user_profil', methods: ['GET'])]
     public function profil(User $user): Response
     {
-        /*
-        $profils = $this->getProfils();
-        $profil = array_filter($profils, fn($profil) => $profil['id'] === $id);
-        */
         if (empty($user)) {
             return $this->json(['message' => 'Profil not found'], 404);
         }
         return $this->render('user/profil.html.twig',  ['profil' => $user]);
     }
-
-    /*public function getProfils(): array
-    {
-        return [
-            [
-            'id' => 1,
-            'pseudo' => 'toto',
-            'birth' => '01/12/2000',
-            'email' => 'toto@gmail.com',
-            'password' => 'TOTO',
-            'createdAt' => '16/02/2025'
-            ],
-            [
-            'id' => 2,
-            'pseudo' => 'tata',
-            'birth' => '02/12/2002',
-            'email' => 'tata@gmail.com',
-            'password' => 'TATA',
-            'createdAt' => '16/02/2025'
-            ],
-            [
-            'id' => 3,
-            'pseudo' => 'tuto',
-            'birth' => '21/12/2000',
-            'email' => 'tuto@gmail.com',
-            'password' => 'TUTO',
-            'createdAt' => '16/02/2025']
-        ];
-    }*/
 
     #[Route('/user/{id}/modify', name: 'ferrovipath_user_modify', methods: ['GET', 'POST'])]
     public function modify(Request $request, User $id, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response //update
@@ -84,6 +51,7 @@ final class UserController extends AbstractController{
             'modifyForm' => $form->createView(), 'profil' => $id
         ]);
     }
+
     #[Route('/user/{id}/delete', name: 'ferrovipath_user_delete', methods: ['GET'])]
     public function delete(User $user, EntityManagerInterface $entityManager): Response //delete
     {
@@ -130,10 +98,6 @@ final class UserController extends AbstractController{
     #[Route(path: '/user/login', name: 'ferrovipath_login')] 
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
-
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
