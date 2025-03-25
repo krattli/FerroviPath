@@ -244,3 +244,7 @@ class MetroGame {
 document.addEventListener('DOMContentLoaded', () => {
     new MetroGame();
 });
+
+function confirmAbandon(s) {
+    return confirm(s);
+}
