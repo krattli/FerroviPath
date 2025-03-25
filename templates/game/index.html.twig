@@ -61,14 +61,14 @@
                  data-stations="{{ line.getStations()|map(station => station.getNameStation()|lower)|join(',') }}"
                  data-color="{{ line.getColor() }}"
                  data-symbol="{{ line.getSymbol() }}"
-                 data-line-id="{{ line.getId() }}"
+                 data-line-id="{{ line.getIdLine() }}"
                  data-user-id="{{ app.user ? app.user.getIdUser() : 'anonymous' }}">
                 <!-- cette dernière ligne sers à faire en sorte qu'on ai pas besoin de se connecter pour jouer, les scores seront sauvegardables en anonymes même-->
             </div>
 
             <div class="button-container">
                 <button class="game-button">Abandonner</button>
-                <button class="game-button">Rejouer</button>
+                <a href= "{{ path('ferrovipath_game',  {'id': line.idLine } )}}" class="game-button">Rejouer</a>
                 <button class="game-button">Sauvegarder et quitter</button>
             </div>
         </div>
