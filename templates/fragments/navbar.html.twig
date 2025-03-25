@@ -9,7 +9,10 @@
        <li class="nav-item">
           <a class="nav-link active " href="{{ path('ferrovipath_homepage') }}">Accueil</a>
         </li>
-      <li class="nav-item">
+        <li class="nav-item">
+          <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_game', { 'id': 1 })  }}">Jouer</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link active  text-nowrap px-3" href="{{path('ferrovipath_line_add')}}">Ajouter une ligne</a>
         </li>
         <li class="nav-item">
@@ -36,6 +39,7 @@
       </ul>
     </div>
  </div>
+ 
 </nav>
 <style>
   .navbar-nav .nav-link:hover {

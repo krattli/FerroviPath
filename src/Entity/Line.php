@@ -74,12 +74,12 @@ class Line
         return $this;
     }
 
-    public function getId(): ?int
+    public function getIdLine(): ?int
     {
         return $this->idLine;
     }
 
-    public function setId(int  $idLine): void
+    public function setIdLine(int  $idLine): void
     {
         $this->idLine = $idLine;
     }
