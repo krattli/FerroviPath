@@ -102,6 +102,9 @@ body {
     border-radius: 15px;
     cursor: pointer;
 }
+#abandon-button:hover {
+    color: red !important; 
+}
 
 /* Feedback animations */
 .feedback {
