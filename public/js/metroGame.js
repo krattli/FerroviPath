@@ -1,6 +1,7 @@
 class MetroGame {
     constructor() {
         this.dom = {
+            // On récupère les elements du twig depuis lesquels on va prendre des infos ou afficher des trucs
             stationInput: document.querySelector('[data-input="station"]'),
             linesCount: document.querySelector('[data-field="lines"]'),
             scoreField: document.querySelector('[data-field="score"]'),
@@ -8,6 +9,7 @@ class MetroGame {
             gameArea: document.querySelector('[data-game-area]'),
         };
 
+        // Donnés interne à l'objet Partie
         this.state = {
             discoveredStations: [],
             score: 0,
@@ -75,7 +77,9 @@ class MetroGame {
     }
 
     updateTime() {
-        if (this.state.victoryAchieved) return; //on update po le temps si la partie est gagnée
+        // on update po le temps si la partie est gagnée
+        // Sans ça, le temps s'arrête pas et l'interstice entre la fin de la partie et le moment ou on appuie sur "retour à la page d'aceuil" est compté dans
+        if (this.state.victoryAchieved) return;
         const elapsed = Date.now() - this.state.startTime;
         const minutes = String(Math.floor(elapsed / 60000)).padStart(2, '0');
         const seconds = String(Math.floor((elapsed % 60000) / 1000)).padStart(2, '0');
@@ -172,30 +176,28 @@ class MetroGame {
     }
 
     renderMetroMap() {
-        // On vide d'abord la game-area
-        this.dom.gameArea.innerHTML = '';
 
         const discovered = this.state.discoveredStations;
-        if (discovered.length === 0) return; // Affichage vide si aucune station découverte
+        if (discovered.length === 0) return; // Pas d'affichage si aucune station est découverte
 
-        // Trier les stations découvertes selon l'ordre naturel
+        // Trier les stations découvertes selon leur ordre naturel
         const sortedDiscovered = this.state.stations.filter(station => discovered.includes(station));
 
-        // Récupérer la largeur de la game-area et définir une marge pour éviter les bords
+        // Récupérer la largeur de la game-area et définir une petite marge pour éviter les bords
         const areaWidth = this.dom.gameArea.offsetWidth;
-        const margin = 10; // marge de 10px à gauche et à droite
+        const margin = 10;
         const availableWidth = areaWidth - 2 * margin;
         const count = sortedDiscovered.length;
 
         let positions = [];
 
         if (count === 1) {
-            // Si une seule station, on la centre
+            // Si une seule station est découverte, on centre le point
             positions.push(margin + availableWidth / 2);
         } else {
-            // Calcul de l'espacement dynamique avec la nouvelle fonction
+            // Calcul de l'espacement dynamique entre les stations avec la fonction computeSpacing
             const spacing = this.computeSpacing(availableWidth, count);
-            // Calcul de la largeur totale occupée par le groupe de stations
+            // Calcul de la largeur totale occupée par le groupe de stations (pour la barre de ligne)
             const totalStationsWidth = spacing * (count - 1);
             // Calcul d'un décalage pour centrer le groupe dans la game-area
             const leftOffset = margin + (availableWidth - totalStationsWidth) / 2;
@@ -231,7 +233,7 @@ class MetroGame {
         });
     }
 
-
+    //fonction utilisée pour afficher des petits pop up (genre "nouvelle station découverte")
     showFeedback(text, type) {
         const feedback = document.createElement('div');
         feedback.className = `feedback ${type}`;
@@ -241,6 +243,7 @@ class MetroGame {
     }
 }
 
+    // Une partie est créée dès qu'on arrive sur la page (direct)
 document.addEventListener('DOMContentLoaded', () => {
     new MetroGame();
 });
