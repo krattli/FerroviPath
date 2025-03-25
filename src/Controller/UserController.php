@@ -71,12 +71,13 @@ final class UserController extends AbstractController{
                     'modifyForm' => $form->createView(), 'profil' => $id , 'wrongPasswordMessage'=>'Ancien mot de passe incorrecte, veuillez réessayer'
                 ]);
             }
-
             $plainPassword = $form->get('plainPassword')->getData();
-            $id->setPassword($userPasswordHasher->hashPassword($id, $plainPassword));
+            if(!empty($plainPassword)){
+                $id->setPassword($userPasswordHasher->hashPassword($id, $plainPassword));
+            }
             $entityManager->flush();
             
-            $this->addFlash('modifySuccess','Modification du profil réussi !');
+            $this->addFlash('successModify','Modification du profil réussi !');
             return $this->redirectToRoute('ferrovipath_user_profil', ['id' => $id->getIdUser()]);
         }
 
