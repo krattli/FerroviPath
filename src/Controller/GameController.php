@@ -7,7 +7,6 @@ use App\Entity\Line;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,7 +23,7 @@ final class GameController extends AbstractController
     }
 
     #[Route('/save-game', name: 'save_game', methods: ['POST'])]
-    public function saveGame(Request $request, EntityManagerInterface $entityManager, Security $security): Response
+    public function saveGame(Request $request, EntityManagerInterface $entityManager): Response
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -38,20 +37,20 @@ final class GameController extends AbstractController
             $line = $entityManager->getReference('App\Entity\Line', $data['idLine']);
             $game->setLine($line);
 
-            $user = $security->getUser();
-            if ($user instanceof User) {
+            // Gestion d'enregistrement de l'utilisateur
+            // Si l'id est -1, la partie est enregistrée en anonyme (user=null)
+            if (isset($data['idUser']) && $data['idUser'] != -1) {
+                $user = $entityManager->getRepository(User::class)->find($data['idUser']);
                 $game->setUser($user);
             } else {
                 $game->setUser(null);
             }
-
 
             $entityManager->persist($game);
             $entityManager->flush();
 
             return new Response('Game saved successfully', Response::HTTP_OK);
         } catch (\Exception $e) {
-            // Log the exception message for debugging
             error_log($e->getMessage());
             return new Response('Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
