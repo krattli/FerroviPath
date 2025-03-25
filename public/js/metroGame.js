@@ -1,6 +1,6 @@
 class MetroGame {
     constructor() {
-        this.dom = {
+        this.twigElements = {
             // On récupère les elements du twig depuis lesquels on va prendre des infos ou afficher des trucs
             stationInput: document.querySelector('[data-input="station"]'),
             linesCount: document.querySelector('[data-field="lines"]'),
@@ -27,16 +27,15 @@ class MetroGame {
 
     initialize() {
         // Récupère les stations depuis  ce qui a été donné à twig
-        this.state.stations = Array.from(this.dom.gameArea.dataset.stations.split(','))
-            .map(s => s.toLowerCase().trim());
+        this.state.stations = Array.from(this.twigElements.gameArea.dataset.stations.split(','));
         this.state.totalStations = this.state.stations.length;
 
         // Récupérer la couleur et le symbole de la ligne depuis le data-attribute
-        this.state.lineColor = this.dom.gameArea.dataset.color;
-        this.state.lineSymbol = this.dom.gameArea.dataset.symbol;
+        this.state.lineColor = this.twigElements.gameArea.dataset.color;
+        this.state.lineSymbol = this.twigElements.gameArea.dataset.symbol;
 
         // Événement (lorsqu'on valide un ajout de station)
-        this.dom.stationInput.addEventListener('keypress', this.handleInput.bind(this));
+        this.twigElements.stationInput.addEventListener('keypress', this.handleInput.bind(this));
 
         // Mise à jour du temps en temps réel
         this.updateTime();
@@ -71,9 +70,9 @@ class MetroGame {
     }
 
     updateProgress() {
-        this.dom.linesCount.textContent =
+        this.twigElements.linesCount.textContent =
             `${this.state.discoveredStations.length}/${this.state.totalStations}`;
-        this.dom.scoreField.textContent = this.state.score;
+        this.twigElements.scoreField.textContent = this.state.score;
     }
 
     updateTime() {
@@ -83,8 +82,7 @@ class MetroGame {
         const elapsed = Date.now() - this.state.startTime;
         const minutes = String(Math.floor(elapsed / 60000)).padStart(2, '0');
         const seconds = String(Math.floor((elapsed % 60000) / 1000)).padStart(2, '0');
-        const milliseconds = String(elapsed % 1000).padStart(3, '0');
-        this.dom.timeField.textContent = `${minutes}:${seconds}:${milliseconds}`;
+        this.twigElements.timeField.textContent = `${minutes}:${seconds}`;
     }
 
 
@@ -113,11 +111,11 @@ class MetroGame {
 
         // Utiliser une fonction fléchée pour conserver le contexte de `this`
         homeButton.addEventListener('click', () => {
-            console.log('Button clicked, saving game data...'); // Vérifiez si ce message s'affiche
+            console.log('Button clicked, saving game data...');
             this.saveGameData(() => {
-                console.log('Game data saved, redirecting...'); // Vérifiez si ce message s'affiche
+                console.log('Game data saved, redirecting...');
                 this.showFeedback('Données de la partie sauvegardées.', 'success');
-                window.location.href = '/'; // Redirige vers la page d'accueil après sauvegarde
+                window.location.href = '/';
             });
         });
 
@@ -136,8 +134,8 @@ class MetroGame {
             scorePoints: this.state.score,
             completedStations: this.state.discoveredStations,
             gameMode: 'default', // On n'a qu'un seul gamemode pour l'instant donc on s'en contentera
-            idLine: this.dom.gameArea.dataset.lineId,
-            idUser: this.dom.gameArea.dataset.userId
+            idLine: this.twigElements.gameArea.dataset.lineId,
+            idUser: this.twigElements.gameArea.dataset.userId
         };
 
         fetch('/save-game', {
@@ -177,6 +175,9 @@ class MetroGame {
 
     renderMetroMap() {
 
+        // On vide d'abord la game-area (de l'ancienne carte affichée)
+        this.twigElements.gameArea.innerHTML = '';
+
         const discovered = this.state.discoveredStations;
         if (discovered.length === 0) return; // Pas d'affichage si aucune station est découverte
 
@@ -184,7 +185,7 @@ class MetroGame {
         const sortedDiscovered = this.state.stations.filter(station => discovered.includes(station));
 
         // Récupérer la largeur de la game-area et définir une petite marge pour éviter les bords
-        const areaWidth = this.dom.gameArea.offsetWidth;
+        const areaWidth = this.twigElements.gameArea.offsetWidth;
         const margin = 10;
         const availableWidth = areaWidth - 2 * margin;
         const count = sortedDiscovered.length;
@@ -211,7 +212,7 @@ class MetroGame {
             bar.style.left = positions[0] + 'px';
             bar.style.width = (positions[positions.length - 1] - positions[0]) + 'px';
             bar.style.backgroundColor = this.state.lineColor;
-            this.dom.gameArea.appendChild(bar);
+            this.twigElements.gameArea.appendChild(bar);
         }
 
         // Pour chaque station découverte, créer un marqueur (le point) et son label (le nom de la station)
@@ -228,8 +229,8 @@ class MetroGame {
             label.textContent = station.charAt(0).toUpperCase() + station.slice(1);
             label.style.left = positions[i] + 'px';
 
-            this.dom.gameArea.appendChild(marker);
-            this.dom.gameArea.appendChild(label);
+            this.twigElements.gameArea.appendChild(marker);
+            this.twigElements.gameArea.appendChild(label);
         });
     }
 
