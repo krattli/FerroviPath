@@ -26,7 +26,7 @@ class MetroGame {
     }
 
     initialize() {
-        // Récupère les stations depuis  ce qui a été donné à twig
+        // Récupère les stations depuis ce qui a été donné à twig
         this.state.stations = Array.from(this.twigElements.gameArea.dataset.stations.split(','));
         this.state.totalStations = this.state.stations.length;
 
