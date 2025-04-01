@@ -27,8 +27,10 @@ final class LineController extends AbstractController
 
                 if(isset($data['idLine']) && isset($data['nameLine'])  && isset($data['stations'])){
                     $line = new Line();
-                    $line->setId($data['idLine']);
+                    $line->setIdLine($data['idLine']);
                     $line->setNameLine($data['nameLine']);
+                    $line->setColor($data['color']);
+                    $line->setSymbol($data['symbol']);
                     $entityManager->persist($line);
 
                     foreach($data['stations'] as $stationData){

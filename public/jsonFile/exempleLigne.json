@@ -1,6 +1,8 @@
 {
   "idLine": 0,
   "nameLine": "Ligne X",
+  "color":"#FFFFFF",
+  "symbol":"X",
   "stations": [
     {
       "idStation": 1,

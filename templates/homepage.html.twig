@@ -3,7 +3,7 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %} 
-{% for message in app.flashes('successRegistration') %}
+{% for message in app.flashes('success') %}
     <div class="alert alert-success text-center">
         {{ message }}
     </div>
@@ -91,38 +91,6 @@
 </div>
 </section>
 
-    <div class="modal fade" id="lineSelectionModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Choisir une ligne</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <label for="lineSelector"></label><select class="form-select" id="lineSelector">
-                        <option value="" selected disabled>Sélectionnez une ligne</option>
-                        {% if lines is empty %}
-                            <option value="0" >Ligne de test</option>
-                        {% endif %}
-                        {% for line in lines %}
-                            <option value="{{ line.getIdLine() }}">{{ line.getNameLine() }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button
-                            type="button"
-                            class="btn btn-primary"
-                            id="startGameBtn"
-                            disabled
-                    >
-                        Play
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 <style>
     .custom-box {
         width: 66.66%;
@@ -131,20 +99,5 @@
         background-color:rgb(244, 226, 91); 
     }
 </style>
-
-<script>
-    // Activation du bouton Play quand une ligne est sélectionnée
-    document.getElementById('lineSelector').addEventListener('change', function() {
-        document.getElementById('startGameBtn').disabled = !this.value;
-    });
-
-    // Redirection vers la page du jeu avec la ligne sélectionnée
-    document.getElementById('startGameBtn').addEventListener('click', function() {
-        const selectedLineId = document.getElementById('lineSelector').value;
-        if (selectedLineId) {
-            window.location.href = `/game/${selectedLineId}`;
-        }
-    });
-</script>
 
 {% endblock %}
