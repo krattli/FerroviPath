@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} DashBoard {% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="mb-4 text-center">
+           Liste des films
+        </h2>
+
+        {% if users is empty %}
+            <p class="alert alert-warning">Aucun film disponible pour le moment.</p>
+        {% else %}
+        <table class="table table-bordered table-hover table-striped">
+                    <thead class="table">
+                        <tr>
+                            <th>ID de l'Utilisateur</th>
+                            <th>Pseudo</th>
+                            <th>Rôles</th>
+                            <th>Date de naissance</th>
+                            <th>Email</th>
+                            <th>Mot De Passe</th>
+                            <th>Crée le</th>
+                            <th>Modifié le</th>
+                            <th>Supprimé le</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.idUser }}</td>
+                                <td>{{ user.pseudo }}</td>
+                                <td>{{ user.roles|join(', ') }} <a class="btn btn-secondary">Modifier les rôles</a></td>
+                                <td>{{ user.birth| date('d/m/Y') }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>****</td>
+                                <td>{{ user.createdAt|date('d/m/Y H:i') }}</td>
+                                <td>{{ user.updatedAt ? user.updatedAt|date('d/m/Y H:i') : 'Non mise à jour' }}</td>
+                                <td>{{ user.deletedAt ? user.deletedAt|date('d/m/Y H:i') : 'Non supprimé'}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}
