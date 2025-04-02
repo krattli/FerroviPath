@@ -11,10 +11,19 @@
             <img src="/img/accueil.png" alt="Accueil" class="me-2">Accueil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_game', { 'id': 1 })  }}">
-            <img src="/img/jouer.png" alt="Jouer" class="me-2"> Jouer</a>
+          <button
+              type="button"
+              class="nav-link active text-nowrap px-3"
+              data-bs-toggle="modal"
+              data-bs-target="#lineSelectionModal"
+              ><img src="/img/jouer.png" alt="Jouer" class="me-2">
+                Jouer
+          </button>
         </li>
-        {% endif %}
+        {% if is_granted("ROLE_SUPER_ADMIN") %}
+          <li class="nav-item">
+          <a class="nav-link active  text-nowrap px-3" href="{{path('ferrovipath_admin_dashboard')}}">DashBoard</a>
+        </li>{% endif %}
         <li class="nav-item">
           <a class="nav-link active  text-nowrap px-3" href="{{path('ferrovipath_line_add')}}">
             <img src="/img/ajout.png" alt="Ajouter une ligne" class="me-2">Ajouter une ligne</a>
