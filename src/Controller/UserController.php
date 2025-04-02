@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UserRoleType;
+use App\Repository\UserRepository;
 use App\Service\UserServices;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +17,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class UserController extends AbstractController{
 
-    public function __construct(private UserServices $user_services)
+    public function __construct(private UserServices $user_services, private UserRepository $userRepository)
     {
         
     }
@@ -34,7 +36,7 @@ final class UserController extends AbstractController{
     }
 
     #[Route('/user/{id}/modify', name: 'ferrovipath_user_modify', methods: ['GET', 'POST'])]
-    public function modify(Request $request, User $id, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response //update
+    public function modify(Request $request, User $id, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response 
     {     
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');   
         if($this->user_services->isTheConnectedUser($id) || $this->user_services->isSuperAdmin()){
@@ -71,15 +73,21 @@ final class UserController extends AbstractController{
     }
     
     #[Route('/user/{id}/delete', name: 'ferrovipath_user_delete', methods: ['GET'])]
-    public function delete(User $user, EntityManagerInterface $entityManager): Response //delete
+    public function delete(User $user, EntityManagerInterface $entityManager): Response 
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         /*// Hard delete
         $entityManager->remove($user);*/
-        if($this->user_services->isTheConnectedUser($user) || $this->user_services->isSuperAdmin()){
+        if($this->user_services->isTheConnectedUser($user)){
             $user->setDeletedAt(new \DateTimeImmutable());
             $entityManager->flush();
+            $this->addFlash('success', "Vous avez supprimé {$user->getEmail()} avec succès");
+
+            if($this->user_services->isSuperAdmin()){
+                return $this->redirectToRoute('ferrovipath_admin_dashboard');
+            } else{
             return $this->redirectToRoute('ferrovipath_logout'); 
+            }
         }
         else{
             $this->addFlash("Vous ne pouvez pas supprimer le compte d'une autre personne","errorAccess");
@@ -87,7 +95,7 @@ final class UserController extends AbstractController{
         }
     }
 
-    #[Route('/user/register', name: 'ferrovipath_register')] // Create
+    #[Route('/user/register', name: 'ferrovipath_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -139,6 +147,28 @@ final class UserController extends AbstractController{
     {
         $this->addFlash('success', 'Déconnexion réussie !');
         return $this->redirectToRoute('ferrovipath_homepage');
+    }
+
+    #[Route('/admin/user/{id}/roles', name: 'admin_user_roles')]
+    public function editRoles(User $user, Request $request, EntityManagerInterface $entityManager)
+    {
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+
+        $form = $this->createForm(UserRoleType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Rôles mis à jour avec succès.');
+            return $this->redirectToRoute('ferrovipath_admin_dashboard');
+        }
+
+        return $this->render('user/role.html.twig', [
+            'rolesForm' => $form->createView(),
+            'user' => $user
+        ]);
     }
 
 }
