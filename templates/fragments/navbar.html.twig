@@ -53,37 +53,70 @@
  </div>
 </nav>
 
- <div class="modal fade" id="lineSelectionModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Choisir une ligne</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <label for="lineSelector"></label><select class="form-select" id="lineSelector">
-                        <option value="" selected disabled>Sélectionnez une ligne</option>
-                        {% if line_services.getLines() is empty %}
-                            <option value="0" >Ligne de test</option>
+<div class="modal fade" id="lineSelectionModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Choisissez une option</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <ul class="nav nav-tabs mb-3" id="gameTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="new-tab" data-bs-toggle="tab" data-bs-target="#newGameTab" type="button" role="tab">Nouvelle partie</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="saved-tab" data-bs-toggle="tab" data-bs-target="#savedGameTab" type="button" role="tab">Reprendre partie</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="gameTabContent">
+
+                    <!-- faire une nouvelle partie à partir d'une ligne -->
+                    <div class="tab-pane fade show active" id="newGameTab" role="tabpanel">
+                        <label for="lineSelector">Choisir une ligne</label>
+                        <select class="form-select" id="lineSelector">
+                            <option value="" selected disabled>Sélectionnez une ligne</option>
+                            {% for line in global_services.getLines() %}
+                                <option value="{{ line.getIdLine() }}">{{ line.getNameLine() }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- reprendre une partie déjà sauvegardée -->
+                    <div class="tab-pane fade" id="savedGameTab" role="tabpanel">
+                        {% if global_services.getGames() is not empty %}
+                            <label for="gameSelector">Parties sauvegardées</label>
+                            <select class="form-select" id="gameSelector">
+                                <option value="" selected disabled>Choisissez une partie</option>
+                                {% for game in global_services.getGames() %}
+                                    {% if game.scorePoints < game.line.stations|length * 100 %}
+                                        <option value="{{ game.getIdGame() }}">
+                                            {{ game.line.nameLine }} ({{ game.completedStations|length }}/{{ game.line.stations|length }} stations)
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        {% else %}
+                            <p>Aucune partie sauvegardée à reprendre.</p>
                         {% endif %}
-                        {% for line in line_services.getLines() %}
-                            <option value="{{ line.getIdLine() }}">{{ line.getNameLine() }}</option>
-                        {% endfor %}
-                    </select>
+                    </div>
+
                 </div>
-                <div class="modal-footer">
-                    <button
-                            type="button"
-                            class="btn btn-primary"
-                            id="startGameBtn"
-                            disabled
-                    >
-                        Play
-                    </button>
-                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="startSelectedGameBtn" disabled>
+                    Jouer
+                </button>
             </div>
         </div>
     </div>
+</div>
+
 
 
 <style>
@@ -96,16 +129,30 @@
 </style>
 
 <script>
-    // Activation du bouton Play quand une ligne est sélectionnée
-    document.getElementById('lineSelector').addEventListener('change', function() {
-        document.getElementById('startGameBtn').disabled = !this.value;
-    });
+    const lineSelector = document.getElementById('lineSelector');
+    const gameSelector = document.getElementById('gameSelector');
+    const playButton = document.getElementById('startSelectedGameBtn');
 
-    // Redirection vers la page du jeu avec la ligne sélectionnée
-    document.getElementById('startGameBtn').addEventListener('click', function() {
-        const selectedLineId = document.getElementById('lineSelector').value;
-        if (selectedLineId) {
-            window.location.href = `/game/${selectedLineId}`;
+    const updatePlayButtonState = () => {
+        const activeTab = document.querySelector('.tab-pane.active');
+        if (activeTab.id === 'newGameTab') {
+            playButton.disabled = !lineSelector.value;
+        } else if (activeTab.id === 'savedGameTab') {
+            playButton.disabled = !gameSelector || !gameSelector.value;
+        }
+    };
+
+    if (lineSelector) lineSelector.addEventListener('change', updatePlayButtonState);
+    if (gameSelector) gameSelector.addEventListener('change', updatePlayButtonState);
+
+    document.getElementById('gameTab').addEventListener('click', updatePlayButtonState);
+
+    playButton.addEventListener('click', () => {
+        const activeTab = document.querySelector('.tab-pane.active');
+        if (activeTab.id === 'newGameTab' && lineSelector.value) {
+            window.location.href = `/game/${lineSelector.value}`;
+        } else if (activeTab.id === 'savedGameTab' && gameSelector && gameSelector.value) {
+            window.location.href = `/resume-game/${gameSelector.value}`;
         }
     });
 </script>
