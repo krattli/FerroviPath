@@ -12,7 +12,7 @@ class UserServices{
     }
 
     public function isSuperAdmin(){
-        return $this->security->isGranted('SUPER_ROLE_ADMIN');
+        return $this->security->isGranted('ROLE_SUPER_ADMIN');
     }
 
     public function getConnectedUser(){
