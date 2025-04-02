@@ -3,6 +3,11 @@
 {% block title %}Ajouter une ligne de métro{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('danger')%}
+        <div class="alert alert-danger text-center">
+        {{ message }}
+    </div>
+    {% endfor %}
     <div class="container mt-5 d-flex flex-column align-items-center">
         <div class="text-center">
             <div class="card-header text-center">

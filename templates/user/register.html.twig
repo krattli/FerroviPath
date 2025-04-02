@@ -3,6 +3,11 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('errorMail') %}
+        <div class="alert alert-danger text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="container mt-4 d-flex flex-column align-items-center w-50">
         <div class="card-header text-center ">
                 <h1 class="mb-3"> Inscription</h1>

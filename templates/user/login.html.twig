@@ -3,6 +3,11 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success')%}
+        <div class="alert alert-success text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
     {% if app.user %}
         <div class="mb-3">
             Vous êtes déjà connecté {{ app.user.userIdentifier }}, <a href="{{ path('ferrovipath_logout') }}">Deconnexion</a>

@@ -49,6 +49,7 @@ class Authenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
+        $request->getSession()->set('successConnexion', 'Connexion réussie !');
         return new RedirectResponse($this->urlGenerator->generate('ferrovipath_homepage'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }

@@ -2,9 +2,14 @@
 
 {% block title %}Accueil{% endblock %}
 
-{% block body %} 
-{% for message in app.flashes('success') %}
+{% block body %}
+{% for message in app.flashes('success')%}
     <div class="alert alert-success text-center">
+        {{ message }}
+    </div>
+{% endfor %}
+{% for message in app.flashes('errorAccess') %}
+    <div class="alert alert-danger text-center">
         {{ message }}
     </div>
 {% endfor %}

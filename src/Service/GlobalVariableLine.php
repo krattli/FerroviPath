@@ -11,7 +11,8 @@ class GlobalVariableLine{
 
     }
 
-    public function getLines(){
+    public function getLines():array
+    {
         return $this->LineRepository->findAll();
     }
 

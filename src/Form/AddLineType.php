@@ -18,7 +18,7 @@ class AddLineType extends AbstractType
             ])
             ->add('saveButton',SubmitType::class, [
                 'label' => "Ajouter le fichier",
-                'attr' => ['class' => 'form-control btn btn-primary mt-3 w-50', 'onclick'=>'confirm("Etes-vous sur d\'ajouter une ligne de métro ? Un administrateur vérifiera votre ajout.")']])
+                'attr' => ['class' => 'form-control btn btn-primary mt-3 w-50', 'onclick'=>'confirm("Etes-vous sur d\'ajouter une ligne de métro ?")']])
         ;
     }
 
