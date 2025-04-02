@@ -26,13 +26,25 @@ class MetroGame {
     }
 
     initialize() {
-        // Récupère les stations depuis ce qui a été donné à twig
-        this.state.stations = Array.from(this.twigElements.gameArea.dataset.stations.split(','));
-        this.state.totalStations = this.state.stations.length;
+        const gameArea = this.twigElements.gameArea;
 
+        // Récupère les stations depuis ce qui a été donné à twig
+        this.state.stations = Array.from(gameArea.dataset.stations.split(','));
+        this.state.totalStations = this.state.stations.length;
         // Récupérer la couleur et le symbole de la ligne depuis le data-attribute
-        this.state.lineColor = this.twigElements.gameArea.dataset.color;
-        this.state.lineSymbol = this.twigElements.gameArea.dataset.symbol;
+        this.state.lineColor = gameArea.dataset.color;
+        this.state.lineSymbol = gameArea.dataset.symbol;
+
+        // récupère la partie si on est sur la page de jeu pour continuer à jouer à une partie sauvegardée
+        if (gameArea.dataset.resume === 'true') {
+            // On récupère depuis le twig les stations déja découvertes pour les mettre dans cette instance game js
+            const discovered = gameArea.dataset.discovered;
+            this.state.discoveredStations = discovered.split(',');
+            this.state.score = this.state.discoveredStations.length * 100;
+            this.state.startTime = Date.now();
+            this.updateProgress();
+            this.renderMetroMap();
+        }
 
         // Événement (lorsqu'on valide un ajout de station)
         this.twigElements.stationInput.addEventListener('keypress', this.handleInput.bind(this));
@@ -78,7 +90,8 @@ class MetroGame {
     updateTime() {
         // on update po le temps si la partie est gagnée
         // Sans ça, le temps s'arrête pas et l'interstice entre la fin de la partie et le moment ou on appuie sur "retour à la page d'aceuil" est compté dans
-        if (this.state.victoryAchieved) return;
+        if (this.state.finalTime !== null) return;
+
         const elapsed = Date.now() - this.state.startTime;
         const minutes = String(Math.floor(elapsed / 60000)).padStart(2, '0');
         const seconds = String(Math.floor((elapsed % 60000) / 1000)).padStart(2, '0');
@@ -89,11 +102,28 @@ class MetroGame {
 
     checkVictory() {
         if (this.state.discoveredStations.length === this.state.totalStations) {
-            this.state.victoryAchieved = true;
-            this.state.finalTime = (Date.now() - this.state.startTime) / 1000;
-            this.showVictoryPopup();
+            this.endGame(false);
         }
     }
+
+    endGame(saveAndExit = false) {
+        if (this.state.finalTime === null) {
+            this.state.finalTime = (Date.now() - this.state.startTime) / 1000;
+        }
+        this.state.victoryAchieved = true;
+
+        this.saveGameData(() => {
+            if (saveAndExit) {
+                showFeedback('Partie sauvegardée.', 'success');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+            } else {
+                this.showVictoryPopup();
+            }
+        });
+    }
+
 
     showVictoryPopup() {
         const popupContainer = document.createElement('div');
@@ -129,14 +159,20 @@ class MetroGame {
 
 
     saveGameData(callback) {
+        const gameArea = this.twigElements.gameArea;
         const gameData = {
             time: this.state.finalTime,
             scorePoints: this.state.score,
             completedStations: this.state.discoveredStations,
-            gameMode: 'default', // On n'a qu'un seul gamemode pour l'instant donc on s'en contentera
-            idLine: this.twigElements.gameArea.dataset.lineId,
-            idUser: this.twigElements.gameArea.dataset.userId
+            gameMode: 'default', //On a qu'un seul gamemode pour l'instant
+            idLine: gameArea.dataset.lineId,
+            idUser: gameArea.dataset.userId,
         };
+
+        // Si on reprend une partie existante, on envoie aussi son ID
+        if (gameArea.dataset.resume === 'true') {
+            gameData.idGame = gameArea.dataset.gameId;
+        }
 
         fetch('/save-game', {
             method: 'POST',
@@ -147,10 +183,11 @@ class MetroGame {
         }).then(response => response.text())
             .then(data => {
                 console.log('Game saved:', data);
-                if (callback) callback(); // Appeler le callback après la sauvegarde
+                if (callback) callback();
             })
             .catch(error => console.error('Error saving game:', error));
     }
+
 
 
 
@@ -235,10 +272,33 @@ class MetroGame {
     }
 }
 
-    // Une partie est créée dès qu'on arrive sur la page (direct)
+  // Une partie est créée dès qu'on arrive sur la page (direct)
+  // Ici, on ajoute la fonctionnalité sauvegarder au bouton de la page Game
 document.addEventListener('DOMContentLoaded', () => {
-    new MetroGame();
+    const gameInstance = new MetroGame();
+
+    const saveQuitBtn = document.getElementById('saveAndQuitBtn');
+    const customConfirm = document.getElementById('customConfirm');
+    const confirmYes = document.getElementById('confirmYesBtn');
+    const confirmNo = document.getElementById('confirmNoBtn');
+
+    if (saveQuitBtn && customConfirm && confirmYes && confirmNo) {
+        saveQuitBtn.addEventListener('click', () => {
+            gameInstance.state.finalTime = (Date.now() - gameInstance.state.startTime) / 1000;
+            customConfirm.classList.remove('hidden');
+        });
+
+        confirmYes.addEventListener('click', () => {
+            customConfirm.classList.add('hidden');
+            gameInstance.endGame(true);
+        });
+
+        confirmNo.addEventListener('click', () => {
+            customConfirm.classList.add('hidden');
+        });
+    }
 });
+
 //fonction utilisée pour afficher des petits pop up (genre "nouvelle station découverte")
 function showFeedback(text, type) {
     const feedback = document.createElement('div');

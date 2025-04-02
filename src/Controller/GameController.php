@@ -28,17 +28,26 @@ final class GameController extends AbstractController
         try {
             $data = json_decode($request->getContent(), true);
 
-            $game = new Game();
+            // Si un idGame existe, on update une partie déjà existante donc pas d'enregistrement de nouvelle partie
+            if (!empty($data['idGame'])) {
+                $game = $entityManager->getRepository(Game::class)->find($data['idGame']);
+                if (!$game) {
+                    return new Response('Game not found', Response::HTTP_NOT_FOUND);
+                }
+            } else {
+                $game = new Game();
+            }
+
+            $game->setUpdatedAt(new \DateTime());
+
             $game->setTime($data['time']);
             $game->setScorePoints($data['scorePoints']);
             $game->setCompletedStations($data['completedStations']);
             $game->setGameMode($data['gameMode']);
 
-            $line = $entityManager->getReference('App\Entity\Line', $data['idLine']);
+            $line = $entityManager->getReference(Line::class, $data['idLine']);
             $game->setLine($line);
 
-            // Gestion d'enregistrement de l'utilisateur
-            // Si l'id est -1, la partie est enregistrée en anonyme (user=null)
             if (isset($data['idUser']) && $data['idUser'] != -1) {
                 $user = $entityManager->getRepository(User::class)->find($data['idUser']);
                 $game->setUser($user);
@@ -53,4 +62,15 @@ final class GameController extends AbstractController
             return new Response('Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    #[Route('/resume-game/{id}', name: 'ferrovipath_resume_game')]
+    public function resumeGame(Game $game): Response
+    {
+        return $this->render('game/index.html.twig', [
+            'line' => $game->getLine(),
+            'game' => $game,
+        ]);
+    }
+
 }
