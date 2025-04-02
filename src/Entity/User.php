@@ -213,18 +213,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    #[ORM\Column(type: 'integer', options: ['default' => 0])]
-    private int $score = 0;
-
-    public function getScore(): int
-    {
-        return $this->score;
-    }
-
-    public function setScore(int $score): self
-    {
-        $this->score = $score;
-        return $this;
-    }
 }
