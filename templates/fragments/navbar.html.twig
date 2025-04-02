@@ -7,24 +7,30 @@
      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
        <li class="nav-item">
-          <a class="nav-link active " href="{{ path('ferrovipath_homepage') }}">Accueil</a>
+          <a class="nav-link active " href="{{ path('ferrovipath_homepage') }}">     
+            <img src="/img/accueil.png" alt="Accueil" class="me-2">Accueil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_game', { 'id': 1 })  }}">Jouer</a>
+          <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_game', { 'id': 1 })  }}">
+            <img src="/img/jouer.png" alt="Jouer" class="me-2"> Jouer</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active  text-nowrap px-3" href="{{path('ferrovipath_line_add')}}">Ajouter une ligne</a>
+          <a class="nav-link active  text-nowrap px-3" href="{{path('ferrovipath_line_add')}}">
+            <img src="/img/ajout.png" alt="Ajouter une ligne" class="me-2">Ajouter une ligne</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_answer') }}">Lignes</a>
+          <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_answer') }}">
+            <img src="/img/lignes.png" alt="Lignes" class="me-2"> Lignes</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_rank') }}">Classement</a>
+          <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_rank') }}">
+            <img src="/img/classement.png" alt="Classement" class="me-2">Classement</a>
         </li>
         {% if app.user %}
           <li class="nav-item">
             <div class="btn-group" role="group">
-              <button class="nav-link active btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Profil</button>
+              <button class="nav-link active btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="/img/connecter.png" alt="Profil" ="me-2">Profil</button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="{{ path('ferrovipath_user_profil',  {'id': app.user.idUser} )}}">Voir le profil</a></li>
                 <li><a class="dropdown-item" href="{{ path('ferrovipath_logout') }}">Déconnexion</a></li>
@@ -33,7 +39,8 @@
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link active text-nowrap px-3" href="{{ path('ferrovipath_login') }}">Se connecter</a>
+            <a class="nav-link active text-nowrap px-3" href="{{ path('ferrovipath_login') }}">
+              <img src="/img/connecter.png" alt="Se connecter" ="me-2">Se connecter</a>
           </li>
         {% endif %}
       </ul>
@@ -47,5 +54,13 @@
     color: white; /* Change la couleur du texte lors du hover */
     border-radius: 5px; /* Ajoute un rayon de bordure pour les coins arrondis */
   }
-
+  .nav-link {
+  display: flex;
+  align-items: center;
+  }
+.nav-link img {
+  height: 20px; 
+  width: auto;
+  margin-right: 8px;
+  }
 </style>
