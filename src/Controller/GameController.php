@@ -42,8 +42,6 @@ final class GameController extends AbstractController
             if (isset($data['idUser']) && $data['idUser'] != -1) {
                 $user = $entityManager->getRepository(User::class)->find($data['idUser']);
                 $game->setUser($user);
-            } else {
-                $game->setUser(null);
             }
 
             $entityManager->persist($game);

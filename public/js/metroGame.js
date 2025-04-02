@@ -21,7 +21,7 @@ class MetroGame {
             lineSymbol: null,
             victoryAchieved: false
         };
-
+        this.showFeedback=showFeedback;
         this.initialize();
     }
 
@@ -233,21 +233,20 @@ class MetroGame {
             this.twigElements.gameArea.appendChild(label);
         });
     }
-
-    //fonction utilisée pour afficher des petits pop up (genre "nouvelle station découverte")
-    showFeedback(text, type) {
-        const feedback = document.createElement('div');
-        feedback.className = `feedback ${type}`;
-        feedback.textContent = text;
-        document.body.appendChild(feedback);
-        setTimeout(() => feedback.remove(), 2000);
-    }
 }
 
     // Une partie est créée dès qu'on arrive sur la page (direct)
 document.addEventListener('DOMContentLoaded', () => {
     new MetroGame();
 });
+//fonction utilisée pour afficher des petits pop up (genre "nouvelle station découverte")
+function showFeedback(text, type) {
+    const feedback = document.createElement('div');
+    feedback.className = `feedback ${type}`;
+    feedback.textContent = text;
+    document.body.appendChild(feedback);
+    setTimeout(() => feedback.remove(), 2000);
+}
 
 function confirmAbandon(s) {
     return confirm(s);

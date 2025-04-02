@@ -122,6 +122,11 @@ body {
     color: white;
 }
 
+.feedback.info {    
+    background: #3B8EEA;
+    color: white;
+}
+
 .feedback.error {
     background: #f44336;
     color: white;

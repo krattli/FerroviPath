@@ -1,30 +1,13 @@
 <?php
 
-/*namespace App\Controller;
+namespace App\Controller;
 
-use App\Entity\User; //ajouté
-use App\Entity\Game;//ajouté
-
-use Doctrine\ORM\EntityManagerInterface; //ajouté
+use App\Repository\UserRepository; 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-//
-final class RankController extends AbstractController
-{
-    #[Route('/rank', name: 'ferrovipath_rank', methods: ['GET'])]
-    public function index(): Response
-    {
-        return $this->render('rank/index.html.twig', [
-            'controller_name' => 'RankController',
-        ]);
+use Symfony\Component\Routing\Annotation\Route;
 
-    }
-}
-//
-
-
-final class RankController extends AbstractController
+class RankController extends AbstractController
 {
     #[Route('/rank', name: 'ferrovipath_rank', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
@@ -38,28 +21,6 @@ final class RankController extends AbstractController
         );
 
         $joueurs = $query->getResult();
-
-        return $this->render('rank/rank.html.twig', [
-            'joueurs' => $joueurs,
-        ]);
-    }
-}
-*/
-
-
-namespace App\Controller;
-
-use App\Repository\UserRepository; 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-
-class RankController extends AbstractController
-{
-    #[Route('/rank', name: 'ferrovipath_rank', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
-    {
-        $joueurs = $userRepository->findRanking();
 
         return $this->render('rank/rank.html.twig', [
             'joueurs' => $joueurs,

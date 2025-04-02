@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Service\UserServices;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,20 +15,30 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class UserController extends AbstractController{
 
+    public function __construct(private UserServices $user_services)
+    {
+        
+    }
+
     #[Route('/user/{id}/profil', name: 'ferrovipath_user_profil', methods: ['GET'])]
     public function profil(User $user): Response
-    {
-        if (empty($user)) {
-            return $this->json(['message' => 'Profil not found'], 404);
+    {        
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        if($this->user_services->isTheConnectedUser($user) || $this->user_services->isSuperAdmin()){
+            return $this->render('user/profil.html.twig',  ['profil' => $user]);
         }
-        return $this->render('user/profil.html.twig',  ['profil' => $user]);
+        else{   
+            $this->addFlash("Vous n'avez pas accès à cette page","errorAccess");
+            return $this->redirectToRoute('ferrovipath_homepage');
+        }
     }
 
     #[Route('/user/{id}/modify', name: 'ferrovipath_user_modify', methods: ['GET', 'POST'])]
     public function modify(Request $request, User $id, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response //update
-    {        
+    {     
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');   
+        if($this->user_services->isTheConnectedUser($id) || $this->user_services->isSuperAdmin()){
         $form = $this->createForm(UserType::class, $id, ['is_edit' => true]);
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $plainPassword */
@@ -51,18 +62,29 @@ final class UserController extends AbstractController{
         return $this->render('user/modify.html.twig', [
             'modifyForm' => $form->createView(), 'profil' => $id
         ]);
-    }
+        }
+        else{
+            $this->addFlash("Vous n'avez pas accès à cette page","errorAccess");
+            return $this->redirectToRoute('ferrovipath_homepage');
+        }
 
+    }
+    
     #[Route('/user/{id}/delete', name: 'ferrovipath_user_delete', methods: ['GET'])]
     public function delete(User $user, EntityManagerInterface $entityManager): Response //delete
     {
-        // Hard delete
-        $entityManager->remove($user);
-
-        //$user->setDeletedAt(new \DateTimeImmutable());
-        $entityManager->flush();
-
-        return $this->redirectToRoute('ferrovipath_logout'); 
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        /*// Hard delete
+        $entityManager->remove($user);*/
+        if($this->user_services->isTheConnectedUser($user) || $this->user_services->isSuperAdmin()){
+            $user->setDeletedAt(new \DateTimeImmutable());
+            $entityManager->flush();
+            return $this->redirectToRoute('ferrovipath_logout'); 
+        }
+        else{
+            $this->addFlash("Vous ne pouvez pas supprimer le compte d'une autre personne","errorAccess");
+            return $this->redirectToRoute('ferrovipath_homepage');
+        }
     }
 
     #[Route('/user/register', name: 'ferrovipath_register')] // Create
@@ -86,7 +108,7 @@ final class UserController extends AbstractController{
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('successRegistration', 'Vous êtes inscrit avec succès !');
+            $this->addFlash('success', 'Vous êtes inscrit avec succès !');
             return $this->redirectToRoute('ferrovipath_homepage');
         }
 
@@ -103,7 +125,7 @@ final class UserController extends AbstractController{
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-
+        $this->addFlash('success', 'Connexion réussie !');
         return $this->render('user/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
@@ -112,4 +134,11 @@ final class UserController extends AbstractController{
     {
     }
     
+    #[Route('/user/logout/success', name: 'ferrovipath_logout_success')]
+    public function logoutSuccess(): Response
+    {
+        $this->addFlash('success', 'Déconnexion réussie !');
+        return $this->redirectToRoute('ferrovipath_homepage');
+    }
+
 }

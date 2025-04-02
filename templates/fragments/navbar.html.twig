@@ -14,6 +14,7 @@
           <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_game', { 'id': 1 })  }}">
             <img src="/img/jouer.png" alt="Jouer" class="me-2"> Jouer</a>
         </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link active  text-nowrap px-3" href="{{path('ferrovipath_line_add')}}">
             <img src="/img/ajout.png" alt="Ajouter une ligne" class="me-2">Ajouter une ligne</a>
@@ -46,8 +47,41 @@
       </ul>
     </div>
  </div>
- 
 </nav>
+
+ <div class="modal fade" id="lineSelectionModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Choisir une ligne</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="lineSelector"></label><select class="form-select" id="lineSelector">
+                        <option value="" selected disabled>Sélectionnez une ligne</option>
+                        {% if line_services.getLines() is empty %}
+                            <option value="0" >Ligne de test</option>
+                        {% endif %}
+                        {% for line in line_services.getLines() %}
+                            <option value="{{ line.getIdLine() }}">{{ line.getNameLine() }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            type="button"
+                            class="btn btn-primary"
+                            id="startGameBtn"
+                            disabled
+                    >
+                        Play
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 <style>
   .navbar-nav .nav-link:hover {
     background-color: #0056b3; /* Change la couleur de fond lors du hover */
@@ -64,3 +98,18 @@
   margin-right: 8px;
   }
 </style>
+
+<script>
+    // Activation du bouton Play quand une ligne est sélectionnée
+    document.getElementById('lineSelector').addEventListener('change', function() {
+        document.getElementById('startGameBtn').disabled = !this.value;
+    });
+
+    // Redirection vers la page du jeu avec la ligne sélectionnée
+    document.getElementById('startGameBtn').addEventListener('click', function() {
+        const selectedLineId = document.getElementById('lineSelector').value;
+        if (selectedLineId) {
+            window.location.href = `/game/${selectedLineId}`;
+        }
+    });
+</script>
