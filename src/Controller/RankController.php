@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Line;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,18 +14,33 @@ class RankController extends AbstractController
     #[Route('/rank', name: 'ferrovipath_rank', methods: ['GET'])]
     public function rankByLine(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Récupère toutes les lignes présentes dans la BDD
-        $lines = $entityManager->getRepository(Line::class)->findAll();
+        $linesQuery = $entityManager->createQuery(
+            'SELECT DISTINCT l
+         FROM App\Entity\Game g
+         JOIN g.line l
+         WHERE g.user IS NOT NULL'
+        );
+        $lines = $linesQuery->getResult();
+
         $selectedLineId = $request->query->get('line');
 
-        $joueurs = [];
+        $query = $entityManager->createQuery(
+            'SELECT u.pseudo, SUM(g.scorePoints) as totalScore
+        FROM App\Entity\Game g
+        JOIN g.user u
+        WHERE g.user IS NOT NULL
+        GROUP BY u.idUser
+        ORDER BY totalScore DESC'
+        );
+        $joueurs = $query->getResult();
 
         if ($selectedLineId) {
             $query = $entityManager->createQuery(
-                'SELECT u.idUser, u.pseudo, SUM(g.scorePoints) as totalScore
+                'SELECT u.pseudo, SUM(g.scorePoints) as totalScore
             FROM App\Entity\Game g
             JOIN g.user u
-            WHERE g.line = :lineId AND u IS NOT NULL
+            WHERE g.user IS NOT NULL
+            AND g.line = :lineId
             GROUP BY u.idUser
             ORDER BY totalScore DESC'
             )->setParameter('lineId', $selectedLineId);
