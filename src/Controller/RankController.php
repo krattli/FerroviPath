@@ -2,18 +2,31 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository; 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 class RankController extends AbstractController
 {
     #[Route('/rank', name: 'ferrovipath_rank', methods: ['GET'])]
-    public function index(): Response
+    public function index(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('rank/index.html.twig', [
-            'controller_name' => 'RankController',
-        ]);
+        $query = $entityManager->createQuery(
+            'SELECT u.idUser, u.pseudo, SUM(g.scorePoints) as totalScore
+            FROM App\Entity\Game g
+            JOIN g.user u
+            GROUP BY u.idUser
+            ORDER BY totalScore DESC'
+        );
 
+        $joueurs = $query->getResult();
+
+        return $this->render('rank/rank.html.twig', [
+            'joueurs' => $joueurs,
+        ]);
     }
 }
+
+?>
