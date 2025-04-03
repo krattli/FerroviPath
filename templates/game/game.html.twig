@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+{% block title %}Jeu{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/game.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <!--  Fichier temporaire, création d'une nouvelle interface de jeu  -->
+
+    <div class="container">
+        <div class="top-container">
+            <div class="infos-display">
+                <div class="info-box">
+                    <span class="field-name">Stations :</span>
+                    <span class="field-value" data-field="lines">0/{{ line.getStations()|length }}</span>
+                </div>
+                <div class="info-box">
+                    <span class="field-name">Temps :</span>
+                    <span class="field-value" data-field="time">00:00</span>
+                </div>
+                <div class="info-box">
+                    <span class="field-name">Score :</span>
+                    <span class="field-value" data-field="score">0</span>
+                </div>
+            </div>
+            <p class="consigne">
+                <strong>Consigne :</strong> Compléter toutes les stations de la ligne {{ line.getNameLine() }} du métro de Paris
+            </p>
+        </div>
+        <div class="game-area-container">
+            <div class="game-area" data-game-area
+                 data-stations="{{ line.getStations()|map(station => station.getNameStation()|lower)|join(',') }}"
+                 data-color="{{ line.getColor() }}"
+                 data-symbol="{{ line.getSymbol() }}"
+                 data-line-id="{{ line.getIdLine() }}"
+                 data-user-id="{{ app.user ? app.user.getIdUser() : 'anonymous' }}"
+                    {% if game is defined %}
+                data-game-id="{{ game.idGame }}"
+                data-resume="true"
+                data-discovered="{{ game.completedStations|join(',') }}"
+                data-time="{{ game.time }}"
+            {% else %}
+                data-resume="false"
+                data-discovered=""
+                    {% endif %}>
+            </div>
+        </div>
+        <div class="bottom-container">
+            <div class="button-container left">
+                <a href="{{ path('ferrovipath_game', {'id': line.idLine }) }}" class="game-button">Rejouer</a>
+            </div>
+            <div class="user-input">
+                <label>
+                    <input type="text"
+                           class="custom-input"
+                           data-input="station"
+                           placeholder="Entrez un nom de station">
+                </label>
+            </div>
+            <div class="button-container right">
+                <a href="{{ path('ferrovipath_homepage') }}" id="abandon-button" class="btn game-button" onclick="return confirmAbandon('Etes-vous sûr d\'abandonner ? La partie ne sera pas sauvegardée.')">Abandonner</a>
+                <button class="game-button" id="saveAndQuitBtn">Sauvegarder et quitter</button>
+            </div>
+        </div>
+
+    </div>
+    <!-- On fait un popup personnalisé pour sauvegarder et quitter, le popup par défault du navigateur est moche -->
+    <div id="customConfirm" class="custom-confirm hidden">
+        <div class="custom-confirm-content">
+            <p>Voulez-vous sauvegarder et quitter cette partie ?</p>
+            <button id="confirmYesBtn">Oui</button>
+            <button id="confirmNoBtn">Non</button>
+        </div>
+    </div>
+    <style>
+        .custom-confirm {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .custom-confirm.hidden {
+            display: none;
+        }
+        .custom-confirm-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .custom-confirm-content button {
+            margin: 0 10px;
+        }
+    </style>
+    <script src="{{ asset('js/metroGame.js') }}"></script>
+{% endblock %}

@@ -16,7 +16,7 @@ final class GameController extends AbstractController
     #[Route('/game/{id}', name: 'ferrovipath_game', methods: ['GET'])]
     public function index(Line $line): Response
     {
-        return $this->render('game/index.html.twig', [
+        return $this->render('game/game.html.twig', [
             'controller_name' => 'GameController',
             'line' => $line
         ]);

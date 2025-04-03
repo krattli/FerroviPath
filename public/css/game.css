@@ -1,0 +1,263 @@
+/* --- Variables du doc css --- */
+:root {
+    --background_color: #FCF9ED;
+    --light_color: #F0F0F0;
+    --darker: #C0C0C0;
+    --even_darker: #808080;
+}
+
+@font-face {
+    font-family: 'Parisine';
+    src: url('../font/Parisine_Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Parisine';
+    src: url('../font/Parisine_Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Parisine';
+    src: url('../font/Parisine_Bold_Italic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+
+/* --- Style général de la page --- */
+
+body {
+    background-color: var(--background_color);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    height: 100%;
+    background-color: var(--background_color);
+    margin: 0 auto;
+    padding: 0 0 0 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Style des trois conteneurs généraux --- */
+
+.top-container {
+    height: 15%;
+    width: 65%;
+    margin: 10px auto 20px auto;
+    background-color: var(--light_color);
+    border: 3px solid var(--darker);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-area-container {
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    background-color: var(--background_color);
+    border: 3px solid var(--darker);
+    border-radius: 10px;
+}
+
+.game-area {
+    height: 100%;
+    width: 95%;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: 10px 0 20px 0;
+}
+
+.bottom-container {
+    height: 15%;
+    width: 80%;
+    margin: 10px auto 20px auto;
+    background-color: #e4dcbc;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- Tout ce qu'il y a dans top-container --- */
+
+.infos-display {
+    display: flex;
+    margin: 10px 0 10px 0;
+}
+
+.consigne {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--light_color);
+    border-left: 3px solid var(--darker);
+    border-right: 3px solid var(--darker);
+    border-bottom: 3px solid var(--darker);
+    border-radius: 10px;
+    padding: 3px 15px 3px 15px;
+}
+
+.info-box {
+    background-color: var(--light_color);
+    border: 2px solid var(--darker);
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    margin: 0 30px 0 30px;
+}
+
+/* --- Tout ce qu'il y a dans bottom-container --- */
+
+.custom-input {
+    background-color: var(--background_color);
+    border: 3px solid var(--light_color);
+    border-radius: 10px;
+    padding: 8px;
+    text-align: center;
+    flex: 1;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+}
+
+.left {
+    justify-content: flex-start;  /* Aligner à gauche */
+}
+
+.right {
+    justify-content: flex-end;  /* Aligner à droite */
+}
+
+.game-button {
+    background-color: #F9D8D9;
+    color: #D78C8D;
+    border: 2px solid #D78C8D;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+
+/* --- Relatif à la game-area (affichage des stations) --- */
+
+.station-item {
+    display: inline-block;
+    margin: 5px;
+    padding: 8px 15px;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.station-item[data-status="discovered"] {
+    border-color: #4CAF50;
+    background-color: #e8f5e9;
+}
+
+@keyframes slideDown {
+    from {
+        top: -50px;
+        opacity: 0;
+    }
+    to {
+        top: 20px;
+        opacity: 1;
+    }
+}
+
+/* La ligne de métro en elle même (barre) */
+.metro-line {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    right: 5%;
+    height: 4px;
+    background-color: inherit; /* inherit = la background color sera donnée par le js */
+    border-radius: 2px;
+    z-index: 1;
+    transform: translateY(-50%);
+}
+
+/* L'objet Point qui représente chaque station */
+.station-marker {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: inherit; /* inherit = la background color sera donnée par le js */
+    z-index: 2;
+}
+
+/* L'étiquette affichant le nom de la station (au dessus du point) */
+.station-label {
+    position: absolute;
+    top: calc(50% - 30px);
+    left: 50%;
+    transform-origin: bottom left; /* Point d'origine de la rotation = en bas à gauche */
+    transform: translateX(+0%) rotate(-45deg); /* Centrer puis rotationner */
+    font-size: 13px;
+    font-family: Parisine, sans-serif;
+    font-weight: bold;
+    color: #244798;
+    white-space: nowrap;
+    z-index: 3;
+}
+
+
+
+/* --- Pour l'affichage du pop up de victoire --- */
+
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.popup-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.popup-button:hover {
+    background-color: #45a049;
+}
