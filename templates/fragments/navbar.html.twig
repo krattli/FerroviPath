@@ -87,23 +87,29 @@
                     </div>
 
                     <!-- reprendre une partie déjà sauvegardée -->
-                    <div class="tab-pane fade" id="savedGameTab" role="tabpanel">
-                        {% if global_services.getGames() is not empty %}
-                            <label for="gameSelector">Parties sauvegardées</label>
-                            <select class="form-select" id="gameSelector">
-                                <option value="" selected disabled>Choisissez une partie</option>
-                                {% for game in global_services.getGames() %}
-                                    {% if game.scorePoints < game.line.stations|length * 100 %}
-                                        <option value="{{ game.getIdGame() }}">
-                                            {{ game.line.nameLine }} ({{ game.completedStations|length }}/{{ game.line.stations|length }} stations)
-                                        </option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        {% else %}
-                            <p>Aucune partie sauvegardée à reprendre.</p>
-                        {% endif %}
-                    </div>
+                    {% if app.user is not null %}
+                        <div class="tab-pane fade" id="savedGameTab" role="tabpanel">
+                            {% if global_services.getGames(app.user.getIdUser) is not empty %}
+                                <label for="gameSelector">Parties sauvegardées</label>
+                                <select class="form-select" id="gameSelector">
+                                    <option value="" selected disabled>Choisissez une partie</option>
+                                    {% for game in global_services.getGames(app.user.getIdUser) %}
+                                        {% if game.scorePoints < game.line.stations|length * 100 %}
+                                            <option value="{{ game.getIdGame() }}">
+                                                {{ game.line.nameLine }} ({{ game.completedStations|length }}/{{ game.line.stations|length }} stations)
+                                            </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <p>Aucune partie sauvegardée à reprendre.</p>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="tab-pane fade" id="savedGameTab" role="tabpanel">
+                            <p>Inscrivez-vous ou connectez-vous pour jouer à des parties sauvegardées</p>
+                        </div>
+                    {% endif %}
 
                 </div>
             </div>
