@@ -54,11 +54,6 @@ class Game
         }
     }
 
-    public function getId(): ?int
-    {
-        return $this->idGame;
-    }
-
     public function getIdGame(): ?int
     {
         return $this->idGame;

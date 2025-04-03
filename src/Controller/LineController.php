@@ -3,51 +3,36 @@
 namespace App\Controller;
 
 use App\Form\AddLineType;
-use App\Entity\Line;
-use App\Entity\Station;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\LineServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-final class LineController extends AbstractController
+class LineController extends AbstractController
 {
+
+    public function __construct(private LineServices $lineServices)
+    {
+        
+    }
+
     #[Route('/line/add', name: 'ferrovipath_line_add', methods:['GET','POST'])]
-    public function addLine(Request $request, EntityManagerInterface $entityManager): Response
+    public function addLine(Request $request): Response
     {
         $form = $this->createForm(AddLineType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form->get('lineFile')->getData();
-
-            if($file){
-                $jsonContent = file_get_contents($file->getPathname()); // Je dois aller chercher le contenu du fichier JSON avec son path car $file est un objet de type UploadFile
-                $data = json_decode($jsonContent, true);
-
-                if(isset($data['idLine']) && isset($data['nameLine'])  && isset($data['stations'])){
-                    $line = new Line();
-                    $line->setIdLine($data['idLine']);
-                    $line->setNameLine($data['nameLine']);
-                    $line->setColor($data['color']);
-                    $line->setSymbol($data['symbol']);
-                    $entityManager->persist($line);
-
-                    foreach($data['stations'] as $stationData){
-                        $station = new Station();
-                        $station->setNameStation($stationData['nameStation']);
-                        $station->setAxisX($stationData['axisX']);
-                        $station->setAxisY($stationData['axisY']);
-                        $station->setLine($line);
-                        $entityManager->persist($station);
-                    }
-
-                    $entityManager->flush();
+                try{
+                    $this->lineServices->addLineWithJsonFile($form->get('lineFile')->getData());
+                    $this->addFlash('success', 'La ligne de métro a bien été ajouté avec succès !');
+                    return $this->redirectToRoute('ferrovipath_homepage');
                 }
-                return $this->redirectToRoute('ferrovipath_homepage', []);
+                catch(\InvalidArgumentException $e){
+                    $this->addFlash('danger', $e->getMessage());
+                    return $this->redirectToRoute('ferrovipath_line_add');
+                }
             }
-
-        }
         return $this->render('line/add.html.twig', [
             'addLineForm' => $form->createView()
         ]);

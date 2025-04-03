@@ -14,7 +14,7 @@ final class DashBoardController extends AbstractController
         
     }
 
-    #[Route('/dash/board', name: 'ferrovipath_admin_dashboard')]
+    #[Route('/dashboard', name: 'ferrovipath_admin_dashboard')]
     public function index(): Response
     {
         return $this->render('dash_board/index.html.twig', [
