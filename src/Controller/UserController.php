@@ -38,15 +38,14 @@ final class UserController extends AbstractController{
     public function modify(Request $request, User $id): Response 
     {     
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');   
-    
-        if(!($this->user_services->isTheConnectedUser($id) || $this->user_services->isSuperAdmin())){
+        $isSuperAdmin = $this->user_services->isSuperAdmin();
+        if(!($this->user_services->isTheConnectedUser($id) || $isSuperAdmin)){
             $this->addFlash("errorAccess", "Vous n'avez pas accès à cette page");
             return $this->redirectToRoute('ferrovipath_homepage');
         }
-        $form = $this->createForm(UserType::class, $id, ['is_edit' => true, 'is_super_admin' => $this->user_services->isSuperAdmin()]);
+        $form = $this->createForm(UserType::class, $id, ['is_edit' => true, 'is_super_admin' => $isSuperAdmin]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            
             if ($this->user_services->isSuperAdmin()){
                 $this->user_services->modifyProfilWithoutConfirmation($id, $form->get('plainPassword')->getData());
                 $this->addFlash('success', 'Le profil de ' . $id->getPseudo() . ' a été modifié !');
@@ -60,12 +59,9 @@ final class UserController extends AbstractController{
                     ]);
                 } 
             }
-            
-              
             $this->addFlash('success','Modification du profil réussi !');
             return $this->redirectToRoute('ferrovipath_user_profil', ['id' => $id->getIdUser()]);
         }
-
         return $this->render('user/modify.html.twig', [
             'modifyForm' => $form->createView(), 'profil' => $id
         ]);
@@ -129,18 +125,14 @@ final class UserController extends AbstractController{
     public function editRoles(User $user, Request $request, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
-
         $form = $this->createForm(UserRoleType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($user);
             $entityManager->flush();
-
             $this->addFlash('success', 'Rôles mis à jour avec succès.');
             return $this->redirectToRoute('ferrovipath_admin_dashboard');
         }
-
         return $this->render('user/role.html.twig', [
             'rolesForm' => $form->createView(),
             'user' => $user

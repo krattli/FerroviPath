@@ -41,7 +41,7 @@ class MetroGame {
             const discovered = gameArea.dataset.discovered;
             this.state.discoveredStations = discovered.split(',');
             this.state.score = this.state.discoveredStations.length * 100;
-            this.state.startTime = Date.now();
+            this.state.startTime = parseFloat(gameArea.dataset.time) * 1000 || Date.now();
             this.updateProgress();
             this.renderMetroMap();
         }

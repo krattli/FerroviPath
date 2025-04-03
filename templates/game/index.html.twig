@@ -67,6 +67,8 @@
                      data-game-id="{{ game.idGame }}"
                      data-resume="true"
                      data-discovered="{{ game.completedStations|join(',') }}"
+                     data-time="{{ game.time }}"
+
                 {% else %}
                      data-resume="false"
                      data-discovered=""
