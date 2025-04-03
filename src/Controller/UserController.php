@@ -27,8 +27,8 @@ final class UserController extends AbstractController{
         if($this->user_services->isTheConnectedUser($user) || $this->user_services->isSuperAdmin()){
             return $this->render('user/profil.html.twig',  ['profil' => $user]);
         }
-        else{
-            $this->addFlash("Vous n'avez pas accès à ce profil","error");
+        else{   
+            $this->addFlash("Vous n'avez pas accès à cette page","errorAccess");
             return $this->redirectToRoute('ferrovipath_homepage');
         }
     }
@@ -37,6 +37,7 @@ final class UserController extends AbstractController{
     public function modify(Request $request, User $id, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response //update
     {     
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');   
+        if($this->user_services->isTheConnectedUser($id) || $this->user_services->isSuperAdmin()){
         $form = $this->createForm(UserType::class, $id, ['is_edit' => true]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,19 +62,29 @@ final class UserController extends AbstractController{
         return $this->render('user/modify.html.twig', [
             'modifyForm' => $form->createView(), 'profil' => $id
         ]);
-    }
+        }
+        else{
+            $this->addFlash("Vous n'avez pas accès à cette page","errorAccess");
+            return $this->redirectToRoute('ferrovipath_homepage');
+        }
 
+    }
+    
     #[Route('/user/{id}/delete', name: 'ferrovipath_user_delete', methods: ['GET'])]
     public function delete(User $user, EntityManagerInterface $entityManager): Response //delete
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-        // Hard delete
-        $entityManager->remove($user);
-
-        //$user->setDeletedAt(new \DateTimeImmutable());
-        $entityManager->flush();
-
-        return $this->redirectToRoute('ferrovipath_logout'); 
+        /*// Hard delete
+        $entityManager->remove($user);*/
+        if($this->user_services->isTheConnectedUser($user) || $this->user_services->isSuperAdmin()){
+            $user->setDeletedAt(new \DateTimeImmutable());
+            $entityManager->flush();
+            return $this->redirectToRoute('ferrovipath_logout'); 
+        }
+        else{
+            $this->addFlash("Vous ne pouvez pas supprimer le compte d'une autre personne","errorAccess");
+            return $this->redirectToRoute('ferrovipath_homepage');
+        }
     }
 
     #[Route('/user/register', name: 'ferrovipath_register')] // Create
