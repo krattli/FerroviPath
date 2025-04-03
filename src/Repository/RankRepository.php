@@ -29,9 +29,13 @@ class RankRepository extends ServiceEntityRepository
 
     public function getPlayedLines()
     {
-        return $this->getEntityManager()->createQuery(
-            'SELECT DISTINCT l FROM App\Entity\Line l
-             JOIN App\Entity\Game g WITH g.line = l WHERE g.user IS NOT NULL'
-        )->getResult();
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('DISTINCT l')
+            ->from('App\Entity\Line', 'l')
+            ->innerJoin('App\Entity\Game', 'g', 'WITH', 'g.line = l')
+            ->where('g.user IS NOT NULL')
+            ->andWhere('g.isFinished = true')
+            ->getQuery()
+            ->getResult();
     }
 }
