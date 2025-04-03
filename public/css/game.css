@@ -6,27 +6,6 @@
     --even_darker: #808080;
 }
 
-@font-face {
-    font-family: 'Parisine';
-    src: url('../font/Parisine_Regular.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Parisine';
-    src: url('../font/Parisine_Bold.otf') format('opentype');
-    font-weight: bold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Parisine';
-    src: url('../font/Parisine_Bold_Italic.otf') format('opentype');
-    font-weight: bold;
-    font-style: italic;
-}
-
 
 /* --- Style général de la page --- */
 

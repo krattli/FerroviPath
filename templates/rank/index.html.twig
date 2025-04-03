@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container mt-4">
-        <h2 class="mb-4">
+        <h2 class="mb-4 custom-title">
             <i class="fas fa-list" aria-hidden="true"></i> Classement par ligne
         </h2>
 
@@ -24,28 +24,62 @@
         {% if games is empty %}
             <p class="alert alert-warning">Aucune partie trouvée pour cette ligne.</p>
         {% else %}
-            <table class="table table-bordered table-hover table-striped">
-                <thead class="table-dark">
-                <tr>
-                    <th>Rang</th>
-                    <th>Pseudo</th>
-                    <th>Score</th>
-                    <th>Temps (s)</th>
-                    <th>Date</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for game in games %}
+            <div class="table-container">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-header">
                     <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ game.user.pseudo }}</td>
-                        <td>{{ game.scorePoints }}</td>
-                        <td>{{ game.time }}</td>
-                        <td>{{ game.createdAt|date('d/m/Y H:i') }}</td>
+                        <th>Rang</th>
+                        <th>Pseudo</th>
+                        <th>Score</th>
+                        <th>Temps (s)</th>
+                        <th>Date</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {% for game in games %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ game.user.pseudo }}</td>
+                            <td>{{ game.scorePoints }}</td>
+                            <td>{{ game.time }}</td>
+                            <td>{{ game.createdAt|date('d/m/Y H:i') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         {% endif %}
     </div>
+
+    <style>
+        .custom-title {
+            color: #8B5E3C;
+            font-family: Parisine, sans-serif;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .table-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .table-header {
+            background-color: #C2B280;
+            color: white;
+        }
+
+        .table {
+            width: 100%;
+            border-spacing: 0;
+        }
+
+        .table-bordered th, .table-bordered td {
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+
 {% endblock %}

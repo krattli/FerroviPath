@@ -3,36 +3,53 @@
 {% block title %}Mon Historique{% endblock %}
 
 {% block body %}
-    <h2>Historique de vos parties</h2>
+    <h2 class="text-center custom-title my-4">Historique de vos parties</h2>
 
     {% if games is empty %}
         <p class="alert alert-info">Vous n'avez encore joué à aucune partie.</p>
     {% else %}
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Ligne</th>
-                <th>Score</th>
-                <th>Temps (s)</th>
-                <th>date</th>
-                <th>Statut</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for game in games %}
+        <div class="table-container">
+            <table class="table table-bordered">
+                <thead>
                 <tr>
-                    <td>{{ game.line.getNameLine }}</td>
-                    <td>{{ game.scorePoints }}</td>
-                    <td>{{ game.time }}</td>
-                    <td>{{ game.createdAt|date('d/m/Y H:i') }}</td>
-                    {% if game.isFinished == true %}
-                        <td>terminée</td>
-                    {% else %}
-                        <td>Sauvegardée</td>
-                    {% endif %}
+                    <th>Ligne</th>
+                    <th>Score</th>
+                    <th>Temps (s)</th>
+                    <th>date</th>
+                    <th>Statut</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for game in games %}
+                    <tr>
+                        <td>{{ game.line.getNameLine }}</td>
+                        <td>{{ game.scorePoints }}</td>
+                        <td>{{ game.time }}</td>
+                        <td>{{ game.createdAt|date('d/m/Y H:i') }}</td>
+                        {% if game.isFinished == true %}
+                            <td>terminée</td>
+                        {% else %}
+                            <td>
+                                <a href="{{ path('ferrovipath_resume_game', {'id': game.idGame}) }}" class="btn btn-outline-primary">Reprendre</a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <style>
+            .table-container {
+                width: 90%;
+                margin: 0 auto;
+                padding: 20px 0;
+            }
+            .custom-title {
+                color: #8B5E3C;
+                font-family: Parisine, sans-serif;
+                font-size: 2.5rem;
+                font-weight: bold;
+            }
+        </style>
     {% endif %}
 {% endblock %}
