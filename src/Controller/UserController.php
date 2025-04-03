@@ -49,6 +49,7 @@ final class UserController extends AbstractController{
             
             if ($this->user_services->isSuperAdmin()){
                 $this->user_services->modifyProfilWithoutConfirmation($id, $form->get('plainPassword')->getData());
+                $this->addFlash('success', 'Le profil de ' . $id->getPseudo() . ' a été modifié !');
                 return $this->redirectToRoute('ferrovipath_admin_dashboard');
             }
             else if ($this->user_services->isTheConnectedUser($id)) {
