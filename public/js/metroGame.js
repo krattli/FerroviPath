@@ -41,8 +41,7 @@ class MetroGame {
             const discovered = gameArea.dataset.discovered;
             this.state.discoveredStations = discovered.split(',');
             this.state.score = this.state.discoveredStations.length * 100;
-            this.state.startTime = parseFloat(gameArea.dataset.time) * 1000 || Date.now();
-            this.updateProgress();
+            this.state.startTime = Date.now() - parseFloat(gameArea.dataset.time) * 1000;
             this.renderMetroMap();
         }
 
@@ -91,7 +90,8 @@ class MetroGame {
         // on update po le temps si la partie est gagnée
         // Sans ça, le temps s'arrête pas et l'interstice entre la fin de la partie et le moment ou on appuie sur "retour à la page d'aceuil" est compté dans
         if (this.state.finalTime !== null) return;
-
+        console.log(Date.now());
+        console.log(this.state.startTime);
         const elapsed = Date.now() - this.state.startTime;
         const minutes = String(Math.floor(elapsed / 60000)).padStart(2, '0');
         const seconds = String(Math.floor((elapsed % 60000) / 1000)).padStart(2, '0');
