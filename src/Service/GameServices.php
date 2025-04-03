@@ -4,36 +4,45 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Game;
+use App\Entity\Line;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class GameServices{
 
-    public function __construct(private EntityManagerInterface $entityManager){
-
-    }
-
-    public function saveGame($file):void
+    public static function saveGame(Request $request, EntityManagerInterface $entityManager):void
     {
-        $data = json_decode($file, true);
-        $game = new Game();
+        $data = json_decode($request->getContent(), true);
+
+        // Si un idGame existe, on update une partie déjà existante donc pas d'enregistrement de nouvelle partie
+        if (!empty($data['idGame'])) {
+            $game = $entityManager->getRepository(Game::class)->find($data['idGame']);
+        } else {
+            $game = new Game();
+        }
+
+        $game->setUpdatedAt(new \DateTime());
+
         $game->setTime($data['time']);
         $game->setScorePoints($data['scorePoints']);
         $game->setCompletedStations($data['completedStations']);
         $game->setGameMode($data['gameMode']);
+        $game->setIsFinished($data['isFinished'] ?? false);
 
-        $line = $this->entityManager->getReference('App\Entity\Line', $data['idLine']);
+        $line = $entityManager->getReference(Line::class, $data['idLine']);
         $game->setLine($line);
 
         // Gestion d'enregistrement de l'utilisateur
         // Si l'id est -1, la partie est enregistrée en anonyme (user=null)
         if (isset($data['idUser']) && $data['idUser'] != -1) {
-            $user = $this->entityManager->getRepository(User::class)->find($data['idUser']);
+            $user = $entityManager->getRepository(User::class)->find($data['idUser']);
             $game->setUser($user);
         }
 
-        $this->entityManager->persist($game);
-        $this->entityManager->flush();   
+        $entityManager->persist($game);
+        $entityManager->flush();
     }
 
 }
