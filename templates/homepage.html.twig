@@ -2,107 +2,100 @@
 
 {% block title %}Accueil{% endblock %}
 
-{% block body %}
-{% for message in app.flashes('success')%}
-    <div class="alert alert-success text-center">
-        {{ message }}
-    </div>
-{% endfor %}
-{% for message in app.flashes('errorAccess') %}
-    <div class="alert alert-danger text-center">
-        {{ message }}
-    </div>
-{% endfor %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
+{% endblock %}
 
-    <div class="container my-5 d-flex flex-column align-items-center">
-        <h1>Bienvenue sur Ferrovipath</h1>
-        <section class="text-center border p-3 custom-box">    
-            <p>
-                FerroviPath est site web qui propose un jeu intéractive de mémoire dont le but est de reconstituer un réseau de transport associé à une ville avec toutes ses lignes, ses stations et ses correspondances.
-                Plusieurs modes de jeu seront disponibles (carte vide, carte avec les lignes de stations déjà placées, trouver un itinéraire selon une station de départ et une station d’arrivée).
-            </p>
+{% block body %}
+    <div class="main-container">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('errorAccess') %}
+            <div class="alert alert-danger text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <!-- Contenu principal -->
+        <div class="container my-5 d-flex flex-column align-items-center">
+            <h1>Bienvenue sur Ferrovipath</h1>
+            <section class="text-center border p-3 custom-box">
+                <p>
+                    FerroviPath est un site web qui propose un jeu interactif de mémoire dont le but est de reconstituer un réseau de transport associé à une ville avec toutes ses lignes, ses stations et ses correspondances.
+                    Plusieurs modes de jeu seront disponibles (carte vide, carte avec les lignes de stations déjà placées, trouver un itinéraire selon une station de départ et une station d’arrivée).
+                </p>
+            </section>
+        </div>
+
+        <!-- Autres sections du contenu -->
+        <section class="row text-center mb-5">
+            <h2>Découvrez notre site!</h2>
+            <div class="col-card">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <a href="{{ path('ferrovipath_answer') }}" class="btn btn-outline-primary">
+                                Lignes
+                            </a>
+                        </div>
+                        <p>Voir les solutions </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-card">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <button
+                                    type="button"
+                                    class="btn btn-outline-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#lineSelectionModal"
+                            >
+                                Jouer
+                            </button>
+                        </div>
+                        <p>Jouer aux jeux</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-card">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <a href="{{ path('ferrovipath_rank') }}" class="btn btn-outline-primary">
+                                Classement
+                            </a>
+                        </div>
+                        <p>Visualiser le classement des meilleures parties </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="row justify-content-md-center text-center mb-5">
+            {% if not app.user %}
+                <p> Première fois sur notre site ? <a href="{{ path('ferrovipath_register') }}" class="link-primary">Inscrivez-vous</a></p>
+                <p>Reprendre une partie ? Commencer une nouvelle ? <a href="{{ path('ferrovipath_login') }}" class="link-primary">Identifiez-vous</a></p>
+            {% endif %}
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <a href="{{ path('ferrovipath_history') }}" class="btn btn-outline-primary">
+                                Historique
+                            </a>
+                        </div>
+                        <p>Visualiser l'ensemble de vos parties</p>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
-    
-    <section class="row text-center mb-5">
-    <h2>Découvrez notre site!</h2>
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <div class="card-title">
-                        <a href="{{ path('ferrovipath_answer') }}" class="btn btn-outline-primary"> 
-                            Lignes
-                        </a>
-                    </div>
-                    <p>Voir les solutions </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <div class="card-title">
-                        <button
-                                type="button"
-                                class="btn btn-outline-primary"
-                                data-bs-toggle="modal"
-                                data-bs-target="#lineSelectionModal"
-                        >
-                            Jouer
-                        </button>
-                    </div>
-                    <p>Jouer aux jeux</p>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <div class="card-title">
-                        <a href="{{ path('ferrovipath_rank') }}" class="btn btn-outline-primary">
-                            Classement
-                        </a>
-                    </div>
-                    <p>Visualiser le classement des meilleures parties </p>
-                </div>
-            </div>
-        </div>
-
-    </section>
-
-
-    
-<section class="row justify-content-md-center text-center mb-5">
-
-{% if not app.user %}
-    <p> Première fois sur notre site ? <a href="{{ path('ferrovipath_register') }}" class="link-primary">Inscrivez-vous</a></p>
-    <p>Reprendre une partie ? Commencer une nouvelle ? <a href="{{ path('ferrovipath_login') }}" class="link-primary">Identifiez-vous</a></p>
-{% endif %}
-
-<div class="col-md-4">
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <div class="card-title">
-                <a href="{{ path('ferrovipath_history') }}" class="btn btn-outline-primary">
-                    Historique
-                </a>
-            </div>
-            <p>Visualiser l'ensemble de vos parties</p>
-        </div>
-    </div>
-</div>
-</section>
-
-<style>
-    .custom-box {
-        width: 66.66%;
-        border: 2px solid black; 
-        border-radius: 10px; 
-        background-color:rgb(244, 226, 91); 
-    }
-</style>
-
 {% endblock %}

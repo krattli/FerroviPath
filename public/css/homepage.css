@@ -1,0 +1,26 @@
+.main-container {
+    width: 95%;
+    margin: 0 auto;
+    padding: 20px 0;
+    box-sizing: border-box;
+}
+
+.custom-box {
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color:rgb(244, 226, 91);
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.col-card {
+    flex: 1 1 250px;
+    min-width: 250px;
+    box-sizing: border-box;
+}

@@ -1,7 +1,9 @@
-<footer class="bg-light text-center py-3 mt-auto">
-	<div class="container">
-		<p class="mb-0">&copy;
-			{{ "now"|date("Y") }}
-			Ferrovipath. Tous droits réservés.</p>
-	</div>
-</footer>
+{% if app.request.attributes.get('_route') != 'ferrovipath_game' %}
+	<footer class="bg-light text-center py-3 mt-auto">
+		<div class="container">
+			<p class="mb-0">&copy;
+				{{ "now"|date("Y") }}
+				Ferrovipath. Tous droits réservés.</p>
+		</div>
+	</footer>
+{% endif %}
