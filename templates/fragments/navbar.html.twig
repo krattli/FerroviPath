@@ -1,69 +1,78 @@
-<nav class="navbar navbar-expand-lg"  style="background-color:rgb(228, 220, 188); ">
-  <div class="container-fluid">
-    <a class="navbar-brand" href=" {{ path('ferrovipath_homepage') }}">
-      <img src="/img/Logo.png" alt="Logo" width="75" height="75" class="d-inline-block align-text-top">
-    </a>
-    
-     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
-       <li class="nav-item">
-          <a class="nav-link active " href="{{ path('ferrovipath_homepage') }}">Accueil</a>
-        </li>
-        <li class="nav-item">
-          <button
-              type="button"
-              class="nav-link active text-nowrap px-3"
-              data-bs-toggle="modal"
-              data-bs-target="#lineSelectionModal"
-              >
-                Jouer
-          </button>
-        </li>
-        {% if is_granted("ROLE_SUPER_ADMIN") %}
-            <li class="nav-item">
-          <a class="nav-link active  text-nowrap px-3" href="{{path('ferrovipath_admin_dashboard')}}">DashBoard</a>
-        </li>
-        {% endif %}
-        <li class="nav-item">
-          <a class="nav-link active  text-nowrap px-3" href="{{path('ferrovipath_line_add')}}">Ajouter une ligne</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_answer') }}">Lignes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active text-nowrap px-3 " href="{{ path('ferrovipath_rank') }}">Classement</a>
-        </li>
-        {% if app.user %}
-          <li class="nav-item">
-            <div class="btn-group" role="group">
-              <button class="nav-link active btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Profil</button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="{{ path('ferrovipath_user_profil',  {'id': app.user.idUser} )}}">Voir le profil</a></li>
-                <li><a class="dropdown-item" href="{{ path('ferrovipath_logout') }}">Déconnexion</a></li>
-              </ul>
-            </div>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link active text-nowrap px-3" href="{{ path('ferrovipath_login') }}">Se connecter</a>
-          </li>
-        {% endif %}
-      </ul>
+<nav class="navbar navbar-expand-lg" style="background-color:rgb(228, 220, 188);">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('ferrovipath_homepage') }}">
+            <img src="/img/Logo.png" alt="Logo" width="75" height="75" class="d-inline-block align-text-top">
+        </a>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('ferrovipath_homepage') }}">
+                        <img src="/img/accueil.png" alt="Accueil" class="me-2">Accueil
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <button
+                            type="button"
+                            class="nav-link active text-nowrap px-3"
+                            data-bs-toggle="modal"
+                            data-bs-target="#lineSelectionModal"
+                    >
+                        <img src="/img/jouer.png" alt="Jouer" class="me-2">Jouer
+                    </button>
+                </li>
+                {% if is_granted("ROLE_SUPER_ADMIN") %}
+                    <li class="nav-item">
+                        <a class="nav-link active text-nowrap px-3" href="{{ path('ferrovipath_admin_dashboard') }}">DashBoard</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link active text-nowrap px-3" href="{{ path('ferrovipath_line_add') }}">
+                        <img src="/img/ajout.png" alt="Ajouter une ligne" class="me-2">Ajouter une ligne
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-nowrap px-3" href="{{ path('ferrovipath_answer') }}">
+                        <img src="/img/lignes.png" alt="Lignes" class="me-2">Lignes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-nowrap px-3" href="{{ path('ferrovipath_rank') }}">
+                        <img src="/img/classement.png" alt="Classement" class="me-2">Classement
+                    </a>
+                </li>
+                {% if app.user %}
+                    <li class="nav-item">
+                        <div class="btn-group" role="group">
+                            <button class="nav-link active btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="/img/connecter.png" alt="Profil" class="me-2">Profil
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ path('ferrovipath_user_profil', {'id': app.user.idUser}) }}">Voir le profil</a></li>
+                                <li><a class="dropdown-item" href="{{ path('ferrovipath_logout') }}">Déconnexion</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active text-nowrap px-3" href="{{ path('ferrovipath_login') }}">
+                            <img src="/img/connecter.png" alt="Se connecter" class="me-2">Se connecter
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
- </div>
 </nav>
 
 <div class="modal fade" id="lineSelectionModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h5 class="modal-title">Choisissez une option</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
             <div class="modal-body">
-
                 <ul class="nav nav-tabs mb-3" id="gameTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="new-tab" data-bs-toggle="tab" data-bs-target="#newGameTab" type="button" role="tab">Nouvelle partie</button>
@@ -72,9 +81,7 @@
                         <button class="nav-link" id="saved-tab" data-bs-toggle="tab" data-bs-target="#savedGameTab" type="button" role="tab">Reprendre partie</button>
                     </li>
                 </ul>
-
                 <div class="tab-content" id="gameTabContent">
-
                     <!-- faire une nouvelle partie à partir d'une ligne -->
                     <div class="tab-pane fade show active" id="newGameTab" role="tabpanel">
                         <label for="lineSelector">Choisir une ligne</label>
@@ -85,7 +92,6 @@
                             {% endfor %}
                         </select>
                     </div>
-
                     <!-- reprendre une partie déjà sauvegardée -->
                     {% if app.user is not null %}
                         <div class="tab-pane fade" id="savedGameTab" role="tabpanel">
@@ -110,28 +116,30 @@
                             <p>Inscrivez-vous ou connectez-vous pour jouer à des parties sauvegardées</p>
                         </div>
                     {% endif %}
-
                 </div>
             </div>
-
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="startSelectedGameBtn" disabled>
-                    Jouer
-                </button>
+                <button type="button" class="btn btn-primary" id="startSelectedGameBtn" disabled>Jouer</button>
             </div>
         </div>
     </div>
 </div>
 
-
-
 <style>
-  .navbar-nav .nav-link:hover {
-    background-color: #0056b3; /* Change la couleur de fond lors du hover */
-    color: white; /* Change la couleur du texte lors du hover */
-    border-radius: 5px; /* Ajoute un rayon de bordure pour les coins arrondis */
-  }
-
+    .navbar-nav .nav-link:hover {
+        background-color: #0056b3; /* Change la couleur de fond lors du hover */
+        color: white; /* Change la couleur du texte lors du hover */
+        border-radius: 5px; /* Ajoute un rayon de bordure pour les coins arrondis */
+    }
+    .nav-link {
+        display: flex;
+        align-items: center;
+    }
+    .nav-link img {
+        height: 20px;
+        width: auto;
+        margin-right: 8px;
+    }
 </style>
 
 <script>
