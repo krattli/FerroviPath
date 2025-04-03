@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
 use App\Entity\Line;
 use App\Service\GameServices;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,4 +38,15 @@ class GameController extends AbstractController
             return new Response('Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    #[Route('/resume-game/{id}', name: 'ferrovipath_resume_game')]
+    public function resumeGame(Game $game): Response
+    {
+        return $this->render('game/index.html.twig', [
+            'line' => $game->getLine(),
+            'game' => $game,
+        ]);
+    }
+
 }

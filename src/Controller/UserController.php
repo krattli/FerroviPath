@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UserRoleType;
+use App\Repository\UserRepository;
 use App\Service\UserServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +15,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class UserController extends AbstractController{
 
-    public function __construct(private UserServices $user_services)
+    public function __construct(private UserServices $user_services, private UserRepository $userRepository)
     {
         
     }
@@ -32,7 +34,7 @@ final class UserController extends AbstractController{
     }
 
     #[Route('/user/{id}/modify', name: 'ferrovipath_user_modify', methods: ['GET', 'POST'])]
-    public function modify(Request $request, User $id): Response //update
+    public function modify(Request $request, User $id): Response 
     {     
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');   
     
@@ -110,6 +112,28 @@ final class UserController extends AbstractController{
     {
         $this->addFlash('success', 'Déconnexion réussie !');
         return $this->redirectToRoute('ferrovipath_homepage');
+    }
+
+    #[Route('/admin/user/{id}/roles', name: 'admin_user_roles')]
+    public function editRoles(User $user, Request $request, EntityManagerInterface $entityManager)
+    {
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+
+        $form = $this->createForm(UserRoleType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Rôles mis à jour avec succès.');
+            return $this->redirectToRoute('ferrovipath_admin_dashboard');
+        }
+
+        return $this->render('user/role.html.twig', [
+            'rolesForm' => $form->createView(),
+            'user' => $user
+        ]);
     }
 
 }

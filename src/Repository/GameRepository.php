@@ -16,6 +16,28 @@ class GameRepository extends ServiceEntityRepository
         parent::__construct($registry, Game::class);
     }
 
+    /**
+     * Sera utilisée pour rechercher les games déjà enregistrées dans la BDD triés par ordre d'ajout
+     *
+     * À savoir : si aucun parameter d'id est fourni, renvoie juste toutes les parties existantes
+     *
+     * @param int|null $userId
+     * @return array
+     */
+    public function findSavedGames(?int $userId): array
+    {
+        $qb = $this->createQueryBuilder('g')
+            ->andWhere('g.deletedAt IS NULL');
+        if ($userId !== null) {
+            $qb->andWhere('g.user = :userId')
+                ->setParameter('userId', $userId);
+        }
+        return $qb->orderBy('g.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
     //    /**
     //     * @return Game[] Returns an array of Game objects
     //     */

@@ -1,7 +1,7 @@
 twig:
     file_name_pattern: '*.twig'
     globals:
-        line_services: '@App\Service\GlobalVariableLine'
+        global_services: '@App\Service\GlobalServices'
 
 
 when@test:

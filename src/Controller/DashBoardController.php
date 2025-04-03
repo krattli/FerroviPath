@@ -19,6 +19,7 @@ final class DashBoardController extends AbstractController
     {
         return $this->render('dash_board/index.html.twig', [
             'users' => $this->userRepository->findAll(),
+            'rolesForm' => null
         ]);
     }
 }
