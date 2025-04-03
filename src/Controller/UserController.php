@@ -18,7 +18,6 @@ final class UserController extends AbstractController{
 
     public function __construct(private UserServices $user_services, private UserRepository $userRepository)
     {
-        
     }
 
     #[Route('/user/{id}/profil', name: 'ferrovipath_user_profil', methods: ['GET'])]

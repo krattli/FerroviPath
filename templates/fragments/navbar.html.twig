@@ -23,7 +23,9 @@
                 </li>
                 {% if is_granted("ROLE_SUPER_ADMIN") %}
                     <li class="nav-item">
-                        <a class="nav-link active text-nowrap px-3" href="{{ path('ferrovipath_admin_dashboard') }}">DashBoard</a>
+                        <a class="nav-link active text-nowrap px-3" href="{{ path('ferrovipath_admin_dashboard') }}">
+                            <img src="/img/dashboard.png" alt="Accueil" class="me-2">DashBoard
+                        </a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
