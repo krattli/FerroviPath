@@ -54,6 +54,25 @@ class Game
         }
     }
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $isFinished = false;
+
+    public function isFinished(): bool
+    {
+        return $this->isFinished;
+    }
+
+    public function setIsFinished(bool $isFinished): static
+    {
+        $this->isFinished = $isFinished;
+        return $this;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->idGame;
+    }
+
     public function getIdGame(): ?int
     {
         return $this->idGame;

@@ -102,6 +102,7 @@ class MetroGame {
 
     checkVictory() {
         if (this.state.discoveredStations.length === this.state.totalStations) {
+            this.state.victoryAchieved = true;
             this.endGame(false);
         }
     }
@@ -110,7 +111,6 @@ class MetroGame {
         if (this.state.finalTime === null) {
             this.state.finalTime = (Date.now() - this.state.startTime) / 1000;
         }
-        this.state.victoryAchieved = true;
 
         this.saveGameData(() => {
             if (saveAndExit) {
@@ -163,6 +163,7 @@ class MetroGame {
             gameMode: 'default', //On a qu'un seul gamemode pour l'instant
             idLine: gameArea.dataset.lineId,
             idUser: gameArea.dataset.userId,
+            isFinished: this.state.victoryAchieved, // la partie est elle finie ou une simple sauvegarde ?
         };
 
         // Si on reprend une partie existante, on envoie aussi son ID

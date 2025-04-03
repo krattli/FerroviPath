@@ -14,30 +14,34 @@
                 <option value="">-- Choisir une ligne --</option>
                 {% for line in lines %}
                     <option value="{{ line.idLine }}" {% if selectedLineId == line.idLine %}selected{% endif %}>
-                        {{ line.getNameLine }}
+                        {{ line.nameLine }}
                     </option>
                 {% endfor %}
             </select>
-            <button type="submit" class="btn btn-primary">Voir classement</button>
+            <button type="submit" class="btn btn-primary">Voir les parties</button>
         </form>
 
-        {% if joueurs is empty %}
-            <p class="alert alert-warning">Aucun utilisateur n’a encore joué pour cette ligne.</p>
+        {% if games is empty %}
+            <p class="alert alert-warning">Aucune partie trouvée pour cette ligne.</p>
         {% else %}
             <table class="table table-bordered table-hover table-striped">
                 <thead class="table-dark">
                 <tr>
-                    <th>Position</th>
+                    <th>#</th>
                     <th>Pseudo</th>
-                    <th>Score total</th>
+                    <th>Score</th>
+                    <th>Temps (s)</th>
+                    <th>Date</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for utilisateur in joueurs %}
+                {% for game in games %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{{ utilisateur.pseudo }}</td>
-                        <td>{{ utilisateur.totalScore }}</td>
+                        <td>{{ game.user.pseudo }}</td>
+                        <td>{{ game.scorePoints }}</td>
+                        <td>{{ game.time }}</td>
+                        <td>{{ game.createdAt|date('d/m/Y H:i') }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
