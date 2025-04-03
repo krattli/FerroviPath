@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user.pseudo }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4 d-flex flex-column align-items-center w-100">
+    <div class="card-header text-center">
+        <h1 class="mb-3">Rôles de {{user.pseudo}}</h1>
+    </div>
+    <div class="card shadow-sm mb-4 w-50">
+        <div class="card-body row d-flex justify-content-center text-center">
+            <div class="col-md-10">
+                <table class="table shadow-sm " border=1>
+                  {{form_start(rolesForm)}}
+                    {{form_row(rolesForm.roles)}}
+                    {{form_row(rolesForm.save)}}
+                  {{form_end(rolesForm)}}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
