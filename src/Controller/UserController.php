@@ -78,6 +78,9 @@ final class UserController extends AbstractController{
         }
         $this->user_services->deleteUser($user);
         $this->addFlash("success","Suppression du compte réussi !");
+        if($this->user_services->isSuperAdmin()){
+            return $this->redirectToRoute('ferrovipath_admin_dashboard');
+        }
         return $this->redirectToRoute('ferrovipath_homepage');
     }
 
