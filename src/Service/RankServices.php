@@ -7,10 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RankServices
 {
-    public static function getGames(Request $request, EntityManagerInterface $entityManager)
+    public static function getGames($selectedLineId, EntityManagerInterface $entityManager)
     {
-        $selectedLineId = $request->query->get('line');
-
         $games = [];
 
         if ($selectedLineId) {
@@ -19,7 +17,6 @@ class RankServices
                  WHERE g.user IS NOT NULL AND g.line = :lineId AND g.isFinished = true
                  ORDER BY g.time ASC'
             )->setParameter('lineId', $selectedLineId);
-
 
             $games = $query->getResult();
         }

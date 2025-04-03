@@ -15,9 +15,9 @@ class RankController extends AbstractController
     #[Route('/rank', name: 'ferrovipath_rank', methods: ['GET'])]
     public function rankByLine(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $lines = RankServices::getplayedLines($entityManager);
-        $games = RankServices::getGames($request, $entityManager);
         $selectedLineId = $request->query->get('line');
+        $lines = RankServices::getplayedLines($entityManager);
+        $games = RankServices::getGames($selectedLineId, $entityManager);
 
         return $this->render('rank/index.html.twig', [
             'games' => $games,
