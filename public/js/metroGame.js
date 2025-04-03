@@ -142,11 +142,7 @@ class MetroGame {
         // Utiliser une fonction fléchée pour conserver le contexte de `this`
         homeButton.addEventListener('click', () => {
             console.log('Button clicked, saving game data...');
-            this.saveGameData(() => {
-                console.log('Game data saved, redirecting...');
-                this.showFeedback('Données de la partie sauvegardées.', 'success');
-                window.location.href = '/';
-            });
+            window.location.href = '/';
         });
 
         popupContent.appendChild(message);
