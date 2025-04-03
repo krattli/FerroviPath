@@ -26,7 +26,7 @@ class UserType extends AbstractType
                 'label' => 'Email',
                 'attr' => ['class' => 'form-control', 'placeholder'=>'Email']
             ]);
-            if($options['is_edit']){
+            if($options['is_edit'] && !$options['is_super_admin']){
                 $builder->add('oldPassword',PasswordType::class,[
                     'label' => 'Ancien mot de passe',
                     'mapped' => false,
@@ -76,7 +76,8 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'is_edit' => false
+            'is_edit' => false,
+            'is_super_admin' => false,
         ]);
     }
 }

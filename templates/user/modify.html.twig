@@ -14,12 +14,14 @@
                     {{ form_start(modifyForm) }}
                         {{ form_row(modifyForm.pseudo) }}
                         {{ form_row(modifyForm.email) }}
-                        {{  form_row(modifyForm.oldPassword )}}
+                        {% if not is_granted('ROLE_SUPER_ADMIN')%}
+                             {{  form_row(modifyForm.oldPassword )}}
                             {% if wrongPasswordMessage is defined %}
                                 <div class="alert alert-danger mt-4 p-1">
                                     {{ wrongPasswordMessage }}
                                 </div>
                             {% endif %}
+                        {% endif %}
                             {{ form_row(modifyForm.plainPassword, {
                                 label: 'Nouveau Mot De Passe', placeholder:'Nouveau mot de passe'
                             }) }}                        

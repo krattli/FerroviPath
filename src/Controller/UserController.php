@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Form\UserRoleType;
 use App\Repository\UserRepository;
 use App\Service\UserServices;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,15 +43,24 @@ final class UserController extends AbstractController{
             $this->addFlash("errorAccess", "Vous n'avez pas accès à cette page");
             return $this->redirectToRoute('ferrovipath_homepage');
         }
-        $form = $this->createForm(UserType::class, $id, ['is_edit' => true]);
+        $form = $this->createForm(UserType::class, $id, ['is_edit' => true, 'is_super_admin' => $this->user_services->isSuperAdmin()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $answer = $this->user_services->modifyProfil($id,$form->get('oldPassword')->getData(),$form->get('plainPassword')->getData());
-            if($answer==false){
-                return $this->render('user/modify.html.twig', [
-                    'modifyForm' => $form->createView(), 'profil' => $id , 'wrongPasswordMessage'=>'Ancien mot de passe incorrecte, veuillez réessayer'
-                ]);
-            }   
+            
+            if ($this->user_services->isSuperAdmin()){
+                $this->user_services->modifyProfilWithoutConfirmation($id, $form->get('plainPassword')->getData());
+                return $this->redirectToRoute('ferrovipath_admin_dashboard');
+            }
+            else if ($this->user_services->isTheConnectedUser($id)) {
+                $answer = $this->user_services->modifyProfil($id,$form->get('oldPassword')->getData(),$form->get('plainPassword')->getData());
+                if($answer==false){
+                    return $this->render('user/modify.html.twig', [
+                        'modifyForm' => $form->createView(), 'profil' => $id , 'wrongPasswordMessage'=>'Ancien mot de passe incorrecte, veuillez réessayer'
+                    ]);
+                } 
+            }
+            
+              
             $this->addFlash('success','Modification du profil réussi !');
             return $this->redirectToRoute('ferrovipath_user_profil', ['id' => $id->getIdUser()]);
         }
