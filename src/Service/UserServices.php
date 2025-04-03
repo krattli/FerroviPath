@@ -46,6 +46,12 @@ class UserServices{
         return true;
     }
 
+    public function modifyProfilWithoutConfirmation (User $id, string $plainPassword):void
+    {
+        $id->setPassword($this->userPasswordHasher->hashPassword($id, $plainPassword));
+        $this->entityManager->flush();
+    }
+
     public function registerUser(User $user, string $plainPassword):bool
     {
         // encode the plain password
