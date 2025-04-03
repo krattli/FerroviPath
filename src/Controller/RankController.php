@@ -10,12 +10,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RankController extends AbstractController
 {
+
+    public function __construct(private RankRepository $rankRepository) {
+
+    }
     #[Route('/rank', name: 'ferrovipath_rank', methods: ['GET'])]
-    public function rankByLine(Request $request, RankRepository $rankRepository): Response
+    public function rankByLine(Request $request): Response
     {
         $selectedLineId = $request->query->get('line');
-        $lines = $rankRepository->getPlayedLines();
-        $games = $rankRepository->getGamesByLineId($selectedLineId);
+        $lines = $this->rankRepository->getPlayedLines();
+        $games = $this->rankRepository->getGamesByLineId($selectedLineId);
 
         return $this->render('rank/index.html.twig', [
             'games' => $games,
