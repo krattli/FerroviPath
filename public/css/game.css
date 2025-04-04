@@ -193,6 +193,14 @@ body {
     z-index: 2;
 }
 
+.station-marker.terminus {
+    background-color: white;
+    border: 2px solid #4CAF50;
+    width: 20px;
+    height: 20px;
+    box-shadow: 0 0 0 3px #4CAF50;
+}
+
 /* L'étiquette affichant le nom de la station (au dessus du point) */
 .station-label {
     position: absolute;
@@ -206,6 +214,11 @@ body {
     color: #244798;
     white-space: nowrap;
     z-index: 3;
+}
+
+.station-label.terminus {
+    font-weight: 900;
+    color: #244798;
 }
 
 

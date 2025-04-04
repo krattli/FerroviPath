@@ -208,7 +208,6 @@ class MetroGame {
     }
 
     renderMetroMap() {
-
         // On vide d'abord la game-area (de l'ancienne carte affichée)
         this.twigElements.gameArea.innerHTML = '';
 
@@ -251,17 +250,27 @@ class MetroGame {
 
         // Pour chaque station découverte, créer un marqueur (le point) et son label (le nom de la station)
         sortedDiscovered.forEach((station, i) => {
+            const isTerminus = i === 0 || i === sortedDiscovered.length - 1; // Vérifier si la station est une station terminus
+
             // Création du marqueur
             const marker = document.createElement('div');
             marker.className = 'station-marker';
             marker.style.left = positions[i] + 'px';
-            marker.style.backgroundColor = this.state.lineColor;
+            marker.style.backgroundColor = isTerminus ? 'white' : this.state.lineColor;
+            if (isTerminus) {
+                marker.style.border = `2px solid ${this.state.lineColor}`;
+            }
 
             // Création du label
             const label = document.createElement('div');
             label.className = 'station-label';
             label.textContent = station.charAt(0).toUpperCase() + station.slice(1);
             label.style.left = positions[i] + 'px';
+
+            // Si terminus, mettre la police en plus bold
+            if (isTerminus) {
+                label.style.fontWeight = '900';
+            }
 
             this.twigElements.gameArea.appendChild(marker);
             this.twigElements.gameArea.appendChild(label);
