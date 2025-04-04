@@ -25,7 +25,7 @@ class GameRepository extends ServiceEntityRepository
      * @return array
      */
     public function findSavedGames(?int $userId): array
-    {
+    { // Fonction qui récupère la liste des parties auvegardées du joueur
         $qb = $this->createQueryBuilder('g')
             ->andWhere('g.deletedAt IS NULL');
         if ($userId !== null) {

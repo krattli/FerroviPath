@@ -15,7 +15,7 @@ class RankRepository extends ServiceEntityRepository
     }
 
     public function getGamesByLineId($lineId)
-    {
+    { // Requête qui récupère la liste des parties en fonction d'une ligne de métro
         return $this->createQueryBuilder('g')
             ->join('g.user', 'u')
             ->where('g.user IS NOT NULL')
@@ -28,7 +28,7 @@ class RankRepository extends ServiceEntityRepository
     }
 
     public function getPlayedLines()
-    {
+    { 
         return $this->getEntityManager()->createQueryBuilder()
             ->select('DISTINCT l')
             ->from('App\Entity\Line', 'l')

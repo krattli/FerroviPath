@@ -45,7 +45,7 @@ class LineServices{
         return $images[$line] ?? '/img/carteMetro.png'; 
     }
 
-    public function addLineWithJsonFile($file):void
+    public function addLineWithJsonFile($file):void // Ajout d'une ligne de métro en fonction d'un fichier JSON
     {
         $jsonContent = file_get_contents($file->getPathname()); // Je dois aller chercher le contenu du fichier JSON avec son path car $file est un objet de type UploadFile
         $data = json_decode($jsonContent, true);

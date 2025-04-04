@@ -19,14 +19,13 @@ final class HomePageController extends AbstractController
             $this->addFlash('success', $session->get('successConnexion'));
             $session->remove('successConnexion'); // Supprime le message après l'affichage
         }
+        //Cette session sert seulement à afficher le message d'erreur de permisisons lorsqu'on accède à une page dont on a pas les permissions
         if ($session->has('errorAccess')) {
             $this->addFlash('errorAccess', $session->get('errorAccess'));
             $session->remove('errorAccess'); // Supprime le message après l'affichage
         }
 
 
-        return $this->render('homepage.html.twig', [
-            'controller_name' => 'HomePageController',
-        ]);
+        return $this->render('homepage.html.twig');
     }
 }

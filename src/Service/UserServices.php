@@ -13,17 +13,17 @@ class UserServices{
     public function __construct(private Security $security, private EntityManagerInterface $entityManager, private UserPasswordHasherInterface $userPasswordHasher){
     }
 
-    public function isSuperAdmin(): bool
+    public function isSuperAdmin(): bool // Vérification si c'est un admnistrateur
     {
         return $this->security->isGranted('ROLE_SUPER_ADMIN');
     }
 
-    public function getConnectedUser(): ?User
+    public function getConnectedUser(): ?User // Récupère l'utilisateur connecté
     {
         return $this->security->getUser();
     }
 
-    public function isTheConnectedUser(User $user): bool
+    public function isTheConnectedUser(User $user): bool // Vérifie si l'utilisateur est connecté ou non
     {
         $currentUser = $this->security->getUser();
     
@@ -34,7 +34,7 @@ class UserServices{
         return $user->getIdUser() === $currentUser->getIdUser();
     }
     
-    public function modifyProfil($id,$oldPassword,$newPassword):bool
+    public function modifyProfil($id,$oldPassword,$newPassword):bool // Fonction qui modifie le profil d'un utilisateur donné avec son nouveau et ancien mot de passe
     {
         if(!$this->userPasswordHasher->isPasswordValid($id, $oldPassword)){
             return false;
@@ -46,13 +46,13 @@ class UserServices{
         return true;
     }
 
-    public function modifyProfilWithoutConfirmation (User $id, string $plainPassword):void
+    public function modifyProfilWithoutConfirmation (User $id, string $plainPassword):void // Fonction qui modifier le profil d'un utilisateur donné sans nécessité de l'ancien de mot de passe
     {
         $id->setPassword($this->userPasswordHasher->hashPassword($id, $plainPassword));
         $this->entityManager->flush();
     }
 
-    public function registerUser(User $user, string $plainPassword):bool
+    public function registerUser(User $user, string $plainPassword):bool // Fonction qui créer un nouveau utilisateur
     {
         // encode the plain password
         $user->setPassword($this->userPasswordHasher->hashPassword($user, $plainPassword));
@@ -62,7 +62,7 @@ class UserServices{
        return true;
     }
 
-    public function deleteUser(User $user):void
+    public function deleteUser(User $user):void // Fonction qui supprime un utilisateur
     {
         $user->setDeletedAt(new \DateTimeImmutable());
         $this->entityManager->flush();

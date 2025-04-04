@@ -23,8 +23,8 @@ final class UserController extends AbstractController{
     #[Route('/user/{id}/profil', name: 'ferrovipath_user_profil', methods: ['GET'])]
     public function profil(User $user): Response
     {        
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-        if($this->user_services->isTheConnectedUser($user) || $this->user_services->isSuperAdmin()){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED'); // Oblige la connexion avant d'accéder à cette page
+        if($this->user_services->isTheConnectedUser($user) || $this->user_services->isSuperAdmin()){ // Si la page appartient à l'utilisateur concerné ou si c'est le super adminstrateur, il peut accéder à cette page
             return $this->render('user/profil.html.twig',  ['profil' => $user]);
         }
         else{   
@@ -37,21 +37,21 @@ final class UserController extends AbstractController{
     public function modify(Request $request, User $id): Response 
     {     
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');   
-        $isSuperAdmin = $this->user_services->isSuperAdmin();
-        if(!($this->user_services->isTheConnectedUser($id) || $isSuperAdmin)){
+        $isSuperAdmin = $this->user_services->isSuperAdmin();// Oblige la connexion avant d'accéder à cette page
+        if(!($this->user_services->isTheConnectedUser($id) || $isSuperAdmin)){// Si la page appartient à l'utilisateur concerné ou si c'est le super adminstrateur, il peut accéder à cette page
             $this->addFlash("errorAccess", "Vous n'avez pas accès à cette page");
             return $this->redirectToRoute('ferrovipath_homepage');
         }
-        $form = $this->createForm(UserType::class, $id, ['is_edit' => true, 'is_super_admin' => $isSuperAdmin]);
+        $form = $this->createForm(UserType::class, $id, ['is_edit' => true, 'is_super_admin' => $isSuperAdmin]); // Permet au formulaire de savoir qu'on est en édition et, si il est super administrateur n'a pas besoin de confirmation de mot de passe
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->user_services->isSuperAdmin()){
-                $this->user_services->modifyProfilWithoutConfirmation($id, $form->get('plainPassword')->getData());
+                $this->user_services->modifyProfilWithoutConfirmation($id, $form->get('plainPassword')->getData()); // N'a pas besoin de l'ancien mot de passe pour changer les informations du profil
                 $this->addFlash('success', 'Le profil de ' . $id->getPseudo() . ' a été modifié !');
                 return $this->redirectToRoute('ferrovipath_admin_dashboard');
             }
             else if ($this->user_services->isTheConnectedUser($id)) {
-                $answer = $this->user_services->modifyProfil($id,$form->get('oldPassword')->getData(),$form->get('plainPassword')->getData());
+                $answer = $this->user_services->modifyProfil($id,$form->get('oldPassword')->getData(),$form->get('plainPassword')->getData()); // A besoin de l'ancien mot de passe pour changer les infrormations du profil
                 if($answer==false){
                     return $this->render('user/modify.html.twig', [
                         'modifyForm' => $form->createView(), 'profil' => $id , 'wrongPasswordMessage'=>'Ancien mot de passe incorrecte, veuillez réessayer'
@@ -69,7 +69,7 @@ final class UserController extends AbstractController{
     #[Route('/user/{id}/delete', name: 'ferrovipath_user_delete', methods: ['GET'])]
     public function delete(User $user): Response //delete
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');// Oblige la connexion avant d'accéder à cette page
         /*// Hard delete
         $entityManager->remove($user);*/
         if(!($this->user_services->isTheConnectedUser($user) || $this->user_services->isSuperAdmin())){
