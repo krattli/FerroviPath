@@ -81,7 +81,7 @@ final class UserController extends AbstractController{
         if($this->user_services->isSuperAdmin()){
             return $this->redirectToRoute('ferrovipath_admin_dashboard');
         }
-        return $this->redirectToRoute('ferrovipath_homepage');
+        return $this->redirectToRoute('ferrovipath_logout');
     }
 
     #[Route('/user/register', name: 'ferrovipath_register')] // Create
