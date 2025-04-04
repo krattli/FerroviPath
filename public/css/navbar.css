@@ -40,13 +40,12 @@
     transition: all 0.3s;
 }
 
-.line-radio:hover + .line-Symbol {
-    transform: scale(1);
-    box-shadow: 0 0 10px rgba(28,36,68,1);
+.line-radio:not(:checked):hover + .line-Symbol {
+    transform: scale(1.1);
 }
 
 .line-radio:checked + .line-Symbol {
-    transform: scale(.95);
+    transform: scale(.92);
     border-width: 4px;
     border-style: solid;
 }
