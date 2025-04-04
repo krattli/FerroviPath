@@ -126,11 +126,9 @@ class MetroGame {
 
 
     showVictoryPopup() {
-        // Créer le fond assombri
         const overlay = document.createElement('div');
         overlay.className = 'popup-overlay';
 
-        // Créer le container du popup
         const popupContainer = document.createElement('div');
         popupContainer.className = 'popup-container';
 
@@ -155,15 +153,14 @@ class MetroGame {
         popupContainer.appendChild(popupContent);
 
         document.body.appendChild(overlay);
-        document.body.appendChild(popupContainer);
+        document.body.appendChild(popupContainer); // Ajouter le popup
 
-        // Afficher l'overlay et transformer le popup avec une animation
         setTimeout(() => {
-            overlay.style.display = 'block'; // Afficher l'overlay
-            popupContainer.style.transform = 'translateX(-50%) translateY(0)'; // Animation de montée
-            popupContainer.style.width = '80%'; // Élargir la largeur du popup
-            popupContainer.style.borderRadius = '10px'; // Coins arrondis au centre
-        }, 50); // Légère temporisation pour assurer que la transition fonctionne correctement
+            overlay.style.display = 'block';
+            popupContainer.style.transform = 'translateX(-50%) translateY(0)';
+            popupContainer.style.width = '80%';
+            popupContainer.style.borderRadius = '30px';
+        }, 50);
     }
 
 
