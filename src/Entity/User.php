@@ -59,6 +59,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
     }
 
+    #[ORM\PrePersist]
+    public function setRolesValue(): void
+    {
+        if(empty($roles)){
+            $this->roles = ['ROLE_USER'];
+        }
+    }
+
     #[ORM\PreUpdate]
     public function setUpdatedAtValueUpdate(): void
     {
