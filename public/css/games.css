@@ -123,17 +123,17 @@ body {
 }
 
 .feedback.success {
-    background: #4CAF50;
+    background-color: #4CAF50;
     color: white;
 }
 
 .feedback.info {
-    background: #3B8EEA;
+    background-color: #3B8EEA;
     color: white;
 }
 
 .feedback.error {
-    background: #f44336;
+    background-color: #f44336;
     color: white;
 }
 

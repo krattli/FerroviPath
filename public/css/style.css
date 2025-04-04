@@ -6,7 +6,7 @@ html, body {
 }
 
 body{
-    background-color: #FCF9ED;
+    background-color: #FCF9ED !important;
 }
 
 .page-container {
