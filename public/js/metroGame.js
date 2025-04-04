@@ -126,6 +126,9 @@ class MetroGame {
 
 
     showVictoryPopup() {
+        const overlay = document.createElement('div');
+        overlay.className = 'popup-overlay';
+
         const popupContainer = document.createElement('div');
         popupContainer.className = 'popup-container';
 
@@ -139,7 +142,7 @@ class MetroGame {
         homeButton.textContent = 'Retour à l\'accueil';
         homeButton.className = 'popup-button';
 
-        // Utiliser une fonction fléchée pour conserver le contexte de `this`
+        // Ajouter l'événement pour rediriger vers l'accueil
         homeButton.addEventListener('click', () => {
             console.log('Button clicked, saving game data...');
             window.location.href = '/';
@@ -148,7 +151,14 @@ class MetroGame {
         popupContent.appendChild(message);
         popupContent.appendChild(homeButton);
         popupContainer.appendChild(popupContent);
+
+        document.body.appendChild(overlay);
         document.body.appendChild(popupContainer);
+
+        setTimeout(() => {
+            overlay.style.display = 'block';
+            popupContainer.style.transform = 'translateY(0)';
+        }, 50);
     }
 
 
