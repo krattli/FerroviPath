@@ -33,17 +33,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    public function findRanking(): array
-    {
-    return $this->createQueryBuilder('u')
-        ->select('u.idUser, u.pseudo, SUM(g.scorePoints) as totalScore')
-        ->join('u.games', 'g')
-        ->groupBy('u.idUser')
-        ->orderBy('totalScore', 'DESC')
-        ->getQuery()
-        ->getResult();
-    }
-
 
     //    /**
     //     * @return User[] Returns an array of User objects

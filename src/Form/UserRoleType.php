@@ -12,7 +12,7 @@ class UserRoleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
+        $builder // Formulaire qui permet de changer les rôles d'un utilisateur déjà présent
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'Utilisateur' => 'ROLE_USER',

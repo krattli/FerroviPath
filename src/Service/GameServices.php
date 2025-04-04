@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GameServices{
 
-    public static function saveGame(Request $request, EntityManagerInterface $entityManager):void
+    public static function saveGame(Request $request, EntityManagerInterface $entityManager):void // Sauvegarde d'une partie
     {
         $data = json_decode($request->getContent(), true);
 

@@ -26,7 +26,7 @@ class UserType extends AbstractType
                 'label' => 'Email',
                 'attr' => ['class' => 'form-control', 'placeholder'=>'Email']
             ]);
-            if($options['is_edit'] && !$options['is_super_admin']){
+            if($options['is_edit'] && !$options['is_super_admin']){ // La demande de mot de passe s'affiche lorsque l'option edit est activé et si l'utilisateur n'est pas super_adminsitrateur
                 $builder->add('oldPassword',PasswordType::class,[
                     'label' => 'Ancien mot de passe',
                     'mapped' => false,

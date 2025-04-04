@@ -12,7 +12,7 @@ class AddLineType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
+        $builder // Formulaire qui récupère le fichier Json.
             ->add('lineFile', FileType::class,[
                 'label' => 'Fichier JSON de la ligne de métro','required'=>true,'attr'=>['class '=>'form-control mb-3']
             ])
