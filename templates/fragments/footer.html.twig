@@ -1,5 +1,10 @@
 {% if app.request.attributes.get('_route') != 'ferrovipath_game' %}
-	<footer class="bg-light text-center py-3 mt-auto">
+	<style>
+		footer{
+			background-color:rgb(228, 220, 188) !important;
+		}
+	</style>
+	<footer class="text-center py-3 mt-auto">
 		<div class="container">
 			<p class="mb-0">&copy;
 				{{ "now"|date("Y") }}

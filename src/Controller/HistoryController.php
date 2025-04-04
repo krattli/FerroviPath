@@ -27,7 +27,6 @@ final class HistoryController extends AbstractController
 
         return $this->render('history/index.html.twig', [
             'games' => $games,
-            'controller_name' => 'HistoryController',
             'user' => $user,
         ]);
     }
