@@ -5,7 +5,6 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Game;
-use App\Entity\Line;
 
 class RankRepository extends ServiceEntityRepository
 {

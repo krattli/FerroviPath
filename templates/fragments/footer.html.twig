@@ -1,4 +1,4 @@
-{% if app.request.attributes.get('_route') != 'ferrovipath_game' and app.request.attributes.get('_route') != 'ferrovipath_resume_game' %}
+{% if app.request.attributes.get('_route') not in ['ferrovipath_game', 'ferrovipath_resume_game'] %}
 	<style>
 		footer{
 			background-color:rgb(228, 220, 188) !important;
