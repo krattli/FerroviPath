@@ -1,0 +1,69 @@
+
+/*  Cette partie est liée au display de touts les petits boutons radio stylisées dans l'option de choix de station pour une nouvelle partie  */
+
+.lines-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+#gameTabContent {
+    display: flex;
+    flex-direction: row;
+}
+
+.line-item {
+    position: relative;
+    margin: 10px;
+}
+
+.line-radio {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.line-Symbol {
+    border-radius: 50%;
+    color: white;
+    font-size: 25px;
+    font-family: Parisine, sans-serif;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.line-radio:hover + .line-Symbol {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(28,36,68,1);
+}
+
+.line-radio:checked + .line-Symbol {
+    transform: scale(.95);
+    border-width: 4px;
+    border-style: solid;
+}
+
+/*  Puis ici le style pour le reste des elements de la navbar  */
+
+.navbar-nav .nav-link:hover {
+    background-color: #0056b3;
+    color: white;
+    border-radius: 5px;
+}
+.nav-link {
+    display: flex;
+    align-items: center;
+}
+.nav-link img {
+    height: 20px;
+    width: auto;
+    margin-right: 8px;
+}
