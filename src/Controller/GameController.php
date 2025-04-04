@@ -37,7 +37,7 @@ final class GameController extends AbstractController
     #[Route('/resume-game/{id}', name: 'ferrovipath_resume_game')]
     public function resumeGame(Game $game): Response
     {
-        return $this->render('game/index.html.twig', [
+        return $this->render('game/game.html.twig', [
             'line' => $game->getLine(),
             'game' => $game,
         ]);
