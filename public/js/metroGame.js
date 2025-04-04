@@ -250,6 +250,7 @@ class MetroGame {
 
         // Pour chaque station découverte, créer un marqueur (le point) et son label (le nom de la station)
         sortedDiscovered.forEach((station, i) => {
+            // cette logique sera peut être à changer si on modifie la BDD de manière plus complexe, peut-être une méthode à part mais pour l'insatnt c'est suffisant
             const isTerminus = station === this.state.stations[0] || station === this.state.stations[this.state.stations.length - 1];
 
             // Création du marqueur
