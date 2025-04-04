@@ -52,6 +52,13 @@
 
 /*  Puis ici le style pour le reste des elements de la navbar  */
 
+.ferrovipath-title {
+    font-family: Parisine, serif;
+    font-weight: bold;
+    font-size: 45px;
+    transform: translateY(8px) translateX(-5px);
+}
+
 .navbar-nav .nav-link:hover {
     background-color: #0056b3;
     color: white;
