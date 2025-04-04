@@ -37,15 +37,15 @@
                  data-symbol="{{ line.getSymbol() }}"
                  data-line-id="{{ line.getIdLine() }}"
                  data-user-id="{{ app.user ? app.user.getIdUser() : 'anonymous' }}"
-                    {% if game is defined %}
-                data-game-id="{{ game.idGame }}"
-                data-resume="true"
-                data-discovered="{{ game.completedStations|join(',') }}"
-                data-time="{{ game.time }}"
-            {% else %}
-                data-resume="false"
-                data-discovered=""
-                    {% endif %}>
+                {% if game is defined %}
+                    data-game-id="{{ game.idGame }}"
+                    data-resume="true"
+                    data-discovered="{{ game.completedStations|join(',') }}"
+                    data-time="{{ game.time }}"
+                {% else %}
+                    data-resume="false"
+                    data-discovered=""
+                {% endif %}>
             </div>
         </div>
         <div class="bottom-container">
