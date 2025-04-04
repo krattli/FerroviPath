@@ -205,6 +205,18 @@ body {
     z-index: 2;
 }
 
+.inner-point {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: inherit;
+    z-index: 3;
+}
+
 /* L'étiquette affichant le nom de la station (au dessus du point) */
 .station-label {
     position: absolute;

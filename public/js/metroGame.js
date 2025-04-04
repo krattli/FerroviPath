@@ -258,6 +258,14 @@ class MetroGame {
             marker.style.left = positions[i] + 'px';
             marker.style.backgroundColor = isTerminus ? 'white' : this.state.lineColor;
 
+            // Ajout du petit point central de la couleur de la ligne si la station est un terminus
+            if (isTerminus) {
+                const innerPoint = document.createElement('div');
+                innerPoint.className = 'inner-point';
+                innerPoint.style.backgroundColor = this.state.lineColor;
+                marker.appendChild(innerPoint);
+            }
+
             // Création du label
             const label = document.createElement('div');
             label.className = isTerminus ? 'station-label-terminus':'station-label';
