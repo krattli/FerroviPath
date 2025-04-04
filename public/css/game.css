@@ -1,3 +1,9 @@
+
+/* ----------------------------------------------------------------------- */
+/* ---      Feuille de style css pour la page de jeu v2 actuélisée     --- */
+/* --- En gros on a deux pages twig de jeu et celle ci est la courante --- */
+/* ----------------------------------------------------------------------- */
+
 /* --- Variables du doc css --- */
 :root {
     --background_color: #FCF9ED;
@@ -117,11 +123,11 @@ body {
 }
 
 .left {
-    justify-content: flex-start;  /* Aligner à gauche */
+    justify-content: flex-start;
 }
 
 .right {
-    justify-content: flex-end;  /* Aligner à droite */
+    justify-content: flex-end;
 }
 
 .game-button {
