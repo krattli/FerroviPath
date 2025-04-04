@@ -17,7 +17,6 @@ final class GameController extends AbstractController
     public function index(Line $line): Response
     {
         return $this->render('game/game.html.twig', [
-            'controller_name' => 'GameController',
             'line' => $line
         ]);
     }
