@@ -6,4 +6,11 @@
  */
 import './styles/app.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+console.log("🌍 app.js chargé");
+
+import './js/navbar.js';
+
+console.log("📦 navbar.js import demandé");
+
+
+console.log('hello world');
