@@ -122,13 +122,14 @@
 
                                     {% for game in global_services.getGames(app.user.getIdUser) %}
                                         {% if game.scorePoints < game.line.stations|length * 100 %}
-                                            <a href="{{ path('ferrovipath_resume_game', {'id': game.getIdGame()}) }}" data-game-id="{{ game.getIdGame() }}"
-                                               class="game-hover-{{ game.idGame }}">
-                                                <div class="button-visual" style="border-color: {{ game.line.getColor() }}">
+                                            <a href="{{ path('ferrovipath_resume_game', {'id': game.getIdGame()}) }}"
+                                               data-game-id="{{ game.getIdGame() }}"
+                                               data-line-color="{{ game.line.getColor() }}"
+                                               class="saved-game-link">
+                                                <div class="button-visual">
                                                     <div class="savedGame-button-title" style="background-color: {{ game.line.getColor() }}">
                                                         {{ game.line.nameLine }}
                                                     </div>
-                                                    <div class="savedGame-fill"></div>
                                                     <div class="savedGame-content-layout">
                                                         <div class="savedGame-center">
                                                             {{ game.completedStations|length }}/{{ game.line.stations|length }}

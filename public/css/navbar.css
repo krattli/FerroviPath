@@ -87,23 +87,21 @@
     gap: 10px;
 }
 
-a {
+.saved-game-link {
     text-decoration: none;
     color: inherit;
     display: block;
-    position: relative;
 }
 
 .button-visual {
-    position: relative;
-    overflow: hidden;
     border: 3px solid;
     border-radius: 5px;
     background-color: white;
     display: flex;
     align-items: stretch;
     width: 100%;
-    transition: background-color 0.3s;
+    overflow: hidden;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .savedGame-button-title {
@@ -115,6 +113,8 @@ a {
     align-items: center;
     z-index: 2;
     position: relative;
+    border-right: 3px solid transparent;
+    transition: border-color 0.3s ease;
 }
 
 .savedGame-content-layout {
@@ -127,12 +127,6 @@ a {
     z-index: 2;
 }
 
-.savedGame-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    transition: width 1s ease-out;
-    z-index: 1;
+.button-visual.hovered {
+    /* Couleur du fond et bord seront appliquées dynamiquement par JS */
 }

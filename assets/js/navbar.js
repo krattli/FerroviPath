@@ -6,8 +6,35 @@ const radioButtons = document.querySelectorAll('input[name="lineSelector"]');
 const playButton = document.getElementById('startSelectedGameBtn');
 const gameButtons = document.querySelectorAll('button[class="game-btn"]')
 
+function styleResumeGameLink() {
+    const gameLinks = document.querySelectorAll('.saved-game-link');
+    gameLinks.forEach(link => styleSingleLink(link));
+}
 
+// utilisé pour styliser un lien unique (celui qui sert à reprendre une partie sauvegardée)
+function styleSingleLink(link) {
+    //ici on définit les constantes de couleurs dont on aura besoin (la couleur de la ligne et la couleur de la ligne en plus sombre)
+    const lineColor = link.dataset.lineColor;
+    const darkerColor = darkenColor(lineColor, 30);
+    // ici on récupère les éléments de twig dont on changera le visuel
+    const button = link.querySelector('.button-visual');
+    const title = link.querySelector('.savedGame-button-title');
+    button.style.borderColor = lineColor;
+    // on applique le style lors d'un hover de souris
+    link.addEventListener('mouseenter', () => {
+        button.style.backgroundColor = lineColor;
+        button.style.borderColor = darkerColor;
+        title.style.borderRightColor = darkerColor;
+    });
+    // et bien sur il faut enlever ce même style lorsque la souris quitte le bouton
+    link.addEventListener('mouseleave', () => {
+        button.style.backgroundColor = 'white';
+        button.style.borderColor = lineColor;
+        title.style.borderRightColor = 'transparent';
+    });
+}
 
+// Utilisée pour mettre des borders foncées au Symbole de ligne selectioné dans une nouvelle partie
 function updateBorders() {
     radioButtons.forEach(radio => {
         if (radio.checked) {
@@ -19,25 +46,16 @@ function updateBorders() {
     });
 }
 
+// sert à
 function updatePlayButtonState() {
-    const activeTab = document.querySelector('.tab-pane.active');
-    if (activeTab.id === 'newGameTab') {
-        const selectedLine = document.querySelector('input[name="lineSelector"]:checked');
-        playButton.disabled = !selectedLine;
-    } else if (activeTab.id === 'savedGameTab') {
-        playButton.disabled = !gameButtons || gameButtons.length === 0;
-    }
+    const selectedLine = document.querySelector('input[name="lineSelector"]:checked');
+    playButton.disabled = !selectedLine;
     updateBorders()
 }
 
 radioButtons.forEach(radio => {
     radio.addEventListener('change', updatePlayButtonState);
 });
-
-document.getElementById('gameTab').addEventListener('click', updatePlayButtonState);
-
-playButton.addEventListener('click', () => {window.location.href = `/game/${document.querySelector('input[name="lineSelector"]:checked').value}`;});
-
 gameButtons.forEach(button => {
     button.addEventListener('click', (event) => {
         const gameId = event.target.getAttribute('data-game-id');
@@ -45,6 +63,8 @@ gameButtons.forEach(button => {
     });
 });
 
-document.getElementById('gameTab').addEventListener('click', updatePlayButtonState);
+//dans la partie nouvelle partie, on change le lien du bouton "jouer" pour qu'il amène vers la page de jeu avec la bonne ligne
+playButton.addEventListener('click', () => {window.location.href = `/game/${document.querySelector('input[name="lineSelector"]:checked').value}`;});
+document.addEventListener('DOMContentLoaded',styleResumeGameLink);
 
 updatePlayButtonState();
