@@ -73,6 +73,7 @@ db:
 	php bin/console make:migration
 	@echo "\033[1;32mExécution de la migration\033[0m"
 	php bin/console doctrine:migrations:migrate --no-interaction
+	php bin/console doctrine:schema:update --force
 	@echo "\033[1;32mchargement des fixtures\033[0m"
 	php bin/console doctrine:fixtures:load --no-interaction
 	@echo "\033[1;32mLa base de donnée à été recréée avec succès !\033[0m"
