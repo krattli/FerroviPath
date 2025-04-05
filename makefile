@@ -56,3 +56,6 @@ migrate:
 # Run PHPUnit tests
 test:
 	docker exec $(DOCKER_PHP_CONTAINER) ./vendor/bin/phpunit
+
+js:
+	rm -rf public/assets/ ;  php bin/console asset-map:compile
