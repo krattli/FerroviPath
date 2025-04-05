@@ -1,6 +1,7 @@
 # Path to the docker-compose file
 DOCKER_COMPOSE_FILEPATH=.docker/docker-compose.yaml
 DOCKER_PHP_CONTAINER=ferrovipath_php
+-include Makefile.local
 
 # Start the containers in the background
 up:
