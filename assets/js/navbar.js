@@ -1,11 +1,10 @@
-console.log('✅ navbar.js bien importé (depuis navbar.js)');
-
 import { darkenColor } from 'displayLogos.js';
 
 console.log('✅ displayLogos.js bien importé (depuis navbar.js)');
 
 const radioButtons = document.querySelectorAll('input[name="lineSelector"]');
 const playButton = document.getElementById('startSelectedGameBtn');
+const gameButtons = document.querySelectorAll('button[class="game-btn"]')
 
 
 
