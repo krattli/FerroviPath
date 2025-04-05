@@ -47,3 +47,41 @@ export function isADarkColor(couleur) {
 
     return true;
 }
+
+/**
+ * Crée un élément HTML représentant un logo de ligne de métro.
+ * @param {string} color - Couleur de fond du logo (ex: "#ff0000").
+ * @param {string} symbol - Symbole affiché à l'intérieur (ex: "A", "12").
+ * @param {number} [size=50] - Taille en pixels (largeur/hauteur).
+ * @returns {HTMLElement} - L'élément HTML du logo.
+ */
+export function createMetroLineLogo(color, symbol, size = 50) {
+    const container = document.createElement('div');
+
+    Object.assign(container.style, {
+        //restera ici
+        width: `${size}px`,
+        height: `${size}px`,
+        backgroundColor: color,
+        fontSize: `${Math.round(size * 0.5)}px`,
+        color: 'white',
+        //sera externalisé dans la bdd
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'Parisine, sans-serif',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+        userSelect: 'none',
+        textAlign: 'center',
+        boxSizing: 'border-box',
+    });
+    container.innerText = symbol;
+
+    //pour qu'il soit reconnu par d'autres fonctionnalités qui ajouterons ou modiefirons le style de notre symbole
+    container.classList.add('line-Symbol');
+
+    return container;
+}
