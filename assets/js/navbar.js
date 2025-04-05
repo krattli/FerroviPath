@@ -1,4 +1,4 @@
-import { darkenColor } from 'displayLogos.js';
+import { darkenColor, createMetroLineLogo } from 'displayLogos.js';
 
 console.log('✅ displayLogos.js bien importé (depuis navbar.js)');
 
@@ -34,14 +34,36 @@ function styleSingleLink(link) {
     });
 }
 
+//créé avec le js de l'autre fichier les logos de chaque stations
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.line-symbol-container').forEach(container => {
+        const lineId = container.dataset.for;
+        const input = document.getElementById(lineId);
+
+        const symbol = input.dataset.symbol;
+        const color = input.dataset.color;
+        const size = parseInt(input.dataset.size, 10) || 50;
+
+        const logo = createMetroLineLogo(color, symbol, size);
+        logo.setAttribute('data-for', input.id);
+        logo.addEventListener('click', () => input.click());
+
+        container.appendChild(logo);
+    });
+});
+
 // Utilisée pour mettre des borders foncées au Symbole de ligne selectioné dans une nouvelle partie
 function updateBorders() {
     radioButtons.forEach(radio => {
+        const container = radio.parentElement.querySelector('.line-Symbol');
+        if (!container) return;
         if (radio.checked) {
             const color = radio.getAttribute('data-color');
-            radio.nextElementSibling.style.borderColor = darkenColor(color, 30);
+            container.style.borderWidth = "4px";
+            container.style.borderStyle = 'solid';
+            container.style.borderColor = darkenColor(color, 30);
         } else {
-            radio.nextElementSibling.style.borderColor = 'transparent';
+            container.style.borderColor = 'transparent';
         }
     });
 }

@@ -93,10 +93,18 @@
                         <div class="lines-container">
                             {% for line in global_services.getLines() %}
                                 <div class="line-item">
-                                    <input type="radio" name="lineSelector" id="line-{{ line.getIdLine() }}" value="{{ line.getIdLine() }}" class="line-radio" data-color="{{ line.getColor() }}">
-                                    <label for="line-{{ line.getIdLine() }}" class="line-Symbol" style="background-color: {{ line.getColor() }}">
-                                        <p style="margin: auto">{{ line.getSymbol() }}</p>
-                                    </label>
+                                    <input type="radio"
+                                           name="lineSelector"
+                                           id="line-{{ line.getIdLine() }}"
+                                           value="{{ line.getIdLine() }}"
+                                           class="line-radio"
+                                           data-symbol="{{ line.getSymbol() }}"
+                                           data-color="{{ line.getColor() }}"
+                                           data-size="50">
+                                    <div class="line-symbol-container" data-for="line-{{ line.getIdLine() }}">
+                                        <!-- le vrai symbole de ligne est injecté ici via js. voir navBar.js -->
+                                        <!-- pourquoi ? On veux externaliser la création de logo de ligne pour pouvoir réutiliser cette méthode -->
+                                    </div>
                                 </div>
                             {% endfor %}
                         </div>
