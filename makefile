@@ -58,4 +58,20 @@ test:
 	docker exec $(DOCKER_PHP_CONTAINER) ./vendor/bin/phpunit
 
 js:
-	rm -rf public/assets/ ;  php bin/console asset-map:compile
+	rm -rf public/assets/ ;
+	php bin/console asset-map:compile;
+
+db:
+	@echo "\033[1;32mSuppression de toute la base de donnée (no panic)\033[0m"
+	php bin/console doctrine:database:drop --force --if-exists
+	@echo "\033[1;32mRecréation de la nouvelle BDD\033[0m"
+	php bin/console doctrine:database:create
+	@echo "\033[1;32mSuppression des anciennes migrations\033[0m"
+	rm -rf migrations/*.php
+	@echo "\033[1;32mRecréation d'une nouvelle migration\033[0m"
+	php bin/console make:migration
+	@echo "\033[1;32mExécution de la migration\033[0m"
+	php bin/console doctrine:migrations:migrate --no-interaction
+	@echo "\033[1;32mchargement des fixtures\033[0m"
+	php bin/console doctrine:fixtures:load --no-interaction
+	@echo "\033[1;32mLa base de donnée à été recréée avec succès !\033[0m"
