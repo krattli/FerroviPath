@@ -22,4 +22,8 @@ return [
     'navbar.js' => [
         'path' => './assets/js/navbar.js',
     ],
+    'metroGame.js' => [
+        'path' => './assets/js/metroGame.js',
+        'entrypoint' => true,
+    ],
 ];

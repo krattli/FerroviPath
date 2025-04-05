@@ -23,6 +23,8 @@
         </div>
         {% include 'fragments/footer.html.twig' %}
         {% block javascripts %}{% endblock %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% block importmap %}
+            {{ importmap('app') }}
+        {% endblock %}
     </body>
 </html>

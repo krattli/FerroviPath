@@ -96,5 +96,7 @@
             margin: 0 10px;
         }
     </style>
-    <script src="{{ asset('js/metroGame.js') }}"></script>
+{% endblock %}
+{% block importmap %}
+    {{ importmap('metroGame.js') }}
 {% endblock %}
