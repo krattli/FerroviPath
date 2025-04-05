@@ -17,6 +17,7 @@ console.log("✅ displayLogo chargé ! (écrit depuis assets/js/displayLogo.js")
  */
 export function createMetroLineLogo(color, symbol, size = 50) {
     const container = document.createElement('div');
+    const textColor = isDarkColor(parseCouleur(color)) ? 'white' : 'black';
 
     Object.assign(container.style, {
         //restera ici
@@ -24,7 +25,7 @@ export function createMetroLineLogo(color, symbol, size = 50) {
         height: `${size}px`,
         backgroundColor: color,
         fontSize: `${Math.round(size * 0.5)}px`,
-        color: 'white',
+        color: textColor,
         //sera externalisé dans la bdd
         borderRadius: '50%',
         display: 'flex',
@@ -54,7 +55,6 @@ export function createMetroLineLogo(color, symbol, size = 50) {
  * @returns {string} - La nouvelle nuance de couleur
  */
 export function adjustColor(color, percent) {
-    color = color.replace('#', '');
     color = parseCouleur(color);
     const isDark = isDarkColor(color);
     const targetLuminanceChange = percent / 100 * 255;
@@ -76,8 +76,9 @@ export function adjustColor(color, percent) {
     return `#${color.r}${color.g}${color.b}`;
 }
 
-function parseCouleur(hex) {
-    const bigint = parseInt(hex, 16);
+function parseCouleur(color) {
+    color = color.replace('#', '');
+    const bigint = parseInt(color, 16);
     return {
         // j'adore les opérations de décalage de bit même si on pouvais juste utiliser substring
         r: (bigint >> 16) & 255,
@@ -92,10 +93,11 @@ function toHex(value) {
 }
 
 function isDarkColor(color) {
-    return getLuminance(color) < 128;
+    return getLuminance(color) < 132;
 }
 
 function getLuminance(color) {
     // formule de luminance relative, utilisée, car notre oeuil a des cones de visons spéciaux et savoir si une couleur est sombre ou clair n'est pas trivial
-    return 0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
+    // bien sur ces trois chiffres sont minutieusement choisis pour que le résultat de nos calculs correspondent au rendu réel des couleurs des logos de ligne sinon ça serait pas drôle
+    return 0.27 * color.r + 0.52 * color.g + 0.23 * color.b;
 }
