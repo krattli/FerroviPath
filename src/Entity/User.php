@@ -62,7 +62,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\PrePersist]
     public function setRolesValue(): void
     {
-        if(empty($roles)){
+        if (empty($this->roles)) {
             $this->roles = ['ROLE_USER'];
         }
     }
