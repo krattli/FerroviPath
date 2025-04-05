@@ -89,18 +89,19 @@
                 </ul>
                 <div class="tab-content" id="gameTabContent">
                     <!-- faire une nouvelle partie à partir d'une ligne -->
-                    <div class="tab-pane fade show active " id="newGameTab" role="tabpanel">
+                    <div class="tab-pane fade show active" id="newGameTab" role="tabpanel">
                         <div class="lines-container">
                             {% for line in global_services.getLines() %}
                                 <div class="line-item">
                                     <input type="radio" name="lineSelector" id="line-{{ line.getIdLine() }}" value="{{ line.getIdLine() }}" class="line-radio" data-color="{{ line.getColor() }}">
                                     <label for="line-{{ line.getIdLine() }}" class="line-Symbol" style="background-color: {{ line.getColor() }}">
-                                        <p style="margin: auto">
-                                            {{ line.getSymbol() }}
-                                        </p>
+                                        <p style="margin: auto">{{ line.getSymbol() }}</p>
                                     </label>
                                 </div>
                             {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="startSelectedGameBtn" disabled>Jouer</button>
                         </div>
                     </div>
                     <!-- reprendre une partie déjà sauvegardée -->
@@ -108,16 +109,22 @@
                         <div class="tab-pane fade" id="savedGameTab" role="tabpanel">
                             {% if global_services.getGames(app.user.getIdUser) is not empty %}
                                 <label for="gameSelector">Parties sauvegardées</label>
-                                <select class="form-select " id="gameSelector">
-                                    <option value="" selected disabled>Choisissez une partie</option>
+                                <div class="saved-games-container">
                                     {% for game in global_services.getGames(app.user.getIdUser) %}
                                         {% if game.scorePoints < game.line.stations|length * 100 %}
-                                            <option value="{{ game.getIdGame() }}">
-                                                {{ game.line.nameLine }} ({{ game.completedStations|length }}/{{ game.line.stations|length }} stations)
-                                            </option>
+                                            <button type="button" class="btn" data-game-id="{{ game.getIdGame() }}">
+                                                <div class="button-visual" style="border-color: {{ game.line.getColor() }}">
+                                                    <div class="savedGame-button-title" style="background-color: {{ game.line.getColor() }}">
+                                                        {{ game.line.nameLine }}
+                                                    </div>
+                                                    <div class="savedGame-button-content">
+                                                        ({{ game.completedStations|length }}/{{ game.line.stations|length }} stations)
+                                                    </div>
+                                                </div>
+                                            </button>
                                         {% endif %}
                                     {% endfor %}
-                                </select>
+                                </div>
                             {% else %}
                                 <p>Aucune partie sauvegardée à reprendre.</p>
                             {% endif %}
@@ -129,12 +136,8 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="startSelectedGameBtn" disabled>Jouer</button>
-            </div>
         </div>
     </div>
 </div>
 
 <!-- On a externalisé l'ancien  script et le style (trouvable dans base.html.twig) dont on avais besoin ici -->
-<script src="{{ asset('js/navbar.js') }}"></script>

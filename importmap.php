@@ -16,4 +16,10 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'displayLogos.js' => [
+        'path' => './assets/js/displayLogos.js',
+    ],
+    'navbar.js' => [
+        'path' => './assets/js/navbar.js',
+    ],
 ];
