@@ -8,46 +8,6 @@
 
 console.log("✅ displayLogo chargé ! (écrit depuis assets/js/displayLogo.js")
 
-export function darkenColor(color, percent) {
-    color = color.replace('#', '');
-
-    let r = parseInt(color.substring(0, 2), 16);
-    let g = parseInt(color.substring(2, 4), 16);
-    let b = parseInt(color.substring(4, 6), 16);
-
-    r = Math.floor(r * (1 - percent / 100));
-    g = Math.floor(g * (1 - percent / 100));
-    b = Math.floor(b * (1 - percent / 100));
-
-    r = r.toString(16).padStart(2, '0');
-    g = g.toString(16).padStart(2, '0');
-    b = b.toString(16).padStart(2, '0');
-
-    return `#${r}${g}${b}`;
-}
-
-function parseCouleur(hex) {
-    hex = hex.replace('#', '');
-
-    if (hex.length === 3) {
-        hex = hex.split('').map(c => c + c).join('');
-    }
-
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-
-    return { r, g, b };
-}
-
-
-
-export function isADarkColor(couleur) {
-    couleur = couleur.replace('#','')
-
-    return true;
-}
-
 /**
  * Crée un élément HTML représentant un logo de ligne de métro.
  * @param {string} color - Couleur de fond du logo (ex: "#ff0000").
@@ -84,4 +44,58 @@ export function createMetroLineLogo(color, symbol, size = 50) {
     container.classList.add('line-Symbol');
 
     return container;
+}
+
+/**
+ * Renvoie une nuance de couleur différente de celle envoyée.
+ * Le but est qu'elle fasse un petit contraste avec la couleur passée en paramètre
+ * @param {string} color - Couleur dont on veux avoir une nuance voisine (ex: "#ff0000").
+ * @param {number} percent - Pourcentage de différence qu'on veux avec l'ancienne couleur
+ * @returns {string} - La nouvelle nuance de couleur
+ */
+export function adjustColor(color, percent) {
+    color = color.replace('#', '');
+    color = parseCouleur(color);
+    const isDark = isDarkColor(color);
+    const targetLuminanceChange = percent / 100 * 255;
+
+    const originalLuminance = getLuminance(color);
+    const targetLuminance = isDark ? originalLuminance + targetLuminanceChange : originalLuminance - targetLuminanceChange;
+
+    // L'objectif de tout ça est que les nuances de couleurs paraissent avec la même quantité de
+    const ratio = targetLuminance / originalLuminance;
+
+    color.r = Math.min(255, Math.max(0, Math.floor(color.r * ratio)));
+    color.g = Math.min(255, Math.max(0, Math.floor(color.g * ratio)));
+    color.b = Math.min(255, Math.max(0, Math.floor(color.b * ratio)));
+
+    color.r = toHex(color.r);
+    color.g = toHex(color.g);
+    color.b = toHex(color.b);
+
+    return `#${color.r}${color.g}${color.b}`;
+}
+
+function parseCouleur(hex) {
+    const bigint = parseInt(hex, 16);
+    return {
+        // j'adore les opérations de décalage de bit même si on pouvais juste utiliser substring
+        r: (bigint >> 16) & 255,
+        g: (bigint >> 8) & 255,
+        b: bigint & 255
+    };
+}
+
+function toHex(value) {
+    const hex = value.toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+}
+
+function isDarkColor(color) {
+    return getLuminance(color) < 128;
+}
+
+function getLuminance(color) {
+    // formule de luminance relative, utilisée, car notre oeuil a des cones de visons spéciaux et savoir si une couleur est sombre ou clair n'est pas trivial
+    return 0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
 }
