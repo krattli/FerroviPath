@@ -1,4 +1,4 @@
-import { darkenColor, createMetroLineLogo } from 'displayLogos.js';
+import { adjustColor, createMetroLineLogo } from 'displayLogos.js';
 
 console.log('✅ displayLogos.js bien importé (depuis navbar.js)');
 
@@ -15,7 +15,7 @@ function styleResumeGameLink() {
 function styleSingleLink(link) {
     //ici on définit les constantes de couleurs dont on aura besoin (la couleur de la ligne et la couleur de la ligne en plus sombre)
     const lineColor = link.dataset.lineColor;
-    const darkerColor = darkenColor(lineColor, 30);
+    const darkerColor = adjustColor(lineColor, 20);
     // ici on récupère les éléments de twig dont on changera le visuel
     const button = link.querySelector('.button-visual');
     const title = link.querySelector('.savedGame-button-title');
@@ -61,7 +61,7 @@ function updateBorders() {
             const color = radio.getAttribute('data-color');
             container.style.borderWidth = "4px";
             container.style.borderStyle = 'solid';
-            container.style.borderColor = darkenColor(color, 30);
+            container.style.borderColor = adjustColor(color, 20);
         } else {
             container.style.borderColor = 'transparent';
         }
