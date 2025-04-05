@@ -110,18 +110,35 @@
                             {% if global_services.getGames(app.user.getIdUser) is not empty %}
                                 <label for="gameSelector">Parties sauvegardées</label>
                                 <div class="saved-games-container">
+                                    <style>
+                                        /*  On peux faire ça dans twig ??? Incroyable  */
+                                        {% for game in global_services.getGames(app.user.getIdUser) %}
+                                        .game-hover-{{ game.idGame }}:hover .savedGame-fill {
+                                            background-color: {{ game.line.getColor() }};
+                                            width: 100%;
+                                        }
+                                        {% endfor %}
+                                    </style>
+
                                     {% for game in global_services.getGames(app.user.getIdUser) %}
                                         {% if game.scorePoints < game.line.stations|length * 100 %}
-                                            <button type="button" class="btn" data-game-id="{{ game.getIdGame() }}">
+                                            <a href="{{ path('ferrovipath_resume_game', {'id': game.getIdGame()}) }}" data-game-id="{{ game.getIdGame() }}"
+                                               class="game-hover-{{ game.idGame }}">
                                                 <div class="button-visual" style="border-color: {{ game.line.getColor() }}">
                                                     <div class="savedGame-button-title" style="background-color: {{ game.line.getColor() }}">
                                                         {{ game.line.nameLine }}
                                                     </div>
-                                                    <div class="savedGame-button-content">
-                                                        ({{ game.completedStations|length }}/{{ game.line.stations|length }} stations)
+                                                    <div class="savedGame-fill"></div>
+                                                    <div class="savedGame-content-layout">
+                                                        <div class="savedGame-center">
+                                                            {{ game.completedStations|length }}/{{ game.line.stations|length }}
+                                                        </div>
+                                                        <div class="savedGame-time">
+                                                            {{ game.time|number_format(0, '.', '') }}s
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </button>
+                                            </a>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
