@@ -51,7 +51,7 @@ export function isADarkColor(couleur) {
 /**
  * Crée un élément HTML représentant un logo de ligne de métro.
  * @param {string} color - Couleur de fond du logo (ex: "#ff0000").
- * @param {string} symbol - Symbole affiché à l'intérieur (ex: "A", "12").
+ * @param {string} symbol - Symbole affiché à l'intérieur (ex: "A" pour rer A, "12" pour ligne 12).
  * @param {number} [size=50] - Taille en pixels (largeur/hauteur).
  * @returns {HTMLElement} - L'élément HTML du logo.
  */
