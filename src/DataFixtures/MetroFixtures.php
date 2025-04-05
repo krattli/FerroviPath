@@ -14,7 +14,7 @@ class MetroFixtures extends Fixture
         // $product = new Product();
         // $manager->persist($product);
         $lines = [
-            ['idLine' => 1, 'nameLine' => 'Ligne 1', 'color' => '#FFD700', 'symbol' => '1', 
+            ['idLine' => 1, 'nameLine' => 'Ligne 1', 'color' => '#FFCE00', 'symbol' => '1',
             'stations' =>[['La Défense - Grande Arche', 48.8925, 2.2369],
                         ['Esplanade de la Défense', 48.8887, 2.2504],
                         ['Pont de Neuilly', 48.8841, 2.2614],
@@ -41,7 +41,7 @@ class MetroFixtures extends Fixture
                         ['Bérault', 48.8453, 2.4231],
                         ['Château de Vincennes', 48.8442, 2.4346]]],
         
-    ['idLine' => 2, 'nameLine' => 'Ligne 2', 'color' => '#0033A0', 'symbol' => '2',
+    ['idLine' => 2, 'nameLine' => 'Ligne 2', 'color' => '#0064B0', 'symbol' => '2',
         'stations' => [
             ['Porte Dauphine', 48.8713, 2.2756],
             ['Victor Hugo', 48.8716, 2.2873],
@@ -70,7 +70,7 @@ class MetroFixtures extends Fixture
             ['Nation', 48.8483, 2.3958]
         ]
     ],
-    ['idLine' => 3, 'nameLine' => 'Ligne 3', 'color' => '#B5A642', 'symbol' => '3',
+    ['idLine' => 3, 'nameLine' => 'Ligne 3', 'color' => '#9F9825', 'symbol' => '3',
         'stations' => [
             ['Pont de Levallois - Bécon', 48.8965, 2.2785],
             ['Anatole France', 48.8925, 2.2896],
@@ -100,7 +100,7 @@ class MetroFixtures extends Fixture
         ]
     ],
 
-    ['idLine' => 4, 'nameLine' => 'Ligne 4', 'color' => '#BB4D98', 'symbol' => '4',
+    ['idLine' => 4, 'nameLine' => 'Ligne 4', 'color' => '#C04191', 'symbol' => '4',
     'stations' => [
         ['Porte de Clignancourt', 48.8995, 2.3445],
         ['Simplon', 48.8946, 2.3498],
@@ -132,7 +132,7 @@ class MetroFixtures extends Fixture
         ['Barbara', 48.8239, 2.3234],
         ['Bagneux Lucie Aubrac', 48.8239, 2.3234]
     ]],
-    ['idLine' => 5, 'nameLine' => 'Ligne 5', 'color' => '#FF6600', 'symbol' => '5', 
+    ['idLine' => 5, 'nameLine' => 'Ligne 5', 'color' => '#F28E42', 'symbol' => '5',
     'stations' => [ ['Bobigny - Pablo Picasso', 48.9097, 2.4396],
                     ['Bobigny - Pantin - Raymond Queneau', 48.8981, 2.4242],
                     ['Eglise de Pantin', 48.8919, 2.4129],
@@ -155,7 +155,7 @@ class MetroFixtures extends Fixture
                     ['Saint-Marcel', 48.8415, 2.3625],
                     ['Campo-Formio', 48.8394, 2.3576],
                     ['Place d\'Italie', 48.8322, 2.3550]]],
-['idLine' => 6, 'nameLine' => 'Ligne 6', 'color' => '#77CFA5', 'symbol' => '6', 
+['idLine' => 6, 'nameLine' => 'Ligne 6', 'color' => '#83C491', 'symbol' => '6',
     'stations' => [ ['Charles de Gaulle - Etoile', 48.8738, 2.2950],
                     ['Kléber', 48.8718, 2.2930],
                     ['Boissière', 48.8685, 2.2891],
@@ -187,7 +187,7 @@ class MetroFixtures extends Fixture
 [
     'idLine' => 7,
     'nameLine' => 'Ligne 7',
-    'color' => '#F38A8A',
+    'color' => '#F3A4BA',
     'symbol' => '7',
     'stations' => [
         ['La Courneuve - 8 Mai 1945', 48.9182, 2.4102],
@@ -233,7 +233,7 @@ class MetroFixtures extends Fixture
 [
     'idLine' => 8,
     'nameLine' => 'Ligne 8',
-    'color' => '#C671C6',
+    'color' => '#CEADD2',
     'symbol' => '8',
     'stations' => [
         ['Balard', 48.8364, 2.2785],
@@ -280,7 +280,7 @@ class MetroFixtures extends Fixture
 [
     'idLine' => 9,
     'nameLine' => 'Ligne 9',
-    'color' => '#B5935A',
+    'color' => '#D5C900',
     'symbol' => '9',
     'stations' => [
         ['Pont de Sèvres', 48.8356, 2.2336],
@@ -326,7 +326,7 @@ class MetroFixtures extends Fixture
     [
         'idLine' => 10,
         'nameLine' => 'Ligne 10',
-        'color' => '#E4BE93',
+        'color' => '#E3B32A',
         'symbol' => '10',
         'stations' => [
             ['Boulogne - Pont de Saint-Cloud', 48.8355, 2.2309],
@@ -358,7 +358,7 @@ class MetroFixtures extends Fixture
         [
             'idLine' => 11,
             'nameLine' => 'Ligne 11',
-            'color' => '#8D5B2D',
+            'color' => '#8D5E2A',
             'symbol' => '11',
             'stations' => [
                 ['Châtelet', 48.8582, 2.3470],
@@ -387,7 +387,7 @@ class MetroFixtures extends Fixture
             [
                 'idLine' => 12,
                 'nameLine' => 'Ligne 12',
-                'color' => '#008D4C',
+                'color' => '#00814F',
                 'symbol' => '12',
                 'stations' => [
                     ['Mairie d\'Aubervilliers', 48.9034, 2.3785],
@@ -427,7 +427,7 @@ class MetroFixtures extends Fixture
                 [
                     'idLine' => 13,
                     'nameLine' => 'Ligne 13',
-                    'color' => '#98C6EA',
+                    'color' => '#98D4E2',
                     'symbol' => '13',
                     'stations' => [
                         ['Asnières - Gennevilliers - Les Courtilles', 48.9078, 2.3199],
@@ -498,7 +498,7 @@ class MetroFixtures extends Fixture
                         [
                             'idLine' => 15,
                             'nameLine' => 'Ligne 7 bis',
-                            'color' => '#6EC4E8',
+                            'color' => '#83C491',
                             'symbol' => '7b',
                             'stations' => [
                                 ['Louis Blanc', 48.8764, 2.3647],
@@ -514,7 +514,7 @@ class MetroFixtures extends Fixture
                         [
                             'idLine' => 16,
                             'nameLine' => 'Ligne 3 bis',
-                            'color' => '#9ad1dc',
+                            'color' => '#98D4E2',
                             'symbol' => '3b',
                             'stations' => [
                                 ['Porte des Lilas', 48.8686, 2.4125],
