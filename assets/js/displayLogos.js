@@ -6,6 +6,8 @@
 * Et absolument tout centraliser ici. C'est pas du gâteau
 * */
 
+console.log("✅ displayLogo chargé ! (écrit depuis assets/js/displayLogo.js")
+
 export function darkenColor(color, percent) {
     color = color.replace('#', '');
 
