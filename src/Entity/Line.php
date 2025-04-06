@@ -14,7 +14,7 @@ class Line
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'idLine')]
+    #[ORM\Column(name: 'id_line')]
     private ?int $id_Line = null;
 
     #[ORM\Column(length: 255)]

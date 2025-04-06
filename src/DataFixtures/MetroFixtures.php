@@ -14,7 +14,7 @@ class MetroFixtures extends Fixture
         // $product = new Product();
         // $manager->persist($product);
         $lines = [
-            ['idLine' => 1, 'nameLine' => 'Ligne 1', 'color' => '#FFCE00', 'symbol' => '1',
+            ['id_line' => 1, 'nameLine' => 'Ligne 1', 'color' => '#FFCE00', 'symbol' => '1',
             'stations' =>[['La Défense - Grande Arche', 48.8925, 2.2369],
                         ['Esplanade de la Défense', 48.8887, 2.2504],
                         ['Pont de Neuilly', 48.8841, 2.2614],
@@ -41,7 +41,7 @@ class MetroFixtures extends Fixture
                         ['Bérault', 48.8453, 2.4231],
                         ['Château de Vincennes', 48.8442, 2.4346]]],
         
-    ['idLine' => 2, 'nameLine' => 'Ligne 2', 'color' => '#0064B0', 'symbol' => '2',
+    ['id_line' => 2, 'nameLine' => 'Ligne 2', 'color' => '#0064B0', 'symbol' => '2',
         'stations' => [
             ['Porte Dauphine', 48.8713, 2.2756],
             ['Victor Hugo', 48.8716, 2.2873],
@@ -70,7 +70,7 @@ class MetroFixtures extends Fixture
             ['Nation', 48.8483, 2.3958]
         ]
     ],
-    ['idLine' => 3, 'nameLine' => 'Ligne 3', 'color' => '#9F9825', 'symbol' => '3',
+    ['id_line' => 3, 'nameLine' => 'Ligne 3', 'color' => '#9F9825', 'symbol' => '3',
         'stations' => [
             ['Pont de Levallois - Bécon', 48.8965, 2.2785],
             ['Anatole France', 48.8925, 2.2896],
@@ -100,7 +100,7 @@ class MetroFixtures extends Fixture
         ]
     ],
 
-    ['idLine' => 4, 'nameLine' => 'Ligne 4', 'color' => '#C04191', 'symbol' => '4',
+    ['id_line' => 4, 'nameLine' => 'Ligne 4', 'color' => '#C04191', 'symbol' => '4',
     'stations' => [
         ['Porte de Clignancourt', 48.8995, 2.3445],
         ['Simplon', 48.8946, 2.3498],
@@ -132,7 +132,7 @@ class MetroFixtures extends Fixture
         ['Barbara', 48.8239, 2.3234],
         ['Bagneux Lucie Aubrac', 48.8239, 2.3234]
     ]],
-    ['idLine' => 5, 'nameLine' => 'Ligne 5', 'color' => '#F28E42', 'symbol' => '5',
+    ['id_line' => 5, 'nameLine' => 'Ligne 5', 'color' => '#F28E42', 'symbol' => '5',
     'stations' => [ ['Bobigny - Pablo Picasso', 48.9097, 2.4396],
                     ['Bobigny - Pantin - Raymond Queneau', 48.8981, 2.4242],
                     ['Eglise de Pantin', 48.8919, 2.4129],
@@ -155,7 +155,7 @@ class MetroFixtures extends Fixture
                     ['Saint-Marcel', 48.8415, 2.3625],
                     ['Campo-Formio', 48.8394, 2.3576],
                     ['Place d\'Italie', 48.8322, 2.3550]]],
-['idLine' => 6, 'nameLine' => 'Ligne 6', 'color' => '#83C491', 'symbol' => '6',
+['id_line' => 6, 'nameLine' => 'Ligne 6', 'color' => '#83C491', 'symbol' => '6',
     'stations' => [ ['Charles de Gaulle - Etoile', 48.8738, 2.2950],
                     ['Kléber', 48.8718, 2.2930],
                     ['Boissière', 48.8685, 2.2891],
@@ -185,7 +185,7 @@ class MetroFixtures extends Fixture
                     ['Picpus', 48.8375, 2.4051],
                     ['Nation', 48.8485, 2.3959]]],
 [
-    'idLine' => 7,
+    'id_line' => 7,
     'nameLine' => 'Ligne 7',
     'color' => '#F3A4BA',
     'symbol' => '7',
@@ -231,7 +231,7 @@ class MetroFixtures extends Fixture
     ]
 ],
 [
-    'idLine' => 8,
+    'id_line' => 8,
     'nameLine' => 'Ligne 8',
     'color' => '#CEADD2',
     'symbol' => '8',
@@ -278,7 +278,7 @@ class MetroFixtures extends Fixture
     ],
 
 [
-    'idLine' => 9,
+    'id_line' => 9,
     'nameLine' => 'Ligne 9',
     'color' => '#D5C900',
     'symbol' => '9',
@@ -324,7 +324,7 @@ class MetroFixtures extends Fixture
     ],
 
     [
-        'idLine' => 10,
+        'id_line' => 10,
         'nameLine' => 'Ligne 10',
         'color' => '#E3B32A',
         'symbol' => '10',
@@ -356,7 +356,7 @@ class MetroFixtures extends Fixture
         ],
     
         [
-            'idLine' => 11,
+            'id_line' => 11,
             'nameLine' => 'Ligne 11',
             'color' => '#8D5E2A',
             'symbol' => '11',
@@ -385,7 +385,7 @@ class MetroFixtures extends Fixture
         
         
             [
-                'idLine' => 12,
+                'id_line' => 12,
                 'nameLine' => 'Ligne 12',
                 'color' => '#00814F',
                 'symbol' => '12',
@@ -425,7 +425,7 @@ class MetroFixtures extends Fixture
                 ],
             
                 [
-                    'idLine' => 13,
+                    'id_line' => 13,
                     'nameLine' => 'Ligne 13',
                     'color' => '#98D4E2',
                     'symbol' => '13',
@@ -466,7 +466,7 @@ class MetroFixtures extends Fixture
                     ],
                 
                     [
-                        'idLine' => 14,
+                        'id_line' => 14,
                         'nameLine' => 'Ligne 14',
                         'color' => '#662483',
                         'symbol' => '14',
@@ -496,7 +496,7 @@ class MetroFixtures extends Fixture
                         ],
                     
                         [
-                            'idLine' => 15,
+                            'id_line' => 15,
                             'nameLine' => 'Ligne 7 bis',
                             'color' => '#83C491',
                             'symbol' => '7b',
@@ -512,7 +512,7 @@ class MetroFixtures extends Fixture
                             ]
                         ],
                         [
-                            'idLine' => 16,
+                            'id_line' => 16,
                             'nameLine' => 'Ligne 3 bis',
                             'color' => '#98D4E2',
                             'symbol' => '3b',
@@ -528,7 +528,7 @@ class MetroFixtures extends Fixture
 
         foreach($lines as $line){
             $lineE = new Line();
-                $lineE->setIdLine($line['idLine']);
+                $lineE->setIdLine($line['id_line']);
                 $lineE->setNameLine($line['nameLine']);
                 $lineE->setColor($line['color']);
                 $lineE->setSymbol($line['symbol']);

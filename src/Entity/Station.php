@@ -12,7 +12,7 @@ class Station
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'id_station')]
     private ?int $id_Station = null;
 
     #[ORM\Column(length: 255)]
@@ -34,14 +34,14 @@ class Station
     private ?\DateTimeImmutable $deletedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'stations')]
-    #[ORM\JoinColumn(name: 'id_line', referencedColumnName: 'idLine', nullable: false)]
+    #[ORM\JoinColumn(name: 'id_line', referencedColumnName: 'id_line', nullable: false)]
     private ?Line $line = null;
 
     #[ORM\ManyToMany(targetEntity: self::class)]
     #[ORM\JoinTable(
         name: 'station_correspondances',
-        joinColumns: [new ORM\JoinColumn(name: 'station_id', referencedColumnName: 'id_Station')],
-        inverseJoinColumns: [new ORM\JoinColumn(name: 'correspondance_id', referencedColumnName: 'id_Station')]
+        joinColumns: [new ORM\JoinColumn(name: 'station_id', referencedColumnName: 'id_station')],
+        inverseJoinColumns: [new ORM\JoinColumn(name: 'correspondance_id', referencedColumnName: 'id_station')]
     )]
     private Collection $correspondances;
 
