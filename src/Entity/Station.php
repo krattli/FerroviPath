@@ -13,7 +13,7 @@ class Station
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idStation = null;
+    private ?int $id_Station = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nameStation = null;
@@ -40,8 +40,8 @@ class Station
     #[ORM\ManyToMany(targetEntity: self::class)]
     #[ORM\JoinTable(
         name: 'station_correspondances',
-        joinColumns: [new ORM\JoinColumn(name: 'station_id', referencedColumnName: 'idStation')],
-        inverseJoinColumns: [new ORM\JoinColumn(name: 'correspondance_id', referencedColumnName: 'idStation')]
+        joinColumns: [new ORM\JoinColumn(name: 'station_id', referencedColumnName: 'id_Station')],
+        inverseJoinColumns: [new ORM\JoinColumn(name: 'correspondance_id', referencedColumnName: 'id_Station')]
     )]
     private Collection $correspondances;
 
@@ -62,7 +62,7 @@ class Station
 
     public function getId(): ?int
     {
-        return $this->idStation;
+        return $this->id_Station;
     }
 
     public function getNameStation(): ?string

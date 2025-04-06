@@ -15,7 +15,7 @@ class Line
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'idLine')]
-    private ?int $idLine = null;
+    private ?int $id_Line = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nameLine = null;
@@ -76,12 +76,12 @@ class Line
 
     public function getIdLine(): ?int
     {
-        return $this->idLine;
+        return $this->id_Line;
     }
 
-    public function setIdLine(int  $idLine): void
+    public function setIdLine(int $id_Line): void
     {
-        $this->idLine = $idLine;
+        $this->id_Line = $id_Line;
     }
 
     public function getNameLine(): ?string
