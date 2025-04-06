@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\StationRepository;
-use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StationRepository::class)]
@@ -37,6 +37,14 @@ class Station
     #[ORM\JoinColumn(name: 'id_line', referencedColumnName: 'idLine', nullable: false)]
     private ?Line $line = null;
 
+    #[ORM\ManyToMany(targetEntity: self::class)]
+    #[ORM\JoinTable(
+        name: 'station_correspondances',
+        joinColumns: [new ORM\JoinColumn(name: 'station_id', referencedColumnName: 'idStation')],
+        inverseJoinColumns: [new ORM\JoinColumn(name: 'correspondance_id', referencedColumnName: 'idStation')]
+    )]
+    private Collection $correspondances;
+
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
@@ -45,7 +53,13 @@ class Station
             $this->createdAt = new \DateTimeImmutable();
         }
     }
-    
+
+    public function __construct()
+    {
+        $this->correspondances = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
     public function getId(): ?int
     {
         return $this->idStation;
@@ -131,6 +145,30 @@ class Station
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getCorrespondances(): Collection
+    {
+        return $this->correspondances;
+    }
+
+    public function addCorrespondance(self $station): static
+    {
+        if (!$this->correspondances->contains($station)) {
+            $this->correspondances->add($station);
+            $station->addCorrespondance($this); // symétrie
+        }
+
+        return $this;
+    }
+    public function removeCorrespondance(self $station): static
+    {
+        if ($this->correspondances->contains($station)) {
+            $this->correspondances->removeElement($station);
+            $station->removeCorrespondance($this); // symétrie
+        }
 
         return $this;
     }
