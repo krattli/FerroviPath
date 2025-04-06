@@ -12,7 +12,7 @@ class Game
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'id_Game')]
     private ?int $idGame = null;
 
     #[ORM\Column(length: 255)]
@@ -37,13 +37,13 @@ class Game
     private ?\DateTimeImmutable $deletedAt = null;
 
     #[ORM\ManyToOne(targetEntity: Line::class)]
-    #[ORM\JoinColumn(name: 'id_line', referencedColumnName: 'idLine', nullable: false)]
+    #[ORM\JoinColumn(name: 'id_line', referencedColumnName: 'id_line', nullable: false)]
     private ?Line $line = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     //J'ai ajouté l'option qui permet de jouer et de sauvegarder ses données sans se connecter sinon c'était trop chiant
     //Donc pour sauvegarder des données en anonyme, c'est obligé de changer nullable de $user en true
-    #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'idUser', nullable: true)]
+    #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id_user', nullable: true)]
     private ?User $user = null;
 
     #[ORM\PrePersist]
