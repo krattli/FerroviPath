@@ -546,6 +546,27 @@ class MetroFixtures extends Fixture
                     $manager->persist($station);
                 }
         }
+        $allStationsGroupedByNames = [];
+        $stations = $manager->getRepository(Station::class)->findAll();
+        foreach ($stations as $station) {
+            $name = $station->getNameStation();
+            if (!isset($allStationsGroupedByNames[$name])) {
+                $allStationsGroupedByNames[$name] = [];
+            }
+            $allStationsGroupedByNames[$name][] = $station;
+        }
+        foreach ($allStationsGroupedByNames as $stationsWithSameName) {
+            if (count($stationsWithSameName) > 1) {
+                foreach ($stationsWithSameName as $stationA) {
+                    foreach ($stationsWithSameName as $stationB) {
+                        if ($stationA !== $stationB) {
+                            $stationA->addCorrespondance($stationB);
+                        }
+                    }
+                }
+            }
+        }
+
         $manager->flush();
     }
 }
