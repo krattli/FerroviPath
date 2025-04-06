@@ -72,6 +72,13 @@ class MetroGame {
         }
     }
 
+    validateWord(input, list) {
+        if (!list.includes(input)) {
+            return true;
+        }
+        return false
+    }
+
     handleCorrectGuess(station) {
         this.state.discoveredStations.push(station);
         this.state.score += 100;

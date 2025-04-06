@@ -546,6 +546,7 @@ class MetroFixtures extends Fixture
                     $manager->persist($station);
                 }
         }
+        $manager->flush();
         $allStationsGroupedByNames = [];
         $stations = $manager->getRepository(Station::class)->findAll();
         foreach ($stations as $station) {
@@ -561,12 +562,13 @@ class MetroFixtures extends Fixture
                     foreach ($stationsWithSameName as $stationB) {
                         if ($stationA !== $stationB) {
                             $stationA->addCorrespondance($stationB);
+                            $manager->persist($stationA);
+                            $manager->persist($stationB);
                         }
                     }
                 }
             }
         }
-
         $manager->flush();
     }
 }
