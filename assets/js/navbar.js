@@ -1,4 +1,14 @@
-import { adjustColor, createIconeTypeTransport } from 'displayLogos.js';
+/*
+*
+* Ici, tout ce qui est relatif à la navBar
+* Essentiellement sur le popup "Jouer"
+* Il y a beaucoup de fonctions dynamiques à prévoir donc on les gère ici
+*
+* */
+
+
+import { createIconeTypeTransport } from 'displayLogos.js';
+import { adjustColor } from 'utilities.js'
 
 console.log('✅ displayLogos.js bien importé (depuis navbar.js)');
 

@@ -26,4 +26,7 @@ return [
         'path' => './assets/js/metroGame.js',
         'entrypoint' => true,
     ],
+    'utilities.js' => [
+        'path' => './assets/js/utilities.js',
+    ],
 ];

@@ -9,9 +9,6 @@ import './styles/app.css';
 console.log("🌍 app.js chargé");
 
 import './js/navbar.js';
-
-console.log("📦 navbar.js import demandé");
-
 import './js/displayLogos.js';
 
 console.log('hello world');
