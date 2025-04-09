@@ -55,7 +55,6 @@ export function createIconeStation(color, size = 16, textContent, isTerminus = f
 
     Object.assign(container.style, {
         position: 'absolute',
-//        zIndex: 1,
     });
 
     Object.assign(iconStation.style, {
@@ -136,28 +135,39 @@ export function appendCorrespondances(stationIcon, correspondances) {
         transform: 'translateX(-50%)',
         zIndex: 0,
     });
+    stationIcon.appendChild(verticalBar);
 
     const corrContainer = document.createElement('div');
     Object.assign(corrContainer.style, {
         position: 'absolute',
         top: 'calc(50% + 26px)',
         left: '50%',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '4px',
         transform: 'translateX(-50%)',
+        display: 'inline-block',
         zIndex: 1,
     });
 
-    const logo = createTransportTypeLogo('metro', 20);
-    corrContainer.appendChild(logo)
+    const transportTypeLogo = createTransportTypeLogo('metro', 20);
+    corrContainer.appendChild(transportTypeLogo);
+
+    const linesContainer = document.createElement('div');
+    Object.assign(linesContainer.style, {
+        position: 'absolute',
+        top: '0',
+        left: '100%',
+        display: 'flex',
+        marginLeft: '2px',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: '4px',
+    });
 
     correspondances.forEach(corr => {
         const lineLogo = createIconeTypeTransport(corr.color, 20, corr.symbol);
-        corrContainer.appendChild(lineLogo);
+        linesContainer.appendChild(lineLogo);
     });
 
-    stationIcon.appendChild(verticalBar);
+    corrContainer.appendChild(linesContainer);
     stationIcon.appendChild(corrContainer);
 }
 
