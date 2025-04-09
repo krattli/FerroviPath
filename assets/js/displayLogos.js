@@ -147,7 +147,7 @@ export function appendCorrespondances(stationIcon, correspondances, size) {
         zIndex: 1,
     });
 
-    const transportTypeLogo = createTransportTypeLogo('metro', 20);
+    const transportTypeLogo = createTransportTypeLogo('metro', size);
     corrContainer.appendChild(transportTypeLogo);
 
     const linesContainer = document.createElement('div');
@@ -163,7 +163,7 @@ export function appendCorrespondances(stationIcon, correspondances, size) {
     });
 
     correspondances.forEach(corr => {
-        const lineLogo = createIconeTypeTransport(corr.color, 20, corr.symbol);
+        const lineLogo = createIconeTypeTransport(corr.color, size, corr.symbol);
         linesContainer.appendChild(lineLogo);
     });
 
