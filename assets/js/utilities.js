@@ -18,6 +18,69 @@ export function adjustColor(color, percent) {
     return `#${color.r}${color.g}${color.b}`;
 }
 
+export function isDarkColor(color) {
+    return getLuminance(color) < 132;
+}
+
+export function showVictoryPopup() {
+    const overlay = document.createElement('div');
+    overlay.className = 'popup-overlay';
+
+    const popupContainer = document.createElement('div');
+    popupContainer.className = 'popup-container';
+
+    const popupContent = document.createElement('div');
+    popupContent.className = 'popup-content';
+
+    const message = document.createElement('p');
+    message.textContent = 'Félicitations ! Vous avez complété la ligne !';
+
+    const homeButton = document.createElement('button');
+    homeButton.textContent = 'Retour à l\'accueil';
+    homeButton.className = 'popup-button';
+
+    // Ajouter l'événement pour rediriger vers l'accueil
+    homeButton.addEventListener('click', () => {
+        console.log('Button clicked, saving game data...');
+        window.location.href = '/';
+    });
+
+    popupContent.appendChild(message);
+    popupContent.appendChild(homeButton);
+    popupContainer.appendChild(popupContent);
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(popupContainer); // Ajouter le popup
+
+    setTimeout(() => {
+        overlay.style.display = 'block';
+        popupContainer.style.transform = 'translateX(-50%) translateY(0)';
+        popupContainer.style.width = '80%';
+        popupContainer.style.borderRadius = '30px';
+    }, 50);
+}
+
+// Calcul de l'espace que prendra une barre de ligne de métro en fonction de l'espace disponible
+// La méthode gagnerait à être simplifiée
+// Mais on veut comme effet que les stations apparaissent en gros au début puis plus il y en as, plus elles remplissent l'espace optimalement
+export function computeSpacing(availableWidth, discoveredCount) {
+    if (discoveredCount < 2) return null; // Pas d'espacement pour une seule station
+
+    const x = discoveredCount - 1;
+    const rawSpacing = availableWidth / x;  // L'espacement minimal nécessaire pour remplir la game-area
+    const maxSpacing = 150;  // Espacement maximum souhaité quand il y a très peu de stations
+    const threshold = 10;    // Nombre de segments (discoveredCount - 1) à partir duquel on souhaite que l'espacement devienne rawSpacing
+
+    // f passe de 1 pour x=1 (2 stations) à 0 pour x=threshold.
+    const f = Math.max(0, Math.min(1, (threshold - x) / (threshold - 1)));
+
+    // Interpolation linéaire : quand x est faible, on est proche de maxSpacing, et quand x approche du seuil, on tend vers rawSpacing
+    const spacing = f * maxSpacing + (1 - f) * rawSpacing;
+
+    // On s'assure que l'espacement ne dépasse jamais rawSpacing pour éviter que la ligne ne déborde.
+    return Math.min(spacing, rawSpacing);
+}
+
 function parseCouleur(color) {
     color = color.replace('#', '');
     const bigint = parseInt(color, 16);
@@ -32,10 +95,6 @@ function parseCouleur(color) {
 function toHex(value) {
     const hex = value.toString(16);
     return hex.length === 1 ? '0' + hex : hex;
-}
-
-export function isDarkColor(color) {
-    return getLuminance(color) < 132;
 }
 
 function getLuminance(color) {
