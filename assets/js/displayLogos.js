@@ -35,7 +35,6 @@ export function createIconeTypeTransport(color, size = 50, symbol) {
         justifyContent: 'center',
         fontFamily: 'Parisine, sans-serif',
         fontWeight: 'bold',
-        cursor: 'pointer',
         transition: 'all 0.3s ease',
         userSelect: 'none',
         textAlign: 'center',
@@ -125,6 +124,7 @@ export function createIconeStation(color, size = 16, textContent, isTerminus = f
 
 export function appendCorrespondances(stationIcon, correspondances) {
     if (!correspondances || correspondances.length === 0) return;
+
     const verticalBar = document.createElement('div');
     Object.assign(verticalBar.style, {
         position: 'absolute',
@@ -137,23 +137,47 @@ export function appendCorrespondances(stationIcon, correspondances) {
         zIndex: 0,
     });
 
-    // Conteneur flex pour les icônes
     const corrContainer = document.createElement('div');
     Object.assign(corrContainer.style, {
         position: 'absolute',
         top: 'calc(50% + 26px)',
         left: '50%',
         display: 'flex',
+        alignItems: 'center',
         gap: '4px',
         transform: 'translateX(-50%)',
         zIndex: 1,
     });
 
+    const logo = createTransportTypeLogo('metro', 20);
+    corrContainer.appendChild(logo)
+
     correspondances.forEach(corr => {
-        const logo = createIconeTypeTransport(corr.color, 20, corr.symbol);
-        corrContainer.appendChild(logo);
+        const lineLogo = createIconeTypeTransport(corr.color, 20, corr.symbol);
+        corrContainer.appendChild(lineLogo);
     });
 
     stationIcon.appendChild(verticalBar);
     stationIcon.appendChild(corrContainer);
+}
+
+export function createTransportTypeLogo(name, size) {
+    const logo = document.createElement('div');
+    if (name === 'metro') {
+        Object.assign(logo.style, {
+            width: `${size}px`,
+            height: `${size}px`,
+            fontSize: `${size * 0.65}px`,
+            borderRadius: '50%',
+            display: 'flex',
+            border: `${size * 0.08}px solid #244798`,
+            color: '#244798',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'Parisine',
+            textAlign: 'center',
+        });
+        logo.textContent = 'M';
+    }
+    return logo;
 }
