@@ -99,7 +99,7 @@ export function createIconeStation(color, size = 16, textContent, isTerminus = f
         top: 'calc(50% - 30px)',
         left: '50%',
         transformOrigin: 'bottom left',
-        transform: 'translateX(-2px) translateY(-2px) rotate(-45deg)',
+        transform: 'translateX(+3px) translateY(+3px) rotate(-45deg)',
         fontSize: '13px',
         fontFamily: 'Parisine, sans-serif',
         fontWeight: 'bold',
@@ -111,13 +111,13 @@ export function createIconeStation(color, size = 16, textContent, isTerminus = f
     if (isTerminus) {
         label.style.padding = '0 5px';
         label.style.backgroundColor = '#244798';
-        //label.style.transform = 'translateX(+0%) translateY(-2px) rotate(-45deg)';
+        label.style.transform = 'translateX(+0%) translateY(-2px) rotate(-45deg)';
     }
 
     label.textContent = textContent;
 
-    container.appendChild(iconStation);
     container.appendChild(label);
+    container.appendChild(iconStation);
 
     return container;
 }
