@@ -1,4 +1,5 @@
 import {createIconeStation} from "displayLogos.js";
+import {showVictoryPopup, computeSpacing} from "utilities.js";
 
 class MetroGame {
     constructor() {
@@ -141,52 +142,10 @@ class MetroGame {
                     window.location.href = '/';
                 }, 1000);
             } else {
-                this.showVictoryPopup();
+                showVictoryPopup();
             }
         });
     }
-
-
-    showVictoryPopup() {
-        const overlay = document.createElement('div');
-        overlay.className = 'popup-overlay';
-
-        const popupContainer = document.createElement('div');
-        popupContainer.className = 'popup-container';
-
-        const popupContent = document.createElement('div');
-        popupContent.className = 'popup-content';
-
-        const message = document.createElement('p');
-        message.textContent = 'Félicitations ! Vous avez complété la ligne !';
-
-        const homeButton = document.createElement('button');
-        homeButton.textContent = 'Retour à l\'accueil';
-        homeButton.className = 'popup-button';
-
-        // Ajouter l'événement pour rediriger vers l'accueil
-        homeButton.addEventListener('click', () => {
-            console.log('Button clicked, saving game data...');
-            window.location.href = '/';
-        });
-
-        popupContent.appendChild(message);
-        popupContent.appendChild(homeButton);
-        popupContainer.appendChild(popupContent);
-
-        document.body.appendChild(overlay);
-        document.body.appendChild(popupContainer); // Ajouter le popup
-
-        setTimeout(() => {
-            overlay.style.display = 'block';
-            popupContainer.style.transform = 'translateX(-50%) translateY(0)';
-            popupContainer.style.width = '80%';
-            popupContainer.style.borderRadius = '30px';
-        }, 50);
-    }
-
-
-
 
     saveGameData(callback) {
         const gameArea = this.twigElements.gameArea;
@@ -223,23 +182,7 @@ class MetroGame {
 
 
     // cette méthode nous aide à calculer l'espacement entre chaque station en fonction du nombre de stations déjà découvertes
-    computeSpacing(availableWidth, discoveredCount) {
-        if (discoveredCount < 2) return null; // Pas d'espacement pour une seule station
 
-        const x = discoveredCount - 1;
-        const rawSpacing = availableWidth / x;  // L'espacement minimal nécessaire pour remplir la game-area
-        const maxSpacing = 150;  // Espacement maximum souhaité quand il y a très peu de stations
-        const threshold = 10;    // Nombre de segments (discoveredCount - 1) à partir duquel on souhaite que l'espacement devienne rawSpacing
-
-        // f passe de 1 pour x=1 (2 stations) à 0 pour x=threshold.
-        const f = Math.max(0, Math.min(1, (threshold - x) / (threshold - 1)));
-
-        // Interpolation linéaire : quand x est faible, on est proche de maxSpacing, et quand x approche du seuil, on tend vers rawSpacing
-        const spacing = f * maxSpacing + (1 - f) * rawSpacing;
-
-        // On s'assure que l'espacement ne dépasse jamais rawSpacing pour éviter que la ligne ne déborde.
-        return Math.min(spacing, rawSpacing);
-    }
 
     renderMetroMap() {
         // On vide d'abord la game-area (de l'ancienne carte affichée)
@@ -264,7 +207,7 @@ class MetroGame {
             positions.push(margin + availableWidth / 2);
         } else {
             // Calcul de l'espacement dynamique entre les stations avec la fonction computeSpacing
-            const spacing = this.computeSpacing(availableWidth, count);
+            const spacing = computeSpacing(availableWidth, count);
             // Calcul de la largeur totale occupée par le groupe de stations (pour la barre de ligne)
             const totalStationsWidth = spacing * (count - 1);
             // Calcul d'un décalage pour centrer le groupe dans la game-area
