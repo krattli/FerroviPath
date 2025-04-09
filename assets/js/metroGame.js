@@ -1,3 +1,5 @@
+import {createIconeStation} from "displayLogos.js";
+
 class MetroGame {
     constructor() {
         this.twigElements = {
@@ -48,6 +50,8 @@ class MetroGame {
 
         // Événement (lorsqu'on valide un ajout de station)
         this.twigElements.stationInput.addEventListener('keypress', this.handleInput.bind(this));
+
+        this.twigElements.gameArea.appendChild(createIconeStation("#C0C0C0",30,"hello",true))
 
         // Mise à jour du temps en temps réel
         this.updateTime();
@@ -268,36 +272,18 @@ class MetroGame {
 
         // Pour chaque station découverte, créer un marqueur (le point) et son label (le nom de la station)
         sortedDiscovered.forEach((station, i) => {
-            // cette logique sera peut être à changer si on modifie la BDD de manière plus complexe, peut-être une méthode à part mais pour l'insatnt c'est suffisant
+            // true ssi la station est le premier ou le dernier element de la liste this.state.stations
             const isTerminus = station === this.state.stations[0] || station === this.state.stations[this.state.stations.length - 1];
 
-            // Création du marqueur
-            const marker = document.createElement('div');
-            marker.className = isTerminus ? 'station-marker-terminus':'station-marker';
-            marker.style.left = positions[i] + 'px';
-            marker.style.backgroundColor = isTerminus ? 'white' : this.state.lineColor;
+            // On créé notre icone de station avec son texte et tout grâce à notre fonction externalisée
+            const textLabel = station.charAt(0).toUpperCase()  + station.slice(1);
+            const stationIcon = createIconeStation(this.state.lineColor, 16, textLabel, isTerminus);
 
-            // Ajout du petit point central de la couleur de la ligne si la station est un terminus
-            if (isTerminus) {
-                const innerPoint = document.createElement('div');
-                innerPoint.className = 'inner-point';
-                innerPoint.style.backgroundColor = this.state.lineColor;
-                marker.appendChild(innerPoint);
-            }
-
-            // Création du label
-            const label = document.createElement('div');
-            label.className = isTerminus ? 'station-label-terminus':'station-label';
-            label.textContent = station.charAt(0).toUpperCase() + station.slice(1);
-            label.style.left = positions[i] + 'px';
-
-            if (isTerminus) {
-                label.style.fontWeight = 'bold';
-            }
-
-            this.twigElements.gameArea.appendChild(marker);
-            this.twigElements.gameArea.appendChild(label);
-        });
+            // Puis on la positionne bien comme il faut sur la zone de jeu
+            stationIcon.style.left = positions[i] + 'px';
+            this.twigElements.gameArea.appendChild(stationIcon);
+            console.log(station + " style : " + stationIcon.style.left);
+        })
     }
 }
 

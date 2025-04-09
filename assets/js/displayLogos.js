@@ -15,7 +15,7 @@ console.log("✅ displayLogo chargé ! (écrit depuis assets/js/displayLogo.js")
  * @param {number} [size=50] - Taille en pixels (largeur/hauteur).
  * @returns {HTMLElement} - L'élément HTML du logo.
  */
-export function createMetroLineLogo(color, symbol, size = 50) {
+export function createIconeTypeTransport(color, size = 50, symbol) {
     const container = document.createElement('div');
     const textColor = isDarkColor(parseCouleur(color)) ? 'white' : 'black';
 
@@ -43,6 +43,75 @@ export function createMetroLineLogo(color, symbol, size = 50) {
 
     //pour qu'il soit reconnu par d'autres fonctionnalités qui ajouterons ou modiefirons le style de notre symbole
     container.classList.add('line-Symbol');
+
+    return container;
+}
+
+export function createIconeStation(color, size = 16, textContent, isTerminus = false) {
+    const container = document.createElement('div');
+    const iconStation = document.createElement('div');
+    const label = document.createElement('div');
+
+    Object.assign(container.style, {
+        position: 'absolute',
+//        zIndex: 1,
+    });
+
+    Object.assign(iconStation.style, {
+        position: 'absolute',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius: '50%',
+        backgroundColor: isTerminus ? 'white' : color,
+        zIndex: 1,
+    });
+
+    if (isTerminus) {
+        iconStation.style.border = '2px solid black';
+        iconStation.style.width = `${size + 4}px`;
+        iconStation.style.height = `${size + 4}px`;
+
+        const innerPoint = document.createElement('div');
+        Object.assign(innerPoint.style, {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: `${size - 6}px`,
+            height: `${size - 6}px`,
+            borderRadius: '50%',
+            backgroundColor: color,
+            zIndex: 2,
+        });
+        iconStation.appendChild(innerPoint);
+    }
+
+    Object.assign(label.style, {
+        position: 'absolute',
+        top: 'calc(50% - 30px)',
+        left: '50%',
+        transformOrigin: 'bottom left',
+        transform: 'translateX(-2px) translateY(-2px) rotate(-45deg)',
+        fontSize: '13px',
+        fontFamily: 'Parisine, sans-serif',
+        fontWeight: 'bold',
+        color: isTerminus ? 'white' : '#244798',
+        whiteSpace: 'nowrap',
+        zIndex: 1,
+    });
+
+    if (isTerminus) {
+        label.style.padding = '0 5px';
+        label.style.backgroundColor = '#244798';
+        //label.style.transform = 'translateX(+0%) translateY(-2px) rotate(-45deg)';
+    }
+
+    label.textContent = textContent;
+
+    container.appendChild(iconStation);
+    container.appendChild(label);
 
     return container;
 }

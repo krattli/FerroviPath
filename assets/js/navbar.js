@@ -1,4 +1,4 @@
-import { adjustColor, createMetroLineLogo } from 'displayLogos.js';
+import { adjustColor, createIconeTypeTransport } from 'displayLogos.js';
 
 console.log('✅ displayLogos.js bien importé (depuis navbar.js)');
 
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const color = input.dataset.color;
         const size = parseInt(input.dataset.size, 10) || 50;
 
-        const logo = createMetroLineLogo(color, symbol, size);
+        const logo = createIconeTypeTransport(color, size, symbol);
         logo.setAttribute('data-for', input.id);
         logo.addEventListener('click', () => input.click());
 
