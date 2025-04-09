@@ -3,6 +3,14 @@
 * utiles dans des contextes mais qui prennet un peu de place alors qu'on a pas vraiment besoin de voir ce qu'elles font exatement
 * */
 
+
+/**
+ * Renvoie une nuance de couleur différente de celle envoyée.
+ * Le but est qu'elle fasse un petit contraste avec la couleur passée en paramètre
+ * @param {string} color - Couleur dont on veux avoir une nuance voisine (ex: "#ff0000").
+ * @param {number} percent - Pourcentage de différence qu'on veux avec l'ancienne couleur
+ * @returns {string} - La nouvelle nuance de couleur
+ */
 export function adjustColor(color, percent) {
     const ratio = getRatioLuminance(color,percent);
     color = parseCouleur(color);

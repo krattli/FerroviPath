@@ -1,4 +1,4 @@
-import {createIconeStation} from "displayLogos.js";
+import {createIconeStation, appendCorrespondances} from "displayLogos.js";
 import {showVictoryPopup, computeSpacing} from "utilities.js";
 
 class MetroGame {
@@ -221,23 +221,26 @@ class MetroGame {
             bar.className = 'metro-line';
             bar.style.left = positions[0] + 'px';
             bar.style.width = (positions[positions.length - 1] - positions[0]) + 'px';
+            bar.style.height = '6px';
             bar.style.backgroundColor = this.state.lineColor;
             this.twigElements.gameArea.appendChild(bar);
         }
 
         // Pour chaque station découverte, créer un marqueur (le point) et son label (le nom de la station)
         sortedDiscovered.forEach((station, i) => {
-            // true ssi la station est le premier ou le dernier element de la liste this.state.stations
+
             const isTerminus = station === this.state.stations[0] || station === this.state.stations[this.state.stations.length - 1];
+            const correspondances = this.state.correspondances.get(station);
+            const hasCorrespondances = correspondances && correspondances.length !== 0;
 
             // On créé notre icone de station avec son texte et tout grâce à notre fonction externalisée
             const textLabel = station.charAt(0).toUpperCase()  + station.slice(1);
-            const stationIcon = createIconeStation(this.state.lineColor, 16, textLabel, isTerminus);
+            const stationIcon = createIconeStation(this.state.lineColor, 16, textLabel, isTerminus, hasCorrespondances);
 
             // Puis on la positionne bien comme il faut sur la zone de jeu
             stationIcon.style.left = positions[i] + 'px';
+            appendCorrespondances(stationIcon, correspondances);
             this.twigElements.gameArea.appendChild(stationIcon);
-            console.log(station + " style : " + stationIcon.style.left);
         })
     }
 }
