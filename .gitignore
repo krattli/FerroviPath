@@ -30,3 +30,5 @@
 **/.DS_Store
 
 Makefile.local
+
+migrations
