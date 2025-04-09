@@ -17,7 +17,7 @@ console.log("✅ displayLogo chargé ! (écrit depuis assets/js/displayLogo.js")
  * @param {number} [size=50] - Taille en pixels (largeur/hauteur).
  * @returns {HTMLElement} - L'élément HTML du logo.
  */
-export function createIconeTypeTransport(color, size = 50, symbol) {
+export function createIconeTypeTransport(color, size, symbol) {
     const container = document.createElement('div');
     const textColor = isDarkColor(color) ? 'white' : 'black';
 
@@ -26,7 +26,7 @@ export function createIconeTypeTransport(color, size = 50, symbol) {
         width: `${size}px`,
         height: `${size}px`,
         backgroundColor: color,
-        fontSize: `${Math.round(size * 0.5)}px`,
+        fontSize: `${size * 0.7}px`,
         color: textColor,
         //sera externalisé dans la bdd
         borderRadius: '50%',
@@ -48,7 +48,7 @@ export function createIconeTypeTransport(color, size = 50, symbol) {
     return container;
 }
 
-export function createIconeStation(color, size = 16, textContent, isTerminus = false, hasCorrespondances = false) {
+export function createIconeStation(color, size, textContent, isTerminus = false, hasCorrespondances = false) {
     const container = document.createElement('div');
     const iconStation = document.createElement('div');
     const label = document.createElement('div');
@@ -61,22 +61,22 @@ export function createIconeStation(color, size = 16, textContent, isTerminus = f
         position: 'absolute',
         top: '50%',
         transform: 'translate(-50%, -50%)',
-        width: `${size}px`,
-        height: `${size}px`,
+        width: `${size * 0.8}px`,
+        height: `${size * 0.8}px`,
         borderRadius: '50%',
         backgroundColor: isTerminus ? 'white' : color,
         zIndex: 1,
     });
 
     if (hasCorrespondances) {
-        iconStation.style.border = '2px solid black';
+        iconStation.style.border = `${size * 0.1}px solid black`;
         iconStation.style.backgroundColor = 'white';
     }
 
     if (isTerminus) {
-        iconStation.style.border = '2px solid black';
-        iconStation.style.width = `${size + 4}px`;
-        iconStation.style.height = `${size + 4}px`;
+        iconStation.style.border = `${size * 0.15}px solid black`;
+        iconStation.style.width = `${size}px`;
+        iconStation.style.height = `${size}px`;
 
         const innerPoint = document.createElement('div');
         Object.assign(innerPoint.style, {
@@ -84,8 +84,8 @@ export function createIconeStation(color, size = 16, textContent, isTerminus = f
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: `${size - 6}px`,
-            height: `${size - 6}px`,
+            width: `${size * 0.40}px`,
+            height: `${size * 0.40}px`,
             borderRadius: '50%',
             backgroundColor: color,
             zIndex: 2,
@@ -95,11 +95,11 @@ export function createIconeStation(color, size = 16, textContent, isTerminus = f
 
     Object.assign(label.style, {
         position: 'absolute',
-        top: 'calc(50% - 30px)',
+        top: `calc(50% - ${size * 1.45}px)`,
         left: '50%',
         transformOrigin: 'bottom left',
-        transform: 'translateX(+3px) translateY(+3px) rotate(-45deg)',
-        fontSize: '13px',
+        transform: `translateX(+${size * 0.15}px) translateY(+${size * 0.15}px) rotate(-45deg)`,
+        fontSize: `${size * 0.65}px`,
         fontFamily: 'Parisine, sans-serif',
         fontWeight: 'bold',
         color: isTerminus ? 'white' : '#244798',
@@ -108,9 +108,9 @@ export function createIconeStation(color, size = 16, textContent, isTerminus = f
     });
 
     if (isTerminus) {
-        label.style.padding = '0 5px';
+        label.style.padding = `0 ${size * 0.25}px`;
         label.style.backgroundColor = '#244798';
-        label.style.transform = 'translateX(+0%) translateY(-2px) rotate(-45deg)';
+        label.style.transform = `translateX(+0%) translateY(-${size * 0.1}px) rotate(-45deg)`;
     }
 
     label.textContent = textContent;
@@ -121,18 +121,18 @@ export function createIconeStation(color, size = 16, textContent, isTerminus = f
     return container;
 }
 
-export function appendCorrespondances(stationIcon, correspondances) {
+export function appendCorrespondances(stationIcon, correspondances, size) {
     if (!correspondances || correspondances.length === 0) return;
 
     const verticalBar = document.createElement('div');
     Object.assign(verticalBar.style, {
         position: 'absolute',
-        top: 'calc(50% + 8px)',
+        top: `calc(50% + ${size * 0.4}px)`,
         left: '50%',
-        width: '2px',
-        height: '18px',
+        width: `${size * 0.1}px`,
+        height: `${size * 0.7}px`,
         backgroundColor: '#244798',
-        transform: 'translateX(-50%)',
+        transform: `translateX(-50%) translateY(+${size * 0.1}px)`,
         zIndex: 0,
     });
     stationIcon.appendChild(verticalBar);
@@ -140,7 +140,7 @@ export function appendCorrespondances(stationIcon, correspondances) {
     const corrContainer = document.createElement('div');
     Object.assign(corrContainer.style, {
         position: 'absolute',
-        top: 'calc(50% + 26px)',
+        top: `calc(50% + ${size * 1.3}px)`,
         left: '50%',
         transform: 'translateX(-50%)',
         display: 'inline-block',
@@ -156,10 +156,10 @@ export function appendCorrespondances(stationIcon, correspondances) {
         top: '0',
         left: '100%',
         display: 'flex',
-        marginLeft: '2px',
+        marginLeft: `${size * 0.1}px`,
         flexDirection: 'row',
         alignItems: 'center',
-        gap: '4px',
+        gap: `${size * 0.1}px`,
     });
 
     correspondances.forEach(corr => {
@@ -180,11 +180,12 @@ export function createTransportTypeLogo(name, size) {
             fontSize: `${size * 0.65}px`,
             borderRadius: '50%',
             display: 'flex',
-            border: `${size * 0.08}px solid #244798`,
+            border: `${size * 0.1}px solid #244798`,
             color: '#244798',
             alignItems: 'center',
             justifyContent: 'center',
             fontFamily: 'Parisine',
+            fontsize: `${size * 2}px`,
             textAlign: 'center',
         });
         logo.textContent = 'M';

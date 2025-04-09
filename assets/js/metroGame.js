@@ -235,11 +235,11 @@ class MetroGame {
 
             // On créé notre icone de station avec son texte et tout grâce à notre fonction externalisée
             const textLabel = station.charAt(0).toUpperCase()  + station.slice(1);
-            const stationIcon = createIconeStation(this.state.lineColor, 16, textLabel, isTerminus, hasCorrespondances);
+            const stationIcon = createIconeStation(this.state.lineColor, 20, textLabel, isTerminus, hasCorrespondances);
 
             // Puis on la positionne bien comme il faut sur la zone de jeu
             stationIcon.style.left = positions[i] + 'px';
-            appendCorrespondances(stationIcon, correspondances);
+            appendCorrespondances(stationIcon, correspondances, 20);
             this.twigElements.gameArea.appendChild(stationIcon);
         })
     }
