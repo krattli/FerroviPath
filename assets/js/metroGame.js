@@ -19,6 +19,7 @@ class MetroGame {
             finalTime: null,
             totalStations: 0,
             stations: [],
+            correspondances: new Map(),
             lineColor: null,
             lineSymbol: null,
             victoryAchieved: false
@@ -33,6 +34,17 @@ class MetroGame {
         // Récupère les stations depuis ce qui a été donné à twig
         this.state.stations = Array.from(gameArea.dataset.stations.split(','));
         this.state.totalStations = this.state.stations.length;
+
+        // Récupérer les correspondances pour chaque stations
+        const correspondancesRaw = gameArea.dataset.correspondances;
+        if (correspondancesRaw) {
+            const correspondancesParsed = JSON.parse(correspondancesRaw);
+            correspondancesParsed.forEach(entry => {
+                this.state.correspondances.set(entry.name, entry.lines);
+            });
+        }
+        //console.log(this.state.correspondances)
+
         // Récupérer la couleur et le symbole de la ligne depuis le data-attribute
         this.state.lineColor = gameArea.dataset.color;
         this.state.lineSymbol = gameArea.dataset.symbol;

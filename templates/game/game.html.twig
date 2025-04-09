@@ -29,11 +29,23 @@
         </div>
         <div class="game-area-container">
             <div class="game-area" data-game-area
+
                  data-stations="{{ line.getStations()|map(station => station.getNameStation()|lower)|join(',') }}"
                  data-color="{{ line.getColor() }}"
                  data-symbol="{{ line.getSymbol() }}"
+
+                 data-correspondances='{{ line.getStations()|map(station => {
+                     'name': station.getNameStation()|lower,
+                     'lines': station.getCorrespondances()|filter(c => c.getLine().getIdLine() != line.getIdLine())|map(c => {
+                         'symbol': c.getLine().getSymbol(),
+                         'color': c.getLine().getColor()
+                     })
+                 })|json_encode|e('html_attr')
+                 }}'
+
                  data-line-id="{{ line.getIdLine() }}"
                  data-user-id="{{ app.user ? app.user.getIdUser() : 'anonymous' }}"
+
                 {% if game is defined %}
                     data-game-id="{{ game.idGame }}"
                     data-resume="true"
