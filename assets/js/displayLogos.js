@@ -49,7 +49,7 @@ export function createIconeTypeTransport(color, size = 50, symbol) {
     return container;
 }
 
-export function createIconeStation(color, size = 16, textContent, isTerminus = false) {
+export function createIconeStation(color, size = 16, textContent, isTerminus = false, hasCorrespondances = false) {
     const container = document.createElement('div');
     const iconStation = document.createElement('div');
     const label = document.createElement('div');
@@ -69,6 +69,11 @@ export function createIconeStation(color, size = 16, textContent, isTerminus = f
         backgroundColor: isTerminus ? 'white' : color,
         zIndex: 1,
     });
+
+    if (hasCorrespondances) {
+        iconStation.style.border = '2px solid black';
+        iconStation.style.backgroundColor = 'white';
+    }
 
     if (isTerminus) {
         iconStation.style.border = '2px solid black';
@@ -118,10 +123,37 @@ export function createIconeStation(color, size = 16, textContent, isTerminus = f
     return container;
 }
 
-/**
- * Renvoie une nuance de couleur différente de celle envoyée.
- * Le but est qu'elle fasse un petit contraste avec la couleur passée en paramètre
- * @param {string} color - Couleur dont on veux avoir une nuance voisine (ex: "#ff0000").
- * @param {number} percent - Pourcentage de différence qu'on veux avec l'ancienne couleur
- * @returns {string} - La nouvelle nuance de couleur
- */
+export function appendCorrespondances(stationIcon, correspondances) {
+    if (!correspondances || correspondances.length === 0) return;
+    const verticalBar = document.createElement('div');
+    Object.assign(verticalBar.style, {
+        position: 'absolute',
+        top: 'calc(50% + 8px)',
+        left: '50%',
+        width: '2px',
+        height: '18px',
+        backgroundColor: '#244798',
+        transform: 'translateX(-50%)',
+        zIndex: 0,
+    });
+
+    // Conteneur flex pour les icônes
+    const corrContainer = document.createElement('div');
+    Object.assign(corrContainer.style, {
+        position: 'absolute',
+        top: 'calc(50% + 26px)',
+        left: '50%',
+        display: 'flex',
+        gap: '4px',
+        transform: 'translateX(-50%)',
+        zIndex: 1,
+    });
+
+    correspondances.forEach(corr => {
+        const logo = createIconeTypeTransport(corr.color, 20, corr.symbol);
+        corrContainer.appendChild(logo);
+    });
+
+    stationIcon.appendChild(verticalBar);
+    stationIcon.appendChild(corrContainer);
+}
