@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const size = parseInt(input.dataset.size, 10) || 50;
 
         const logo = createIconeTypeTransport(color, size, symbol);
+        logo.style.cursor = 'pointer';
         logo.setAttribute('data-for', input.id);
         logo.addEventListener('click', () => input.click());
 
