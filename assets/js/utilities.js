@@ -139,3 +139,91 @@ function getRatioLuminance(color, percent) {
     // L'objectif de tout ça est que les nuances de couleurs paraissent avec la même quantité de différence de luminance
     return targetLuminance / originalLuminance;
 }
+
+/**
+ * C'est la fonction qui va donner les positions à l'écran en pixel de toutes les stations
+ * Permet un affichage optimal avec des correspondances qui s'embrouillent pas les unes dans les autres
+ * **/
+export function getPositions(sortedDiscovered, correspondances, widthWereGonnaUse, size) {
+
+    const spacing = computeAdjustedSpacing(sortedDiscovered, correspondances, widthWereGonnaUse, size);
+    let positions = [];
+
+    let totalStationWidth = 0;
+    for (let i = 0; i < spacing.length - 1; i++) {
+        totalStationWidth += spacing[i];
+    }
+
+    // La première station sera placée un peu à droite du bord quand même
+    let accumulatedSpacing = (widthWereGonnaUse - totalStationWidth) / 2
+
+    for (let i = 0; i < spacing.length ; i++) {
+        positions[i] = accumulatedSpacing;
+        accumulatedSpacing += spacing[i];
+    }
+    console.log("positions clone -->");
+    console.log(positions);
+    return positions;
+}
+function computeAdjustedSpacing(sortedDiscoveredStations, correspondances, availableWidth, size) {
+
+    const primarySpacing = computeSpacing(availableWidth, sortedDiscoveredStations.length);
+    let newAvailableWidth = availableWidth;
+    let nbStationsToKeepNormalSpacing = sortedDiscoveredStations.length;
+
+    let minSizeRequired = [];
+    sortedDiscoveredStations.forEach((station, i) => {
+        const nbCorr = correspondances.get(station).length;
+        minSizeRequired[i] = minSizerequired(nbCorr, size);
+        if (minSizeRequired[i] > primarySpacing) {
+            newAvailableWidth -= minSizeRequired[i];
+            nbStationsToKeepNormalSpacing -= 1;
+        }
+    })
+    const newSpacing = computeSpacing(newAvailableWidth, nbStationsToKeepNormalSpacing);
+
+    minSizeRequired.forEach((value, index) => {
+        minSizeRequired[index] = Math.max(value, newSpacing)
+    })
+    return minSizeRequired;
+}
+
+// Fonction devenue innutile mais on la conserve au cas ou la nouvelle méthode getPosition a des bugs qu'on a pas remarqué
+function oldGetPositions(widthWereGonnaUse, sortedDiscovered) {
+
+    let positions = [];
+    const count = sortedDiscovered.length;
+
+    // Calcul de l'espacement dynamique entre les stations avec la fonction computeSpacing
+    const spacing = computeSpacing(widthWereGonnaUse, count);
+    // Calcul de la largeur totale occupée par le groupe de stations (pour la barre de ligne)
+    const totalStationsWidth = spacing * (count - 1);
+    // Calcul d'un décalage pour centrer le groupe dans la game-area
+    const leftOffset = (widthWereGonnaUse - totalStationsWidth) / 2;
+    positions = sortedDiscovered.map((_, index) => leftOffset + index * spacing);
+    console.log("positions normal -->");
+    console.log(positions);
+    return positions;
+}
+
+/**
+ * Petite fonction qui donne l'espace que devra prendre sur sa droite une station de métro avec n correspondances
+ * c'est la même pour n=4 et n=2 car quand n=4, on réarrange verticalement les stations
+ * @param nbCorrespondances - le nombre de correspondance de la station
+ * @param size - l'étalon de taille d'affichage des stations en pixel
+ * @param {boolean} hasEmptyNextStation - permet à ce que si la station suivante n'a pas de correspondance, on prenne un peu plus de place quand même
+ * **/
+function minSizerequired(nbCorrespondances, size, hasEmptyNextStation = false) {
+    let sizeTaken = 0;
+    if (nbCorrespondances === 0) {
+        return sizeTaken;
+    }
+    else if (nbCorrespondances === 4) {
+        sizeTaken += minSizerequired(2, size)
+    }
+    else {
+        sizeTaken += (size * 1.3) + nbCorrespondances * size;
+    }
+    if (hasEmptyNextStation) {sizeTaken -= size * 0.7}
+    return sizeTaken;
+}

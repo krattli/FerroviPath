@@ -1,5 +1,5 @@
 import {appendCorrespondances, createIconeStation, createIconeTypeTransport, createTransportTypeLogo} from "displayLogos.js";
-import {computeSpacing, showVictoryPopup, showFeedback} from "utilities.js";
+import {getPositions, showVictoryPopup, showFeedback} from "utilities.js";
 
 class MetroGame {
     constructor() {
@@ -123,8 +123,6 @@ class MetroGame {
         const seconds = String(Math.floor((elapsed % 60000) / 1000)).padStart(2, '0');
         this.twigElements.timeField.textContent = `${minutes}:${seconds}`;
     }
-
-
 
     checkVictory() {
         if (this.state.discoveredStations.length === this.state.totalStations) {
@@ -259,81 +257,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
-function getPositions(sortedDiscovered, correspondances, widthWereGonnaUse, size) {
-
-    const spacing = computeAdjustedSpacing(sortedDiscovered, correspondances, widthWereGonnaUse, size);
-    let positions = [];
-
-    let totalStationWidth = 0;
-    for (let i = 0; i < spacing.length - 1; i++) {
-        totalStationWidth += spacing[i];
-    }
-
-    // La première station sera placée un peu à droite du bord quand même
-    let accumulatedSpacing = (widthWereGonnaUse - totalStationWidth) / 2
-
-    for (let i = 0; i < spacing.length ; i++) {
-        positions[i] = accumulatedSpacing;
-        accumulatedSpacing += spacing[i];
-    }
-    console.log("positions clone -->");
-    console.log(positions);
-    return positions;
-}
-function computeAdjustedSpacing(sortedDiscoveredStations, correspondances, availableWidth, size) {
-
-    const primarySpacing = computeSpacing(availableWidth, sortedDiscoveredStations.length);
-    let newAvailableWidth = availableWidth;
-    let nbStationsToKeepNormalSpacing = sortedDiscoveredStations.length;
-
-    let minSizeRequired = [];
-    sortedDiscoveredStations.forEach((station, i) => {
-        const nbCorr = correspondances.get(station).length;
-        minSizeRequired[i] = minSizerequired(nbCorr, size);
-        if (minSizeRequired[i] > primarySpacing) {
-            newAvailableWidth -= minSizeRequired[i];
-            nbStationsToKeepNormalSpacing -= 1;
-        }
-    })
-    const newSpacing = computeSpacing(newAvailableWidth, nbStationsToKeepNormalSpacing);
-
-    minSizeRequired.forEach((value, index) => {
-        minSizeRequired[index] = Math.max(value, newSpacing)
-    })
-
-    console.log("minsize -->");
-    console.log(minSizeRequired)
-    return minSizeRequired;
-}
-
-// Fonction devenue innutile mais on la conserve au cas ou la nouvelle méthode getPosition a des bugs qu'on a pas remarqué
-function oldGetPositions(widthWereGonnaUse, sortedDiscovered) {
-
-    let positions = [];
-    const count = sortedDiscovered.length;
-
-    // Calcul de l'espacement dynamique entre les stations avec la fonction computeSpacing
-    const spacing = computeSpacing(widthWereGonnaUse, count);
-    // Calcul de la largeur totale occupée par le groupe de stations (pour la barre de ligne)
-    const totalStationsWidth = spacing * (count - 1);
-    // Calcul d'un décalage pour centrer le groupe dans la game-area
-    const leftOffset = (widthWereGonnaUse - totalStationsWidth) / 2;
-    positions = sortedDiscovered.map((_, index) => leftOffset + index * spacing);
-    console.log("positions normal -->");
-    console.log(positions);
-    return positions;
-}
-
-// petite fonction
-function minSizerequired(nbCorrespondances, size) {
-    if (nbCorrespondances === 0) {
-        return 0;
-    }
-    else if (nbCorrespondances === 4) {
-        return minSizerequired(2, size)
-    }
-    else {
-        return (size * 1.3) + nbCorrespondances * size;
-    }
-}
