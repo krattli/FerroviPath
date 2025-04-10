@@ -1,4 +1,9 @@
-import {createIconeStation, appendCorrespondances, createTransportTypeLogo} from "displayLogos.js";
+import {
+    createIconeStation,
+    appendCorrespondances,
+    createTransportTypeLogo,
+    createIconeTypeTransport
+} from "displayLogos.js";
 import {showVictoryPopup, computeSpacing} from "utilities.js";
 
 class MetroGame {
@@ -64,7 +69,10 @@ class MetroGame {
         // Événement (lorsqu'on valide un ajout de station)
         this.twigElements.stationInput.addEventListener('keypress', this.handleInput.bind(this));
 
-        this.twigElements.gameArea.appendChild(createTransportTypeLogo("metro", 50))
+        this.twigElements.gameArea.appendChild(createTransportTypeLogo("metro", 50));
+        const icon = createIconeTypeTransport(this.state.lineColor, 50, this.state.lineSymbol);
+        icon.style.marginLeft = "5px";
+        this.twigElements.gameArea.appendChild(icon);
 
         // Mise à jour du temps en temps réel
         this.updateTime();
