@@ -72,7 +72,7 @@ export function showVictoryPopup() {
 // La méthode gagnerait à être simplifiée
 // Mais on veut comme effet que les stations apparaissent en gros au début puis plus il y en as, plus elles remplissent l'espace optimalement
 export function computeSpacing(availableWidth, discoveredCount) {
-    if (discoveredCount < 2) return null; // Pas d'espacement pour une seule station
+    if (discoveredCount < 2) return 0;
 
     const x = discoveredCount - 1;
     const rawSpacing = availableWidth / x;  // L'espacement minimal nécessaire pour remplir la game-area
