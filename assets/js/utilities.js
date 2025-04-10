@@ -30,6 +30,11 @@ export function isDarkColor(color) {
     return getLuminance(color) < 132;
 }
 
+/**
+ * Celle ci est plutot triviale
+ * Fonction uniquement utilisée dans la classe metroGame lors de la victoire
+ * Le code est juste externalisé, la classe est trop longue sinon
+ * **/
 export function showVictoryPopup() {
     const overlay = document.createElement('div');
     overlay.className = 'popup-overlay';
@@ -66,6 +71,18 @@ export function showVictoryPopup() {
         popupContainer.style.width = '80%';
         popupContainer.style.borderRadius = '30px';
     }, 50);
+}
+
+/**
+ * celle ci est déjà un peu plus modulaire que la précédente
+ * On utilise la classe feedBack de bootStrap pour faire des petits popup personnalisés
+ * **/
+export function showFeedback(text, type) {
+    const feedback = document.createElement('div');
+    feedback.className = `feedback ${type}`;
+    feedback.textContent = text;
+    document.body.appendChild(feedback);
+    setTimeout(() => feedback.remove(), 2000);
 }
 
 // Calcul de l'espace que prendra une barre de ligne de métro en fonction de l'espace disponible

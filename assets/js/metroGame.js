@@ -1,10 +1,5 @@
-import {
-    appendCorrespondances,
-    createIconeStation,
-    createIconeTypeTransport,
-    createTransportTypeLogo
-} from "displayLogos.js";
-import {computeSpacing, showVictoryPopup} from "utilities.js";
+import {appendCorrespondances, createIconeStation, createIconeTypeTransport, createTransportTypeLogo} from "displayLogos.js";
+import {computeSpacing, showVictoryPopup, showFeedback} from "utilities.js";
 
 class MetroGame {
     constructor() {
@@ -186,12 +181,6 @@ class MetroGame {
             .catch(error => console.error('Error saving game:', error));
     }
 
-
-
-
-    // cette méthode nous aide à calculer l'espacement entre chaque station en fonction du nombre de stations déjà découvertes
-
-
     renderMetroMap() {
         // On vide d'abord la game-area (de l'ancienne carte affichée)
         this.twigElements.gameArea.innerHTML = '';
@@ -205,12 +194,9 @@ class MetroGame {
         // Récupérer la largeur de la game-area et définir une petite marge pour éviter les bords
         const areaWidth = this.twigElements.gameArea.offsetWidth;
         const count = sortedDiscovered.length;
-        const widthWereGonnaUse = getWidthWereGonnaUse(areaWidth, count, 20);
 
-        let positions2 = getPositions(widthWereGonnaUse, sortedDiscovered);
-        let spacings = computeAdjustedSpacing(sortedDiscovered, this.state.correspondances, widthWereGonnaUse, 20);
-        let positions = getPositionClone(widthWereGonnaUse, sortedDiscovered, spacings)
-        //console.log(positions2);
+        // On calcule les positions de chaque icone station. Celles qui ont des correspondances peuvent prendre plus de place
+        let positions = getPositions(sortedDiscovered, this.state.correspondances, areaWidth, 20)
 
         // Si on a au moins 2 stations, dessiner la barre reliant la première et la dernière station
         if (count >= 2) {
@@ -236,7 +222,11 @@ class MetroGame {
 
             // Puis on la positionne bien comme il faut sur la zone de jeu
             stationIcon.style.left = positions[i] + 'px';
+
+            // Si la station a des correspondances, elles seront ajoutées à la div html station et affichées à l'écran
             appendCorrespondances(stationIcon, correspondances, 20);
+
+            // Enfin, on ajoute la petite icone de station avec tout ses attributs à l'écran
             this.twigElements.gameArea.appendChild(stationIcon);
         })
     }
@@ -269,17 +259,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-//fonction utilisée pour afficher des petits pop up (genre "nouvelle station découverte")
-function showFeedback(text, type) {
-    const feedback = document.createElement('div');
-    feedback.className = `feedback ${type}`;
-    feedback.textContent = text;
-    document.body.appendChild(feedback);
-    setTimeout(() => feedback.remove(), 2000);
-}
 
-function confirmAbandon(s) {
-    return confirm(s);
+function getPositions(sortedDiscovered, correspondances, widthWereGonnaUse, size) {
+
+    const spacing = computeAdjustedSpacing(sortedDiscovered, correspondances, widthWereGonnaUse, size);
+    let positions = [];
+
+    let totalStationWidth = 0;
+    for (let i = 0; i < spacing.length - 1; i++) {
+        totalStationWidth += spacing[i];
+    }
+
+    // La première station sera placée un peu à droite du bord quand même
+    let accumulatedSpacing = (widthWereGonnaUse - totalStationWidth) / 2
+
+    for (let i = 0; i < spacing.length ; i++) {
+        positions[i] = accumulatedSpacing;
+        accumulatedSpacing += spacing[i];
+    }
+    console.log("positions clone -->");
+    console.log(positions);
+    return positions;
 }
 function computeAdjustedSpacing(sortedDiscoveredStations, correspondances, availableWidth, size) {
 
@@ -307,7 +307,8 @@ function computeAdjustedSpacing(sortedDiscoveredStations, correspondances, avail
     return minSizeRequired;
 }
 
-function getPositions(widthWereGonnaUse, sortedDiscovered) {
+// Fonction devenue innutile mais on la conserve au cas ou la nouvelle méthode getPosition a des bugs qu'on a pas remarqué
+function oldGetPositions(widthWereGonnaUse, sortedDiscovered) {
 
     let positions = [];
     const count = sortedDiscovered.length;
@@ -324,31 +325,7 @@ function getPositions(widthWereGonnaUse, sortedDiscovered) {
     return positions;
 }
 
-function getPositionClone(widthWereGonnaUse, sortedDiscovered, spacing) {
-
-    let positions = [];
-
-    let totalStationWidth = 0;
-    for (let i = 0; i < spacing.length - 1; i++) {
-        totalStationWidth += spacing[i];
-    }
-
-    // La première station sera placée un peu à droite du bord quand même
-    let accumulatedSpacing = (widthWereGonnaUse - totalStationWidth) / 2
-
-    for (let i = 0; i < spacing.length ; i++) {
-        positions[i] = accumulatedSpacing;
-        accumulatedSpacing += spacing[i];
-    }
-    console.log("positions clone -->");
-    console.log(positions);
-    return positions;
-}
-
-function getWidthWereGonnaUse(availableWidth, stationDiscoveredCount, size) {
-    return availableWidth;
-}
-
+// petite fonction
 function minSizerequired(nbCorrespondances, size) {
     if (nbCorrespondances === 0) {
         return 0;
