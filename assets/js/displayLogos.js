@@ -162,10 +162,14 @@ export function appendCorrespondances(stationIcon, correspondances, size) {
         gap: `${size * 0.1}px`,
     });
 
-    correspondances.forEach(corr => {
-        const lineLogo = createIconeTypeTransport(corr.color, size, corr.symbol);
-        linesContainer.appendChild(lineLogo);
-    });
+    if (correspondances.length === 4) {
+        append4correspondances(linesContainer, correspondances, size);
+    } else {
+        correspondances.forEach(corr => {
+            const lineLogo = createIconeTypeTransport(corr.color, size, corr.symbol);
+            linesContainer.appendChild(lineLogo);
+        });
+    }
 
     corrContainer.appendChild(linesContainer);
     stationIcon.appendChild(corrContainer);
@@ -191,4 +195,34 @@ export function createTransportTypeLogo(name, size) {
         logo.textContent = 'M';
     }
     return logo;
+}
+
+function append4correspondances(linesContainer, correspondances, size) {
+    linesContainer.style.flexDirection = "column";
+    const topRow = document.createElement('div');
+    Object.assign(topRow.style, {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: `${size * 0.1}px`,
+    });
+
+    for (let i = 0; i < 2; i++) {
+        const lineLogo = createIconeTypeTransport(correspondances[i].color, size, correspondances[i].symbol);
+        topRow.appendChild(lineLogo);
+    }
+
+    const bottomRow = document.createElement('div');
+    Object.assign(bottomRow.style, {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: `${size * 0.1}px`,
+    });
+
+    for (let i = 2; i < 4; i++) {
+        const lineLogo = createIconeTypeTransport(correspondances[i].color, size, correspondances[i].symbol);
+        bottomRow.appendChild(lineLogo);
+    }
+
+    linesContainer.appendChild(topRow);
+    linesContainer.appendChild(bottomRow);
 }
