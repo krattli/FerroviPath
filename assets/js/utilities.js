@@ -161,20 +161,23 @@ export function getPositions(sortedDiscovered, correspondances, widthWereGonnaUs
         positions[i] = accumulatedSpacing;
         accumulatedSpacing += spacing[i];
     }
-    console.log("positions clone -->");
-    console.log(positions);
     return positions;
 }
 function computeAdjustedSpacing(sortedDiscoveredStations, correspondances, availableWidth, size) {
 
     const primarySpacing = computeSpacing(availableWidth, sortedDiscoveredStations.length);
+
     let newAvailableWidth = availableWidth;
     let nbStationsToKeepNormalSpacing = sortedDiscoveredStations.length;
 
     let minSizeRequired = [];
     sortedDiscoveredStations.forEach((station, i) => {
         const nbCorr = correspondances.get(station).length;
-        minSizeRequired[i] = minSizerequired(nbCorr, size);
+        let isNextStationEmpty = false;
+        if (i + 1 < sortedDiscoveredStations.length && correspondances.get(sortedDiscoveredStations[i + 1]).length === 0) {
+            isNextStationEmpty = true;
+        }
+        minSizeRequired[i] = minSizerequired(nbCorr, size, isNextStationEmpty);
         if (minSizeRequired[i] > primarySpacing) {
             newAvailableWidth -= minSizeRequired[i];
             nbStationsToKeepNormalSpacing -= 1;
@@ -201,8 +204,6 @@ function oldGetPositions(widthWereGonnaUse, sortedDiscovered) {
     // Calcul d'un décalage pour centrer le groupe dans la game-area
     const leftOffset = (widthWereGonnaUse - totalStationsWidth) / 2;
     positions = sortedDiscovered.map((_, index) => leftOffset + index * spacing);
-    console.log("positions normal -->");
-    console.log(positions);
     return positions;
 }
 
@@ -222,8 +223,8 @@ function minSizerequired(nbCorrespondances, size, hasEmptyNextStation = false) {
         sizeTaken += minSizerequired(2, size)
     }
     else {
-        sizeTaken += (size * 1.3) + nbCorrespondances * size;
+        sizeTaken += (size * 1.4) + nbCorrespondances * size;
     }
-    if (hasEmptyNextStation) {sizeTaken -= size * 0.7}
+    if (hasEmptyNextStation) {sizeTaken -= size * 0.9}
     return sizeTaken;
 }
