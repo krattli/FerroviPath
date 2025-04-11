@@ -15,7 +15,7 @@ class MetroFixtures extends Fixture
         // $manager->persist($product);
         $lines = [
             ['id_line' => 1, 'nameLine' => 'Ligne 1', 'color' => '#FFCE00', 'symbol' => '1',
-            'stations' =>[['La Défense - Grande Arche', 48.8925, 2.2369],
+            'stations' =>[['La Défense', 48.8925, 2.2369],
                         ['Esplanade de la Défense', 48.8887, 2.2504],
                         ['Pont de Neuilly', 48.8841, 2.2614],
                         ['Les Sablons', 48.8798, 2.2694],
@@ -486,11 +486,11 @@ class MetroFixtures extends Fixture
                             ['Bibliothèque François Mitterrand', 48.8319, 2.3775],
                             ['Olympiades', 48.8186, 2.3653],
                             ['Maison Blanche', 48.8136, 2.3544],
-                            ['Hôpital du Kremlin-Bicêtre', 48.8019, 2.3464],
-                            ['Villejuif - Institut Gustave-Roussy', 48.7917, 2.3283],
+                            ['Hôpital Bicêtre', 48.8019, 2.3464],
+                            ['Villejuif - Gustave-Roussy', 48.7917, 2.3283],
+                            ['L\'hay-les-Roses', 48.7917, 2.3283],
                             ['Chevilly-Larue', 48.7839, 2.3150],
-                            ['Porte de Thiais - Marché International', 48.7763, 2.3099],
-                            ['Pont de Rungis', 48.7642, 2.2834],
+                            ['Thiais-Orly', 48.7763, 2.3099],
                             ['Aéroport d\'Orly', 48.7264, 2.3797]
                         ]
                         ],
