@@ -3,6 +3,19 @@ DOCKER_COMPOSE_FILEPATH=.docker/docker-compose.yaml
 DOCKER_PHP_CONTAINER=ferrovipath_php
 -include Makefile.local
 
+# Si vous avez la flemme de créer des container et vous voulez juste lancer ce projet, faites cette commande.
+# Si vous êtes sur windows tant pis pour vous, cette commande est faite pour mac
+local-build:
+	@echo "\033[1;32mInstallation des dépendances\033[0m"
+	composer install
+	@echo "\033[1;32mCréation de la base de donnée\033[0m"
+	make db
+	@echo "\033[1;32mConfiguration de l'environnement local\033[0m"
+	@php -r "file_put_contents('.env.local', preg_replace('/^DATABASE_URL=.*$$/m', '', file_exists('.env.local') ? file_get_contents('.env.local') : '') . \"\nDATABASE_URL=\\\"mysql://ferrovipath_user:ferrovipath_password@127.0.0.1:3306/ferrovipath?serverVersion=8.0.32&charset=utf8mb4\\\"\n\");"
+	@echo "\033[1;32mLancement du serveur Symfony...\033[0m"
+	symfony server:start
+
+
 # Start the containers in the background
 up:
 	docker compose -f $(DOCKER_COMPOSE_FILEPATH) up -d
