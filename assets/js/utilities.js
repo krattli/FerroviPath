@@ -228,3 +228,14 @@ function minSizerequired(nbCorrespondances, size, hasEmptyNextStation = false) {
     if (hasEmptyNextStation) {sizeTaken -= size * 0.9}
     return sizeTaken;
 }
+
+export function validateWord(input, list) {
+    const normalizedInput = input.replace(/[\s-]+/g, ' ').trim();
+    for (let word of list) {
+        const normalizedWord = word.replace(/[\s-]+/g, ' ').trim();
+        if (normalizedWord === normalizedInput) {
+            return word;
+        }
+    }
+    return null;
+}

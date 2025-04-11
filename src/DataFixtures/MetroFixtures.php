@@ -488,7 +488,7 @@ class MetroFixtures extends Fixture
                             ['Maison Blanche', 48.8136, 2.3544],
                             ['Hôpital du Kremlin-Bicêtre', 48.8019, 2.3464],
                             ['Villejuif - Institut Gustave-Roussy', 48.7917, 2.3283],
-                            ['Chevilly Trois Communes', 48.7839, 2.3150],
+                            ['Chevilly-Larue', 48.7839, 2.3150],
                             ['Porte de Thiais - Marché International', 48.7763, 2.3099],
                             ['Pont de Rungis', 48.7642, 2.2834],
                             ['Aéroport d\'Orly', 48.7264, 2.3797]

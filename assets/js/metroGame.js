@@ -1,5 +1,5 @@
 import {appendCorrespondances, createIconeStation, createIconeTypeTransport, createTransportTypeLogo} from "displayLogos.js";
-import {getPositions, showVictoryPopup, showFeedback} from "utilities.js";
+import {getPositions, showVictoryPopup, showFeedback, validateWord} from "utilities.js";
 
 class MetroGame {
     constructor() {
@@ -76,13 +76,14 @@ class MetroGame {
 
     handleInput(e) {
         if (e.key === 'Enter') {
-            const input = e.target.value.trim().toLowerCase();
+            const input = e.target.value;
             e.target.value = '';
             if (!input) return;
 
-            if (this.state.stations.includes(input)) {
-                if (!this.state.discoveredStations.includes(input)) {
-                    this.handleCorrectGuess(input);
+            const wordvalide = validateWord(input, this.state.stations);
+            if (wordvalide != null) {
+                if (!this.state.discoveredStations.includes(wordvalide)) {
+                    this.handleCorrectGuess(wordvalide);
                 } else {
                     this.showFeedback('Station déjà découverte !', 'info');
                 }
@@ -90,13 +91,6 @@ class MetroGame {
                 this.showFeedback('Station non trouvée !', 'error');
             }
         }
-    }
-
-    validateWord(input, list) {
-        if (!list.includes(input)) {
-            return true;
-        }
-        return false
     }
 
     handleCorrectGuess(station) {
