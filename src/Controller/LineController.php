@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Line;
 use App\Form\AddLineType;
+use App\Form\LineTypeManual;
 use App\Service\LineServices;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -35,6 +38,31 @@ class LineController extends AbstractController
             }
         return $this->render('line/add.html.twig', [
             'addLineForm' => $form->createView()
+        ]);
+    }
+
+    #[Route('/line/add-manually', name: 'ferrovipath_add_manually', methods: ['GET','POST'])]
+    public function addLineManually(Request $request, EntityManagerInterface $em): Response {
+        $line = new Line();
+
+        $form = $this->createForm(LineTypeManual::class, $line);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($line->getStations() as $station) {
+                $station->setLine($line);
+            }
+
+            $em->persist($line);
+            $em->flush();
+
+            $this->addFlash('success', 'Nouvelle ligne ajoutée avec ses stations !');
+
+            return $this->redirectToRoute('ferrovipath_line_add');
+        }
+
+        return $this->render('line/add-manually.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }
