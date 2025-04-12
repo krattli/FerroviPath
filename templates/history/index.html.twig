@@ -24,7 +24,11 @@
                     <tr>
                         <td>{{ game.line.getNameLine }}</td>
                         <td>{{ game.scorePoints }}</td>
-                        <td>{{ game.time }}</td>
+                        <td>
+                            {% set minutes = game.time // 60 %}
+                            {% set seconds = game.time % 60 %}
+                            {{ '%02d:%02d'|format(minutes, seconds) }}
+                        </td>
                         <td>{{ game.createdAt|date('d/m/Y H:i') }}</td>
                         {% if game.isFinished == true %}
                             <td>terminée</td>
