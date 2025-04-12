@@ -14,12 +14,19 @@
                 <h1 class="mb-4">Ajout d'une ligne de métro</h1>
             </div>
             <div class="card-body d-flex flex-column justify-content-center align-items-center text-center w-75 mx-auto">
-                <p>Veuillez télécharger un fichier JSON contenant les données de la ligne de métro. Assurez-vous que le fichier respecte le format requis.</p>
-                <a href="/jsonFile/exempleLigne.json" download class="btn btn-outline-secondary mb-3">
+                <p>
+                    Veuillez télécharger un fichier JSON contenant les données de la ligne de métro.
+                    Assurez-vous que le fichier respecte le format requis.
+                    Vous pouvez également de vous même ajouter une ligne station par station
+                </p>
+                <a href="{{path('ferrovipath_add_manually')}}" class="btn btn-outline-success mb-3">
+                    Ajouter manuellement une autre ligne
+                </a>
+                <a href="{{ asset('jsonFile/exempleLigne.json') }}" download class="btn btn-outline-secondary mb-3">
                     Télécharger un exemple de fichier JSON
                 </a>
                 <div class="mb-3">
-                    <a href="{{path('ferrovipath_answer')}}" class="btn btn-outline-info">Voir la liste des lignes existantes</a>
+                    <a href="{{path('ferrovipath_add_manually')}}" class="btn btn-outline-info">Voir la liste des lignes existantes</a>
                 </div>
                 {{ form_start(addLineForm) }}
                 <div class="mb-3">
