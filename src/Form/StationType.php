@@ -13,9 +13,9 @@ class StationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nameStation', TextType::class, ['label' => 'Nom de la station'])
-            ->add('axisX', NumberType::class, ['label' => 'Position abscisse'])
-            ->add('axisY', NumberType::class, ['label' => 'Position ordonnée']);
+        ->add('nameStation', TextType::class, ['label' => 'Nom de la station'])
+        ->add('axisX', NumberType::class, ['label' => 'Position abscisse'])
+        ->add('axisY', NumberType::class, ['label' => 'Position ordonnée']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

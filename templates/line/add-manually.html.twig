@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ajouter une ligne</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.nameLine) }}
+    {{ form_row(form.color) }}
+    {{ form_row(form.symbol) }}
+
+    <h3>Stations</h3>
+    {% for stationForm in form.stations %}
+        <div class="station-form">
+            {{ form_row(stationForm.nameStation) }}
+            {{ form_row(stationForm.axisX) }}
+            {{ form_row(stationForm.axisY) }}
+        </div>
+    {% endfor %}
+
+    <button class="btn btn-primary">Créer</button>
+
+    {{ form_end(form) }}
+{% endblock %}
