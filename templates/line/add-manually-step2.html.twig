@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ajouter les stations</h1>
+
+    <div class="line-summary mb-4">
+        <strong>Nom de la ligne :</strong> {{ lineData.nameLine }} <br>
+        <strong>Couleur :</strong> {{ lineData.color }} <br>
+        <strong>Symbole :</strong> {{ lineData.symbol }} <br>
+        <strong>Nombre de stations :</strong> {{ lineData.stationCount }}
+    </div>
+
+    {{ form_start(form) }}
+    <h3>Stations</h3>
+    {% for stationForm in form.stations %}
+        <div class="station-form border p-2 mb-3">
+            <h5>Station {{ loop.index }}</h5>
+            {{ form_row(stationForm.nameStation) }}
+            {{ form_row(stationForm.axisX) }}
+            {{ form_row(stationForm.axisY) }}
+        </div>
+    {% endfor %}
+
+    <button class="btn btn-success">Créer la ligne</button>
+    {{ form_end(form) }}
+{% endblock %}
