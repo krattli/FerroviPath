@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Créer une ligne de métro - Étape 1</h1>
+    <p>Veuillez renseigner les informations de la ligne ainsi que le nombre de stations que vous souhaitez ajouter.</p>
+
+    {{ form_start(form) }}
+    {{ form_row(form.nameLine) }}
+    {{ form_row(form.color) }}
+    {{ form_row(form.symbol) }}
+    {{ form_row(form.stationCount) }}
+
+    <button class="btn btn-primary">Suivant</button>
+    {{ form_end(form) }}
+{% endblock %}
