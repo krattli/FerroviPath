@@ -229,10 +229,25 @@ function minSizerequired(nbCorrespondances, size, hasEmptyNextStation = false) {
     return sizeTaken;
 }
 
+/**
+ * Cette méthode sert à vérifier la présence d'un mot (ici nom de station) dans une liste
+ * Cette méthode ajoute à la méthode include() certaines corrections orthographiques pour rendre le jeu plus simple
+ * par exemple si "saint-lazare" est dans la liste, "saint - lazare" et "saint lazare" seront valide
+ * Il en va de même pour les accents, "Montparnasse-Bienvenüe" = "Montparnasse-Bienvenue"
+ * @param input - mot en entrée dont on souhaite vérifier la présence
+ * @param list - liste de mots
+ * @returns - le mot de la liste que l'utilisateur essaie de controller la présence si il y est, null si non
+ * **/
 export function validateWord(input, list) {
-    const normalizedInput = input.replace(/[\s-]+/g, ' ').trim();
+    function normalizeString(str) {
+        // normalize("NFD") permet de séparer les caractères à accents par exemple, ü deviens u + ¨
+        // replace(/[\u0300-\u036f]/g, "") supprime touts les caractères à accent (les remplace par du vide)
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[\s-]+/g, ' ').trim().toLowerCase();
+    }
+    console.log(normalizeString("üu"))
+    const normalizedInput = normalizeString(input);
     for (let word of list) {
-        const normalizedWord = word.replace(/[\s-]+/g, ' ').trim();
+        const normalizedWord = normalizeString(word);
         if (normalizedWord === normalizedInput) {
             return word;
         }
