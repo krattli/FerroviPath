@@ -76,41 +76,4 @@ class LineController extends AbstractController
             'lineData' => $lineData
         ]);
     }
-
-    #[Route('/line/add-manually', name: 'ferrovipath_add_manually', methods: ['GET', 'POST'])]
-    public function addLineManually(Request $request, EntityManagerInterface $em, LineFormBuilder $formBuilder): Response
-    {
-        $step = $request->query->get('step', 1);
-        $lineData = [
-            'nameLine' => $request->query->get('nameLine', ''),
-            'color' => $request->query->get('color', ''),
-            'symbol' => $request->query->get('symbol', ''),
-            'stationCount' => $request->query->get('stationCount', 0),
-        ];
-
-        $form = $formBuilder->build($step, $lineData, $request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($step === 1) {
-                $formData = $form->getData();
-                return $this->redirectToRoute('ferrovipath_add_manually', [
-                    'step' => 2,
-                    'nameLine' => $formData['nameLine'],
-                    'color' => $formData['color'],
-                    'symbol' => $formData['symbol'],
-                    'stationCount' => $formData['stationCount'],
-                ]);
-            }
-
-            $line = $form->getData();
-            $formBuilder->persistLineWithStations($line, $em);
-
-            return $this->redirectToRoute('ferrovipath_homepage');
-        }
-
-        return $this->render($step === 1 ? 'line/add-manually-step1.html.twig' : 'line/add-manually-step2.html.twig', [
-            'form' => $form->createView(),
-            'lineData' => $lineData
-        ]);
-    }
 }
