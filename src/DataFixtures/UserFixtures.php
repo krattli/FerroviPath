@@ -48,13 +48,6 @@ class UserFixtures extends Fixture
                 'birth' => new \DateTime('2004-06-20'),
             ],
             [
-                'email' => 'mod@ferrovipath.com',
-                'roles' => ['ROLE_MODERATOR'],
-                'password' => '1234',
-                'pseudo' => 'moderator',
-                'birth' => new \DateTime('1990-11-10'),
-            ],
-            [
                 'email' => 'admin@ferrovipath.com',
                 'roles' => ['ROLE_ADMIN'],
                 'password' => '1234',

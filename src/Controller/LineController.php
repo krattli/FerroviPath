@@ -69,7 +69,6 @@ class LineController extends AbstractController
                     'stationCount' => $formData['stationCount'],
                 ]);
             }
-
             $line = $form->getData();
             $formBuilder->persistLineWithStations($line, $em);
 
