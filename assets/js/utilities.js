@@ -254,3 +254,7 @@ export function validateWord(input, list) {
     }
     return null;
 }
+
+export function getComponentsSize(areaWidth, areaHeight, stationsToDisplay) {
+    return Math.min(Math.ceil(areaWidth/(stationsToDisplay * 2)), Math.ceil(areaHeight/13));
+}

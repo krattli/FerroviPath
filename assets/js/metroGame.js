@@ -1,5 +1,5 @@
 import {appendCorrespondances, createIconeStation, createIconeTypeTransport, createTransportTypeLogo} from "displayLogos.js";
-import {getPositions, showVictoryPopup, showFeedback, validateWord} from "utilities.js";
+import {getPositions, showVictoryPopup, showFeedback, validateWord, getComponentsSize} from "utilities.js";
 
 class MetroGame {
     constructor() {
@@ -14,15 +14,16 @@ class MetroGame {
 
         // Donnés interne à l'objet Partie
         this.state = {
-            discoveredStations: [],
-            score: 0,
+            lineColor: null,
+            lineSymbol: null,
             startTime: Date.now(),
             finalTime: null,
             totalStations: 0,
             stations: [],
             correspondances: new Map(),
-            lineColor: null,
-            lineSymbol: null,
+            discoveredStations: [],
+            score: 0,
+            size: 30,
             victoryAchieved: false
         };
         this.showFeedback=showFeedback;
@@ -183,12 +184,15 @@ class MetroGame {
         // Trier les stations découvertes selon leur ordre naturel
         const sortedDiscovered = this.state.stations.filter(station => discovered.includes(station));
 
-        // Récupérer la largeur de la game-area et définir une petite marge pour éviter les bords
+        // Récupérer la largeur de la game-area
         const areaWidth = this.twigElements.gameArea.offsetWidth;
+        const areaheight = this.twigElements.gameArea.offsetHeight;
         const count = sortedDiscovered.length;
 
+        this.state.size = getComponentsSize(areaWidth, areaheight, count);
+
         // On calcule les positions de chaque icone station. Celles qui ont des correspondances peuvent prendre plus de place
-        let positions = getPositions(sortedDiscovered, this.state.correspondances, areaWidth, 20)
+        let positions = getPositions(sortedDiscovered, this.state.correspondances, areaWidth, this.state.size)
 
         // Si on a au moins 2 stations, dessiner la barre reliant la première et la dernière station
         if (count >= 2) {
@@ -196,7 +200,7 @@ class MetroGame {
             bar.className = 'metro-line';
             bar.style.left = positions[0] + 'px';
             bar.style.width = (positions[positions.length - 1] - positions[0]) + 'px';
-            bar.style.height = '6px';
+            bar.style.height = Math.floor(this.state.size/3) + 'px';
             bar.style.backgroundColor = this.state.lineColor;
             this.twigElements.gameArea.appendChild(bar);
         }
@@ -210,13 +214,13 @@ class MetroGame {
 
             // On créé notre icone de station avec son texte et tout grâce à notre fonction externalisée
             const textLabel = station.charAt(0).toUpperCase()  + station.slice(1);
-            const stationIcon = createIconeStation(this.state.lineColor, 20, textLabel, isTerminus, hasCorrespondances);
+            const stationIcon = createIconeStation(this.state.lineColor, this.state.size, textLabel, isTerminus, hasCorrespondances);
 
             // Puis on la positionne bien comme il faut sur la zone de jeu
             stationIcon.style.left = positions[i] + 'px';
 
             // Si la station a des correspondances, elles seront ajoutées à la div html station et affichées à l'écran
-            appendCorrespondances(stationIcon, correspondances, 20);
+            appendCorrespondances(stationIcon, correspondances, this.state.size);
 
             // Enfin, on ajoute la petite icone de station avec tout ses attributs à l'écran
             this.twigElements.gameArea.appendChild(stationIcon);
